@@ -30,8 +30,7 @@ const [bottlePrice, setBottlePrice] = useState<number>(0);
   const [days, setDays] = useState<number>(30);
   const [totalBottles, setTotalBottles] = useState<number>(0);
   const [totalAmount, setTotalAmount] = useState<number>(0);
-  const [generatedBills, setGeneratedBills] = useState([]);
-
+  
 
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
@@ -72,8 +71,8 @@ const [bottlePrice, setBottlePrice] = useState<number>(0);
 
 const fetchGeneratedBills = async () => {
   try {
-    const res = await api.get("/bills");   // ✅ fixed API
-    setGeneratedBills(res.data);
+     await api.get("/bills");  // ✅ fixed API
+   
   } catch (error) {
     console.error("Failed to fetch bills", error);
   }

@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 const Dashboard = () => {
 
 const [stats, setStats] = useState<any[]>([]);
-const [loading, setLoading] = useState(true);
+
 
 useEffect(() => {
 
@@ -65,7 +65,7 @@ useEffect(() => {
       toast.error("Failed to load dashboard", { id: toastId });
 
     } finally {
-      setLoading(false);
+      
     }
   };
 
@@ -133,7 +133,7 @@ useEffect(() => {
 
               <div className="flex justify-between items-start mb-8">
 
-                <div className={`p-4 rounded-2xl bg-gradient-to-br ${stat.gradient} text-white`}>
+                <div className={`p-4 rounded-2xl bg-linear-to-br ${stat.gradient} text-white`}>
                   <stat.icon size={26} />
                 </div>
 
