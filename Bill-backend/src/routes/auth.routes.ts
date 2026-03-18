@@ -51,7 +51,6 @@ router.post("/register", async (req, res) => {
 });
 
 /* ================= LOGIN ================= */
-
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -66,7 +65,6 @@ router.post("/login", async (req, res) => {
       where: { email },
     });
 
-    // ✅ SAFE CHECK (important fix)
     if (!user || !user.password) {
       return res.status(400).json({
         message: "Invalid email or password",
@@ -81,10 +79,17 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    // ✅ TOKEN GENERATE
+    console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+    const secret = process.env.JWT_SECRET;
+
+    if (!secret) {
+      throw new Error("JWT_SECRET not found");
+    }
+
     const token = jwt.sign(
       { userId: user.id },
-      process.env.JWT_SECRET as string,
+      secret,
       { expiresIn: "1d" }
     );
 
@@ -97,7 +102,7 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login Error:", error);
+    console.error("Login Error FULL:", error);
 
     res.status(500).json({
       message: "Server error",
