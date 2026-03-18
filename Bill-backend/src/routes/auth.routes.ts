@@ -66,7 +66,8 @@ router.post("/login", async (req, res) => {
       where: { email },
     });
 
-    if (!user) {
+    // ✅ SAFE CHECK (important fix)
+    if (!user || !user.password) {
       return res.status(400).json({
         message: "Invalid email or password",
       });
@@ -80,11 +81,12 @@ router.post("/login", async (req, res) => {
       });
     }
 
+    // ✅ TOKEN GENERATE
     const token = jwt.sign(
-  { userId: user.id },
-  process.env.JWT_SECRET as string, // ✅ REMOVE "|| secret"
-  { expiresIn: "1d" }
-);
+      { userId: user.id },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "1d" }
+    );
 
     res.json({
       message: "Login successful",

@@ -15,22 +15,29 @@ dotenv.config();
 const app = express();
 const prisma = new PrismaClient();
 
+/* ================= DB CONNECT ================= */
+
+prisma.$connect()
+  .then(() => console.log("✅ Database Connected"))
+  .catch((err) => {
+    console.error("❌ Database Error:", err);
+    process.exit(1);
+  });
+
 /* ================= CORS FIX ================= */
 
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", // local frontend
-      "https://nk-bill-fbc4.vercel.app", // deployed frontend
+      "http://localhost:5173",
+      "https://nk-bill-fbc4.vercel.app",
     ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-// VERY IMPORTANT for preflight requests
-app.options("/", cors());
+// ✅ IMPORTANT (fix timeout issue)
+
 
 /* ================= MIDDLEWARE ================= */
 
@@ -45,7 +52,8 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/bottles", bottleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
-// PDF access
+/* ================= STATIC ================= */
+
 app.use("/pdfs", express.static("src/public/pdfs"));
 
 /* ================= TEST ROUTES ================= */
@@ -65,8 +73,8 @@ app.get("/test-db", async (req, res) => {
 
 /* ================= SERVER ================= */
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
-  console.log(`Server is started on port ${PORT}`);
+  console.log(`🚀 Server started on port ${PORT}`);
 });
