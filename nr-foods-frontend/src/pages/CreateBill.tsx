@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-import api from "../api/axios";
+import api from "../utils/api";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { User, Calendar, Receipt, IndianRupee, Package, FileDown, Loader2, ChevronRight, Tag } from "lucide-react";

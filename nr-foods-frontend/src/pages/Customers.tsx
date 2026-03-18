@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import toast from "react-hot-toast";
-import api from "../api/axios";
+import api from "../utils/api";
 import {
   UserPlus,
   Trash2,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
-import api from "../api/axios";
+import api from "../utils/api";
 import toast from "react-hot-toast";
 import {
   Receipt,

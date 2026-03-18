@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../api/axios";
+import api from "../utils/api";
 import { motion } from "framer-motion";
 import { Mail, Lock, LogIn, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
