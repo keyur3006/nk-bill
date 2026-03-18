@@ -50,7 +50,8 @@ app.get("/test-db", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 }));
 /* ================= SERVER ================= */
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log(`Server is started on port ${PORT}`);
+  console.log(`Server is started on port ${PORT}`);
 });
