@@ -30,7 +30,7 @@ app.use(
 );
 
 // VERY IMPORTANT for preflight requests
-app.options("*", cors());
+app.options("/", cors());
 
 /* ================= MIDDLEWARE ================= */
 
