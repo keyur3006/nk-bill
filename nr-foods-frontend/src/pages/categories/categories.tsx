@@ -1,7 +1,7 @@
 import { Building2, Pencil } from "lucide-react";
 import MainLayout from "../../layouts/MainLayout";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../utils/api"; // ✅ IMPORTANT CHANGE
 import { useNavigate } from "react-router-dom";
 
 interface Category {
@@ -19,11 +19,9 @@ const Categories = () => {
 
   const navigate = useNavigate();
 
-  const API = "http://localhost:5000/api/categories";
-
   // FETCH BLOCKS
   const fetchCategories = async () => {
-    const res = await axios.get(API);
+    const res = await api.get("/categories"); // ✅ FIX
     setCategories(res.data);
 
     if (res.data.length > 0) {
@@ -39,7 +37,7 @@ const Categories = () => {
   const handleAdd = async () => {
     if (!newCategory.trim()) return;
 
-    await axios.post(API, {
+    await api.post("/categories", { // ✅ FIX
       name: newCategory,
     });
 
@@ -59,7 +57,7 @@ const Categories = () => {
 
   // UPDATE BLOCK
   const handleUpdate = async () => {
-    await axios.put(`${API}/${editingId}`, {
+    await api.put(`/categories/${editingId}`, { // ✅ FIX
       name: newCategory,
     });
 
@@ -75,10 +73,7 @@ const Categories = () => {
       <div>
         <h1 className="text-2xl font-bold mb-6">Shop Blocks</h1>
 
-        {/* BUTTON SECTION */}
         <div className="flex gap-4 mb-6">
-          
-          {/* ADD BLOCK BUTTON */}
           {!showInput && (
             <button
               onClick={() => setShowInput(true)}
@@ -88,7 +83,6 @@ const Categories = () => {
             </button>
           )}
 
-          {/* INPUT FIELD */}
           {showInput && (
             <>
               <input
@@ -117,7 +111,6 @@ const Categories = () => {
             </>
           )}
 
-          {/* BOTTLE VARIETY BUTTON */}
           <button
             onClick={() => navigate("/bottle-variety")}
             className="bg-purple-600 text-white px-5 py-2 rounded-lg"
@@ -126,7 +119,6 @@ const Categories = () => {
           </button>
         </div>
 
-        {/* BLOCK LIST */}
         {showBlock && (
           <div className="space-y-3">
             {categories.map((item) => (

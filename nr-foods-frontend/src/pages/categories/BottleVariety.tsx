@@ -1,7 +1,7 @@
 import { BottleWine, Pencil } from "lucide-react";
 import MainLayout from "../../layouts/MainLayout";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../utils/api";
 
 interface Bottle {
   id: number;
@@ -15,12 +15,14 @@ const BottleVariety = () => {
   const [price, setPrice] = useState("");
   const [editingId, setEditingId] = useState<number | null>(null);
 
-  const API = "http://localhost:5000/api/bottles";
-
   // FETCH BOTTLES
   const fetchBottles = async () => {
-    const res = await axios.get(API);
-    setBottles(res.data);
+    try {
+      const res = await api.get("/bottles"); // ✅ FIX
+      setBottles(res.data);
+    } catch (error) {
+      console.error("Error fetching bottles:", error);
+    }
   };
 
   useEffect(() => {
@@ -31,14 +33,18 @@ const BottleVariety = () => {
   const handleAdd = async () => {
     if (!newBottle.trim() || !price) return;
 
-    await axios.post(API, {
-      name: newBottle,
-      price: Number(price),
-    });
+    try {
+      await api.post("/bottles", { // ✅ FIX
+        name: newBottle,
+        price: Number(price),
+      });
 
-    setNewBottle("");
-    setPrice("");
-    fetchBottles();
+      setNewBottle("");
+      setPrice("");
+      fetchBottles();
+    } catch (error) {
+      console.error("Error adding bottle:", error);
+    }
   };
 
   // EDIT
@@ -52,15 +58,19 @@ const BottleVariety = () => {
   const handleUpdate = async () => {
     if (!editingId) return;
 
-    await axios.put(`${API}/${editingId}`, {
-      name: newBottle,
-      price: Number(price),
-    });
+    try {
+      await api.put(`/bottles/${editingId}`, { // ✅ FIX
+        name: newBottle,
+        price: Number(price),
+      });
 
-    setEditingId(null);
-    setNewBottle("");
-    setPrice("");
-    fetchBottles();
+      setEditingId(null);
+      setNewBottle("");
+      setPrice("");
+      fetchBottles();
+    } catch (error) {
+      console.error("Error updating bottle:", error);
+    }
   };
 
   return (
