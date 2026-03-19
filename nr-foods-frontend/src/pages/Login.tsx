@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import { motion } from "framer-motion";
-import { Mail, Lock, LogIn, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -27,9 +27,6 @@ const Login = () => {
         password,
       });
 
-      console.log("LOGIN RESPONSE:", res.data); // 🔥 DEBUG
-
-      // ✅ IMPORTANT FIX
       if (!res.data.token) {
         throw new Error("Token not received");
       }
@@ -40,8 +37,6 @@ const Login = () => {
 
       navigate("/dashboard");
     } catch (error: any) {
-      console.log(error.response?.data);
-
       toast.error(
         error.response?.data?.message || error.message || "Login failed",
         { id: toastId }
@@ -83,7 +78,7 @@ const Login = () => {
             <button
               onClick={handleLogin}
               disabled={loading}
-              className="w-full bg-blue-600 p-3 rounded text-white"
+              className="w-full bg-blue-600 p-3 rounded text-white flex justify-center"
             >
               {loading ? <Loader2 className="animate-spin" /> : "Login"}
             </button>

@@ -2,18 +2,6 @@ import { useEffect, useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import toast from "react-hot-toast";
 import api from "../utils/api";
-import {
-  UserPlus,
-  Trash2,
-  Search,
-  User,
-  MapPin,
-  Hash,
-  Loader2,
-  Tag,
-  ChevronRight
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface Customer {
   id: number;
@@ -23,23 +11,14 @@ interface Customer {
   status?: "Paid" | "Pending";
 }
 
-interface Category {
-  id: number;
-  name: string;
-}
-
 const Customers = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [name, setName] = useState("");
   const [block, setBlock] = useState("A Block");
   const [shopNo, setShopNo] = useState<number | "">("");
-  const [loading, setLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
-  const [showTable, setShowTable] = useState(true);
-  const [selectedBlock, setSelectedBlock] = useState("A Block");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedBlock, setSelectedBlock] = useState("All");
 
   const getAuthHeader = () => ({
     headers: {
@@ -51,23 +30,13 @@ const Customers = () => {
     try {
       const res = await api.get("/customers", getAuthHeader());
       setCustomers(res.data);
-    } catch (error) {
-      console.error("Failed to fetch customers", error);
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get("/categories", getAuthHeader());
-      setCategories(res.data);
-    } catch (error) {
-      console.error("Failed to fetch categories", error);
+    } catch {
+      toast.error("Failed to fetch customers");
     }
   };
 
   useEffect(() => {
     fetchCustomers();
-    fetchCategories();
   }, []);
 
   const handleCreate = async () => {
@@ -75,8 +44,6 @@ const Customers = () => {
       toast.error("Please fill all fields");
       return;
     }
-
-    setLoading(true);
 
     try {
       await api.post(
@@ -86,34 +53,30 @@ const Customers = () => {
       );
 
       setName("");
-      setBlock("");
+      setBlock("A Block");
       setShopNo("");
+      setShowForm(false);
 
       fetchCustomers();
-
-      setShowTable(true);
-      setShowForm(false);
-    } catch (error) {
-      toast.error("Failed to create customer");
-    } finally {
-      setLoading(false);
+      toast.success("Customer added");
+    } catch {
+      toast.error("Create failed");
     }
   };
 
   const handleDelete = async (id: number) => {
-    if (!window.confirm("Are you sure you want to delete this customer?"))
-      return;
+    if (!window.confirm("Delete customer?")) return;
 
     try {
       await api.delete(`/customers/${id}`, getAuthHeader());
       fetchCustomers();
-    } catch (error) {
-      alert("Delete failed");
+    } catch {
+      toast.error("Delete failed");
     }
   };
 
-  const toggleStatus = async (id: number, currentStatus?: string) => {
-    const newStatus = currentStatus === "Paid" ? "Pending" : "Paid";
+  const toggleStatus = async (id: number, status?: string) => {
+    const newStatus = status === "Paid" ? "Pending" : "Paid";
 
     try {
       await api.put(
@@ -121,9 +84,8 @@ const Customers = () => {
         { status: newStatus },
         getAuthHeader()
       );
-
       fetchCustomers();
-    } catch (error) {
+    } catch {
       toast.error("Status update failed");
     }
   };
@@ -133,47 +95,64 @@ const Customers = () => {
       c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       c.shopNo.toString().includes(searchQuery);
 
-    const matchBlock = selectedBlock === "" || c.block === selectedBlock;
+    const matchBlock =
+      selectedBlock === "All" || c.block === selectedBlock;
 
-    if (searchQuery !== "") return matchSearch;
-
-    return matchBlock;
+    return matchSearch && matchBlock;
   });
 
   return (
     <MainLayout>
-      <div className="space-y-12 pb-10">
-        <h2 className="text-3xl font-bold">
-          Customer <span className="text-blue-600">Base</span>
-        </h2>
+      <div className="space-y-8">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+          <h2 className="text-3xl font-bold">
+            Customer <span className="text-blue-600">Base</span>
+          </h2>
 
-        {/* Add Customer Button */}
-        {!showForm && (
           <button
-            onClick={() => {
-              setShowForm(true);
-              setShowTable(false);
-            }}
-            className="bg-blue-600 text-white px-5 py-2 rounded"
+            onClick={() => setShowForm(!showForm)}
+            className="bg-blue-600 text-white px-5 py-2 rounded-lg"
           >
-            Add Customer
+            + Add Customer
           </button>
-        )}
+        </div>
+
+        {/* Filters */}
+        <div className="flex gap-4">
+          <input
+            placeholder="Search customer..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="border p-2 rounded w-full"
+          />
+
+          <select
+            value={selectedBlock}
+            onChange={(e) => setSelectedBlock(e.target.value)}
+            className="border p-2 rounded"
+          >
+            <option>All</option>
+            <option>A Block</option>
+            <option>B Block</option>
+            <option>C Block</option>
+          </select>
+        </div>
 
         {/* Form */}
         {showForm && (
-          <div className="bg-white p-6 rounded shadow">
+          <div className="bg-white p-4 rounded shadow flex gap-3">
             <input
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="border p-2 mr-2"
+              className="border p-2"
             />
             <input
               placeholder="Block"
               value={block}
               onChange={(e) => setBlock(e.target.value)}
-              className="border p-2 mr-2"
+              className="border p-2"
             />
             <input
               type="number"
@@ -182,23 +161,23 @@ const Customers = () => {
               onChange={(e) =>
                 setShopNo(e.target.value === "" ? "" : Number(e.target.value))
               }
-              className="border p-2 mr-2"
+              className="border p-2"
             />
             <button
               onClick={handleCreate}
-              className="bg-green-600 text-white px-4 py-2"
+              className="bg-green-600 text-white px-4"
             >
-              Create
+              Save
             </button>
           </div>
         )}
 
         {/* Table */}
-        {showTable && (
-          <table className="w-full border">
-            <thead>
+        <div className="bg-white rounded shadow overflow-hidden">
+          <table className="w-full">
+            <thead className="bg-gray-100 text-left">
               <tr>
-                <th>ID</th>
+                <th className="p-3">ID</th>
                 <th>Name</th>
                 <th>Block</th>
                 <th>Shop</th>
@@ -206,27 +185,52 @@ const Customers = () => {
                 <th>Action</th>
               </tr>
             </thead>
+
             <tbody>
-              {filteredCustomers.map((c) => (
-                <tr key={c.id}>
-                  <td>{c.id}</td>
-                  <td>{c.name}</td>
-                  <td>{c.block}</td>
-                  <td>{c.shopNo}</td>
-                  <td>{c.status || "Pending"}</td>
-                  <td>
-                    <button onClick={() => toggleStatus(c.id, c.status)}>
-                      Toggle
-                    </button>
-                    <button onClick={() => handleDelete(c.id)}>
-                      Delete
-                    </button>
+              {filteredCustomers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="text-center p-6">
+                    No Customers Found
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredCustomers.map((c) => (
+                  <tr key={c.id} className="border-t">
+                    <td className="p-3">{c.id}</td>
+                    <td>{c.name}</td>
+                    <td>{c.block}</td>
+                    <td>{c.shopNo}</td>
+                    <td>
+                      <span
+                        className={`px-2 py-1 rounded text-white ${
+                          c.status === "Paid"
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        }`}
+                      >
+                        {c.status || "Pending"}
+                      </span>
+                    </td>
+                    <td className="space-x-2">
+                      <button
+                        onClick={() => toggleStatus(c.id, c.status)}
+                        className="text-blue-600"
+                      >
+                        Toggle
+                      </button>
+                      <button
+                        onClick={() => handleDelete(c.id)}
+                        className="text-red-600"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        )}
+        </div>
       </div>
     </MainLayout>
   );
