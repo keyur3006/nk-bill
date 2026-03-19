@@ -5,9 +5,25 @@ import { useEffect, useState } from "react";
 import api from "../utils/api";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  CartesianGrid,
+} from "recharts";
 const Dashboard = () => {
-
+const revenueData = [
+  { day: "1", revenue: 400 },
+  { day: "5", revenue: 900 },
+  { day: "10", revenue: 700 },
+  { day: "15", revenue: 1200 },
+  { day: "20", revenue: 1000 },
+  { day: "25", revenue: 1500 },
+  { day: "30", revenue: 1300 },
+];
 const [stats, setStats] = useState<any[]>([]);
 
 
@@ -184,11 +200,40 @@ useEffect(() => {
               Last 30 days performance
             </p>
 
-            <div className="h-80 bg-slate-50 rounded-3xl flex items-center justify-center">
-              <p className="text-slate-400 font-bold">
-                Chart integration coming soon
-              </p>
-            </div>
+            <div className="h-80">
+  <ResponsiveContainer width="100%" height="100%">
+    <LineChart data={revenueData}>
+      <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+
+      <XAxis
+        dataKey="day"
+        tick={{ fill: "#64748b", fontSize: 12 }}
+      />
+
+      <YAxis
+        tick={{ fill: "#64748b", fontSize: 12 }}
+      />
+
+      <Tooltip
+        contentStyle={{
+          backgroundColor: "#0f172a",
+          border: "none",
+          borderRadius: "10px",
+          color: "#fff",
+        }}
+      />
+
+      <Line
+        type="monotone"
+        dataKey="revenue"
+        stroke="#2563eb"
+        strokeWidth={3}
+        dot={{ r: 4 }}
+        activeDot={{ r: 6 }}
+      />
+    </LineChart>
+  </ResponsiveContainer>
+</div>
 
           </motion.div>
 
