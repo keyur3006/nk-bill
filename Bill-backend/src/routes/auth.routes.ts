@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -8,12 +8,13 @@ const prisma = new PrismaClient();
 
 /* ================= REGISTER ================= */
 
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
+        success: false,
         message: "Email and password are required",
       });
     }
@@ -24,6 +25,7 @@ router.post("/register", async (req, res) => {
 
     if (existingUser) {
       return res.status(400).json({
+        success: false,
         message: "User already exists",
       });
     }
@@ -38,6 +40,7 @@ router.post("/register", async (req, res) => {
     });
 
     res.status(201).json({
+      success: true,
       message: "User registered successfully",
       userId: user.id,
     });
@@ -45,18 +48,21 @@ router.post("/register", async (req, res) => {
     console.error("Register Error:", error);
 
     res.status(500).json({
+      success: false,
       message: "Server error",
     });
   }
 });
 
 /* ================= LOGIN ================= */
-router.post("/login", async (req, res) => {
+
+router.post("/login", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
+        success: false,
         message: "Email and password are required",
       });
     }
@@ -67,6 +73,7 @@ router.post("/login", async (req, res) => {
 
     if (!user || !user.password) {
       return res.status(400).json({
+        success: false,
         message: "Invalid email or password",
       });
     }
@@ -75,11 +82,10 @@ router.post("/login", async (req, res) => {
 
     if (!isMatch) {
       return res.status(400).json({
+        success: false,
         message: "Invalid email or password",
       });
     }
-
-    console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
     const secret = process.env.JWT_SECRET;
 
@@ -94,6 +100,7 @@ router.post("/login", async (req, res) => {
     );
 
     res.json({
+      success: true,
       message: "Login successful",
       token,
       user: {
@@ -102,9 +109,10 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.error("Login Error FULL:", error);
+    console.error("Login Error:", error);
 
     res.status(500).json({
+      success: false,
       message: "Server error",
     });
   }

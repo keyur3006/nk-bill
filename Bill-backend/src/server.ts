@@ -1,8 +1,9 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 
+// Routes
 import dashboardRoutes from "./routes/dashboard.routes";
 import authRoutes from "./routes/auth.routes";
 import billRoutes from "./routes/bill.routes";
@@ -10,21 +11,14 @@ import customerRoutes from "./routes/customer.routes";
 import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
 
+// Load env
 dotenv.config();
 
+// Init
 const app = express();
 const prisma = new PrismaClient();
 
-/* ================= DB CONNECT ================= */
-
-prisma.$connect()
-  .then(() => console.log("✅ Database Connected"))
-  .catch((err) => {
-    console.error("❌ Database Error:", err);
-    process.exit(1);
-  });
-
-/* ================= CORS FIX ================= */
+/* ================= CORS ================= */
 
 app.use(
   cors({
@@ -35,9 +29,6 @@ app.use(
     credentials: true,
   })
 );
-
-// ✅ IMPORTANT (fix timeout issue)
-
 
 /* ================= MIDDLEWARE ================= */
 
@@ -58,23 +49,53 @@ app.use("/pdfs", express.static("src/public/pdfs"));
 
 /* ================= TEST ROUTES ================= */
 
-app.get("/", (req, res) => {
-  res.send("NR Server is running 🚀");
+app.get("/", (req: Request, res: Response) => {
+  res.send("🚀 NR Server running with Neon DB");
 });
 
-app.get("/test-db", async (req, res) => {
+app.get("/test-db", async (req: Request, res: Response) => {
   try {
     const users = await prisma.user.findMany();
-    res.json(users);
+
+    res.json({
+      success: true,
+      data: users,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Database connection failed" });
+    console.error("❌ DB Error:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+    });
   }
 });
 
+/* ================= ERROR HANDLER ================= */
+
+app.use(
+  (err: any, req: Request, res: Response, _next: NextFunction) => {
+    console.error("❌ Global Error:", err);
+
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong",
+    });
+  }
+);
+
 /* ================= SERVER ================= */
 
-const PORT = process.env.PORT || 10000;
+const PORT: number = Number(process.env.PORT) || 10000;
 
 app.listen(PORT, () => {
   console.log(`🚀 Server started on port ${PORT}`);
+});
+
+/* ================= SHUTDOWN ================= */
+
+process.on("SIGINT", async () => {
+  console.log("🛑 Server shutting down...");
+  await prisma.$disconnect();
+  process.exit(0);
 });
