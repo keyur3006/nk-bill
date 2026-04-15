@@ -11,26 +11,27 @@ import customerRoutes from "./routes/customer.routes";
 import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
 
-// Load env
 dotenv.config();
 
-// Init
 const app = express();
 const prisma = new PrismaClient();
 
 /* ================= CORS ================= */
 
-app.use(
-  cors({
-   origin: [
+const corsOptions = {
+  origin: [
     "http://localhost:5173",
-      "https://nk-bill.vercel.app",
-      "https://keyurbill.online",      // ✅ add this
-      "https://www.keyurbill.online"   // ✅ correct
-],  
-    credentials: true,
-  })
-);
+    "https://nk-bill.vercel.app",
+    "https://keyurbill.online",
+    "https://www.keyurbill.online",
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // 🔥 VERY IMPORTANT
 
 /* ================= MIDDLEWARE ================= */
 
