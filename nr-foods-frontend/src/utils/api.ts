@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://3.90.190.155:5000/api"
+  baseURL: "https://api.keyurbill.online/api"
 });
 
 api.interceptors.request.use((config) => {
