@@ -167,7 +167,7 @@ const Bills = () => {
                                 <button
   onClick={() => {
     toast.success("Opening bill PDF...");
-    window.open(`https://nr-foods-backend.onrender.com/api/bills/${bill._id}/pdf`, "_blank");
+    window.open(`https://nr-foods-backend.onrender.com/api/bills/${bill.id}/pdf`, "_blank");
   }}
   className="bg-green-600 text-white px-4 py-2 rounded-lg"
 >
