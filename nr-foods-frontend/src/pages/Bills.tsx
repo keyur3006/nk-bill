@@ -10,6 +10,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Bill {
+    _id: string; 
   id: number;
   month: number;
   year: number;
@@ -164,14 +165,14 @@ const Bills = () => {
                               <td className="p-5 text-right space-x-2">
 
                                 <button
-                                  onClick={() => {
-                                    toast.success("Opening bill PDF...");
-                                    window.open(`https://nr-foods-backend.onrender.com/api/bills/${bill.id}/pdf`, "_blank");
-                                  }}
-                                  className="bg-green-600 text-white px-4 py-2 rounded-lg"
-                                >
-                                  View PDF
-                                </button>
+  onClick={() => {
+    toast.success("Opening bill PDF...");
+    window.open(`https://nr-foods-backend.onrender.com/api/bills/${bill._id}/pdf`, "_blank");
+  }}
+  className="bg-green-600 text-white px-4 py-2 rounded-lg"
+>
+  View PDF
+</button>
 
                                 {bill.status === "Pending" && (
                                   <button
