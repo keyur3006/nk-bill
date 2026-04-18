@@ -174,7 +174,7 @@ const Bills = () => {
     return;
   }
 
-  window.open(`https://nr-foods-backend.onrender.com/api/bills/${bill.id}/pdf`, "_blank");
+  window.open(`http://3.90.190.155:5000/api/bills/${bill.id}/pdf`, "_blank");
 }}
   className="bg-green-600 text-white px-4 py-2 rounded-lg"
 >
