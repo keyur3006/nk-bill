@@ -98,7 +98,7 @@ router.post("/", authenticate, async (req: AuthRequest, res) => {
        SAVE PDF FILE
     =========================== */
 
-    const pdfDir = path.join(process.cwd(), "src/public/pdfs");
+    const pdfDir = path.join(process.cwd(), "public/pdfs");
 
     if (!fs.existsSync(pdfDir)) {
       fs.mkdirSync(pdfDir, { recursive: true });

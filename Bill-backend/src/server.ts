@@ -47,8 +47,7 @@ app.use("/api/bottles", bottleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 /* ================= STATIC ================= */
-
-app.use("/pdfs", express.static("src/public/pdfs"));
+app.use("/pdfs", express.static("public/pdfs"));
 
 /* ================= TEST ROUTES ================= */
 
