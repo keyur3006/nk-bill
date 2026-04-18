@@ -221,8 +221,7 @@ router.get("/:id/pdf", async (req, res) => {
       return res.status(404).json({ message: "PDF not available" });
     }
 
-    const pdfPath = path.join(process.cwd(), "src/public", bill.pdfUrl);
-
+   const pdfPath = path.join(process.cwd(), "src/public/pdfs", path.basename(bill.pdfUrl));
     res.sendFile(pdfPath);
 
   } catch (error) {

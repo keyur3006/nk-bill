@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 // Routes
 import dashboardRoutes from "./routes/dashboard.routes";
 import authRoutes from "./routes/auth.routes";
-import billRoutes from "./routes/bill.routes";
+import billRoutes from "./routes/bill.routes"; 
 import customerRoutes from "./routes/customer.routes";
 import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
