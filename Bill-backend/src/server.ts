@@ -6,7 +6,7 @@ import { PrismaClient } from "@prisma/client";
 // Routes
 import dashboardRoutes from "./routes/dashboard.routes";
 import authRoutes from "./routes/auth.routes";
-import billRoutes from "./routes/bill.routes"; 
+import billRoutes from "./routes/bill.routes";
 import customerRoutes from "./routes/customer.routes";
 import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
@@ -15,8 +15,6 @@ dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();
-
-/* ================= CORS ================= */
 
 /* ================= CORS ================= */
 
@@ -32,15 +30,9 @@ app.use(
   })
 );
 
-app.options("/*", cors()); // ✅ preflight handle
-// 🔥 VERY IMPORTANT
-
 /* ================= MIDDLEWARE ================= */
 
 app.use(express.json());
-
-
-
 
 /* ================= ROUTES ================= */
 
@@ -52,6 +44,7 @@ app.use("/api/bottles", bottleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 /* ================= STATIC ================= */
+
 app.use("/pdfs", express.static("public/pdfs"));
 
 /* ================= TEST ROUTES ================= */
