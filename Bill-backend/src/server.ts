@@ -28,7 +28,6 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      // allow requests with no origin (Postman, mobile apps)
       if (!origin) return callback(null, true);
 
       if (allowedOrigins.includes(origin)) {
@@ -41,8 +40,8 @@ app.use(
   })
 );
 
-// ✅ IMPORTANT: handle preflight properly
-app.options("*", cors());
+/* ❌ REMOVE THIS (IMPORTANT) */
+// app.options("*", cors());
 
 /* ================= MIDDLEWARE ================= */
 
@@ -100,7 +99,7 @@ app.use(
 
 /* ================= SERVER ================= */
 
-const PORT: number = Number(process.env.PORT) || 5000; // 🔥 match nginx
+const PORT: number = Number(process.env.PORT) || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server started on port ${PORT}`);
