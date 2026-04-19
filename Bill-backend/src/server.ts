@@ -18,32 +18,29 @@ const prisma = new PrismaClient();
 
 /* ================= CORS ================= */
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "https://nk-bill.vercel.app",
-  "https://keyurbill.online",
-  "https://www.keyurbill.online",
-];
+/* ================= CORS ================= */
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true); // Postman / mobile
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: [
+      "http://localhost:5173",
+      "https://nk-bill.vercel.app",
+      "https://keyurbill.online",
+      "https://www.keyurbill.online",
+    ],
     credentials: true,
   })
 );
 
+app.options("*", cors()); // ✅ preflight handle
 // 🔥 VERY IMPORTANT
 
 /* ================= MIDDLEWARE ================= */
 
 app.use(express.json());
+
+
+
 
 /* ================= ROUTES ================= */
 
