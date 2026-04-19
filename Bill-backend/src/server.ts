@@ -18,17 +18,31 @@ const prisma = new PrismaClient();
 
 /* ================= CORS ================= */
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://nk-bill.vercel.app",
+  "https://keyurbill.online",
+  "https://www.keyurbill.online",
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://nk-bill.vercel.app",
-      "https://keyurbill.online",
-      "https://www.keyurbill.online",
-    ],
+    origin: function (origin, callback) {
+      // allow requests with no origin (Postman, mobile apps)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
+
+// ✅ IMPORTANT: handle preflight properly
+app.options("*", cors());
 
 /* ================= MIDDLEWARE ================= */
 
@@ -79,14 +93,14 @@ app.use(
 
     res.status(500).json({
       success: false,
-      message: "Something went wrong",
+      message: err.message || "Something went wrong",
     });
   }
 );
 
 /* ================= SERVER ================= */
 
-const PORT: number = Number(process.env.PORT) || 10000;
+const PORT: number = Number(process.env.PORT) || 5000; // 🔥 match nginx
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server started on port ${PORT}`);
