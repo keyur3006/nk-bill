@@ -32,7 +32,7 @@ app.use(
   })
 );
 
-app.options("*", cors()); // ✅ preflight handle
+app.options("/*", cors()); // ✅ preflight handle
 // 🔥 VERY IMPORTANT
 
 /* ================= MIDDLEWARE ================= */
