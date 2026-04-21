@@ -10,7 +10,7 @@ import billRoutes from "./routes/bill.routes";
 import customerRoutes from "./routes/customer.routes";
 import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
-
+import deliveryRoutes from "./routes/delivery.routes";
 dotenv.config();
 
 const app = express();
@@ -55,6 +55,7 @@ app.use("/api/customers", customerRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/bottles", bottleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/delivery", deliveryRoutes);
 
 /* ================= STATIC ================= */
 

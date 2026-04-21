@@ -31,7 +31,7 @@ router.post("/", authenticate, async (req: AuthRequest, res) => {
 
     // Check user
     const user = await prisma.user.findUnique({
-      where: { id: req.user!.userId }
+      where: { id: req.user!.id }
     });
 
     if (!user) {
@@ -128,7 +128,7 @@ router.post("/", authenticate, async (req: AuthRequest, res) => {
           connect: { id: customerId }
         },
         user: {
-          connect: { id: req.user!.userId }
+          connect: { id: req.user!.id }
         }
       }
     });

@@ -19,6 +19,7 @@ model User {
   email    String @unique
   password String
   bills    Bill[]
+  deliveries Delivery[]
 }
 
 model Customer {
@@ -46,6 +47,20 @@ model Bill {
    pdfUrl       String?
   customer Customer @relation(fields: [customerId], references: [id])
   user     User     @relation(fields: [userId], references: [id])
+}
+
+model Delivery {
+  id         String   @id @default(uuid())
+  workerName String
+  date       DateTime
+  bottles    Int
+  shopNo     String?
+  block      String?
+
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id])
+
+  createdAt  DateTime @default(now())
 }
 
 model Category {
