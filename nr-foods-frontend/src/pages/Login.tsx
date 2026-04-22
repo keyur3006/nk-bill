@@ -38,7 +38,7 @@ const Login = () => {
 
       // ✅ SAVE FULL USER (IMPORTANT)
       localStorage.setItem("user", JSON.stringify(user));
-
+      localStorage.setItem("role", user.role.toUpperCase());
       toast.success("Login successful!", { id: toastId });
 
       // ✅ REDIRECT BASED ON ROLE
