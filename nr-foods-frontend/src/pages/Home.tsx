@@ -10,11 +10,13 @@ const Home = () => {
     <div>
       <Navbar />
       <HeroSection />
-      <ProductSection />
+   
       
       <FeaturesSection />
 
 <DeliveryInfoSection />
+<ProductSection />
+      
       <Footer />
     </div>
   );
