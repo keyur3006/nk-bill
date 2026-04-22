@@ -76,7 +76,10 @@ export const getMonthlyReport = async (req: AuthRequest, res: Response) => {
         bottles: true
       },
       where: {
-       userId: req.user!.id,
+        ...(req.user!.role === "ADMIN"
+          ? {}
+          : { userId: req.user!.id }),
+
         date: {
           gte: start,
           lte: end

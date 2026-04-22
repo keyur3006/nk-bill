@@ -1,34 +1,19 @@
-import express from "express";
-import { authenticate } from "../middleware/auth.middleware";
-import { isAdmin } from "../middleware/admin.middleware";
+import { Router, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+import { authenticate, AuthRequest } from "../middleware/auth.middleware";
 
-const router = express.Router();
+const router = Router();
 const prisma = new PrismaClient();
 
-/* ✅ TEST */
-router.get("/test", authenticate, isAdmin, (req, res) => {
-  res.json({ message: "Admin route working ✅" });
-});
-
-/* ✅ CREATE KARIGAR */
-router.post("/create-user", authenticate, isAdmin, async (req, res) => {
+// ✅ ONLY ADMIN CAN CREATE USER
+router.post("/create-user", authenticate, async (req: AuthRequest, res: Response) => {
   try {
+    if (req.user?.role !== "ADMIN") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: "Email & password required" });
-    }
-
-    // check existing
-    const existing = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (existing) {
-      return res.status(400).json({ message: "User already exists" });
-    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,18 +21,17 @@ router.post("/create-user", authenticate, isAdmin, async (req, res) => {
       data: {
         email,
         password: hashedPassword,
-        role: "KARIGAR", // 🔥 IMPORTANT
-      },
+        role: "KARIGAR"
+      }
     });
 
     res.json({
       success: true,
-      message: "Karigar created successfully",
-      user,
+      user
     });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Server error" });
+
+  } catch (error) {
+    res.status(500).json({ message: "Error creating user" });
   }
 });
 
