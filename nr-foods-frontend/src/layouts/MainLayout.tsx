@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { Truck } from "lucide-react"; // 👈 TOP par add kar
+
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -21,22 +23,34 @@ interface Props {
 }
 
 const MainLayout = ({ children }: Props) => {
+  
+  
   const navigate = useNavigate();
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/");
   };
 
-  const navItems = [
-    { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
-    { label: "Customers", path: "/customers", icon: Users },
-    { label: "Bills", path: "/create-bill", icon: Receipt },
-    { label: "categories", path: "/categories", icon: Tag },
-     { label: "Generated Bills", path: "/bills", icon: FileText }
-  ];
+const user = JSON.parse(localStorage.getItem("user") || "{}");
+const role = user?.role || "KARIGAR";
+
+const navItems =
+  role === "ADMIN"
+    ? [
+        { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
+        { label: "Customers", path: "/customers", icon: Users },
+        { label: "Bills", path: "/create-bill", icon: Receipt },
+        { label: "Categories", path: "/categories", icon: Tag },
+        { label: "Generated Bills", path: "/bills", icon: FileText },
+        { label: "Delivery", path: "/delivery", icon: Truck },
+        { label: "Admin Panel", path: "/admin", icon: Users },
+      ]
+    : [
+        { label: "Delivery", path: "/delivery", icon: Truck },
+      ];
 
   return (
     <div className="flex min-h-screen bg-slate-50/50 font-sans text-slate-900 selection:bg-blue-100 selection:text-blue-700">
@@ -63,7 +77,7 @@ const MainLayout = ({ children }: Props) => {
           x: isSidebarOpen ? 0 : -300
         }}
         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="fixed lg:sticky top-0 h-screen bg-white/70 backdrop-blur-2xl border-r border-white/40 shadow-[20px_0_40px_rgba(0,0,0,0.02)] z-40 overflow-hidden flex flex-col"
+        className="fixed lg:sticky top-0 h-screen bg-white/70 backdrop-blur-2xl border-r border-white/40 shadow-[20px_0_40px_rgba(0,0,0,0.02)] z-40 flex flex-col overflow-y-auto"
       >
         <div className="p-10 flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center gap-4 group">

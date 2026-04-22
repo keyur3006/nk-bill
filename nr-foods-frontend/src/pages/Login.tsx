@@ -27,15 +27,27 @@ const Login = () => {
         password,
       });
 
-      if (!res.data.token) {
-        throw new Error("Token not received");
+      const { token, user } = res.data;
+
+      if (!token || !user) {
+        throw new Error("Invalid response from server");
       }
 
-      localStorage.setItem("token", res.data.token);
+      // ✅ SAVE TOKEN
+      localStorage.setItem("token", token);
+
+      // ✅ SAVE FULL USER (IMPORTANT)
+      localStorage.setItem("user", JSON.stringify(user));
 
       toast.success("Login successful!", { id: toastId });
 
-      navigate("/dashboard");
+      // ✅ REDIRECT BASED ON ROLE
+      if (user.role === "ADMIN") {
+        navigate("/dashboard");
+      } else {
+        navigate("/delivery"); // karigar mate
+      }
+
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || error.message || "Login failed",
