@@ -105,6 +105,7 @@ router.post("/login", async (req: Request, res: Response) => {
       {
         id: user.id,
         email: user.email,
+        role: user.role,
       },
       secret,
       { expiresIn: "1d" }
@@ -118,6 +119,7 @@ router.post("/login", async (req: Request, res: Response) => {
       user: {
         id: user.id,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {

@@ -43,13 +43,18 @@ export const createDelivery = async (req: AuthRequest, res: Response) => {
 export const getMyDeliveries = async (req: AuthRequest, res: Response) => {
   try {
     const deliveries = await prisma.delivery.findMany({
-      where: {
-       userId: req.user!.id,
-      },
+      where:
+        req.user!.role === "ADMIN"
+          ? {}
+          : { userId: req.user!.id },
+
       orderBy: {
-        createdAt: "desc"
-      }
+        createdAt: "desc",
+      },
     });
+
+    console.log("USER:", req.user);
+    console.log("DATA:", deliveries);
 
     res.json(deliveries);
   } catch (error) {
