@@ -92,3 +92,35 @@ export const getMonthlyReport = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ message: "Monthly error" });
   }
 };
+
+export const deleteDelivery = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    await prisma.delivery.delete({
+      where: { id },
+    });
+
+    res.json({ message: "Deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Delete error" });
+  }
+};
+export const updateDelivery = async (req: AuthRequest, res: Response) => {
+  try {
+    const id = req.params.id as string;
+    const { workerName, date, bottles } = req.body;
+
+    const updated = await prisma.delivery.update({
+      where: { id },
+      data: {
+        workerName,
+        date: new Date(date),
+        bottles: Number(bottles),
+      },
+    });
+
+    res.json(updated);
+  } catch (error) {
+    res.status(500).json({ message: "Update error" });
+  }
+};
