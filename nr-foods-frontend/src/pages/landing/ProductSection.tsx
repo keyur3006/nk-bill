@@ -5,8 +5,8 @@ const ProductSection = () => {
   const navigate = useNavigate();
   const [qr, setQr] = useState("");
 
-  const handlePayment = (price: number) => {
-  const upiId = "keyurdivan-1@okaxis";
+ const handlePayment = (price: number) => {
+  const upiId = "keyurdivan-1@okaxis"; // ✅ correct
   const name = "NR FOODS";
 
   const upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
@@ -14,18 +14,15 @@ const ProductSection = () => {
   const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
   if (isMobile) {
-    // 🔥 Intent URL (Chrome + Android best)
-    const intentUrl = `intent://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+    const intentUrl = `intent://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
 
-    try {
-      window.location.href = intentUrl;
-    } catch (err) {
-      // fallback
+    window.location.href = intentUrl;
+
+    // fallback
+    setTimeout(() => {
       window.location.href = upiUrl;
-    }
-
+    }, 1500);
   } else {
-    // 💻 Desktop → QR
     const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
       upiUrl
     )}`;
@@ -33,7 +30,7 @@ const ProductSection = () => {
   }
 };
   const products = [
-    { id: 1, name: "20L Bottle", price: 50, image: "/images/p1.png", tag: "Best Seller" },
+    { id: 1, name: "20L Bottle", price: 1, image: "/images/p1.png", tag: "Best Seller" },
     { id: 2, name: "10L Bottle", price: 30, image: "/images/p2.png", tag: "Popular" },
     { id: 3, name: "1L Pack", price: 60, image: "/images/p3.png", tag: "Hot" },
   ];
