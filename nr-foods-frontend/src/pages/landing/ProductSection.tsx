@@ -1,88 +1,96 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const ProductSection = () => {
   const navigate = useNavigate();
+  const [qr, setQr] = useState("");
+
+  const upiId = "keyurdivan-1@okaxis"; // 👈 tamaru UPI ID
+  const name = "NR FOODS";
+
+  const handlePayment = (price: number) => {
+    const url = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
+
+    // 📱 Mobile check
+    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      // 👉 direct open GPay
+      window.location.href = url;
+    } else {
+      // 👉 Desktop → QR generate
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+        url
+      )}`;
+      setQr(qrUrl);
+    }
+  };
 
   const products = [
-    {
-      id: 1,
-      name: "20L Bottle",
-      price: 50,
-      image: "/images/p1.png",
-      tag: "Best Seller",
-    },
-    {
-      id: 2,
-      name: "10L Bottle",
-      price: 30,
-      image: "/images/p2.png",
-      tag: "Popular",
-    },
-    {
-      id: 3,
-      name: "1L Pack",
-      price: 60,
-      image: "/images/p3.png",
-      tag: "Hot",
-    },
+    { id: 1, name: "20L Bottle", price: 50, image: "/images/p1.png", tag: "Best Seller" },
+    { id: 2, name: "10L Bottle", price: 30, image: "/images/p2.png", tag: "Popular" },
+    { id: 3, name: "1L Pack", price: 60, image: "/images/p3.png", tag: "Hot" },
   ];
 
   return (
-    <div id="products" className="mt-20 px-10 bg-[#f6f9fc] py-16">
-      
-      {/* HEADING */}
+    <div className="mt-20 px-10 bg-[#f6f9fc] py-16">
+
       <h2 className="text-3xl font-bold text-center text-blue-900 mb-10">
         Available Bottles 💧
       </h2>
 
-      {/* GRID */}
       <div className="grid md:grid-cols-3 gap-8">
         {products.map((p) => (
-          <div
-            key={p.id}
-            className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden"
-          >
-            
-            {/* IMAGE */}
-            <div className="bg-gray-50 p-6 relative">
-              <img
-                src={p.image}
-                alt={p.name}
-                className="w-full h-40 object-contain"
-              />
+          <div key={p.id} className="bg-white rounded-xl shadow p-6 text-center">
 
-              {/* TAG */}
-              <span className="absolute top-3 right-3 bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
-                {p.tag}
-              </span>
+            <img src={p.image} className="w-full h-40 object-contain" />
+
+            <h3 className="mt-4 text-lg font-semibold">{p.name}</h3>
+
+            <p className="text-gray-400 text-sm mt-2">
+              Fresh mineral water for daily use.
+            </p>
+
+            <div className="mt-4 text-blue-600 text-xl font-bold">
+              ₹{p.price}
             </div>
 
-            {/* CONTENT */}
-            <div className="p-6 text-center">
-              <h3 className="text-lg font-semibold text-blue-900">
-                {p.name}
-              </h3>
-
-              <p className="text-gray-400 text-sm mt-2">
-                Fresh mineral water for daily use.
-              </p>
-
-              {/* PRICE */}
-              <div className="mt-4 text-blue-600 text-xl font-bold">
-                ₹{p.price}
-              </div>
-
-              {/* BUTTON */}
+            <div className="flex gap-3 mt-6">
               <button
                 onClick={() => navigate(`/order/${p.id}`)}
-                className="mt-6 w-full bg-blue-200 text-blue-700 py-2 rounded-full hover:bg-blue-600 hover:text-white transition"
+                className="w-full bg-blue-200 py-2 rounded-full"
               >
-                🛒 Buy Now
+                🛒 Buy
+              </button>
+
+              <button
+                onClick={() => handlePayment(p.price)}
+                className="w-full bg-green-500 text-white py-2 rounded-full"
+              >
+                💳 Pay
               </button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* 🔥 QR Code (Desktop only) */}
+      {qr && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded-xl text-center">
+            <h3 className="mb-4 font-bold">Scan & Pay</h3>
+
+            <img src={qr} alt="QR" className="mx-auto" />
+
+            <button
+              onClick={() => setQr("")}
+              className="mt-4 bg-red-500 text-white px-4 py-2 rounded"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
