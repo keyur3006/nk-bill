@@ -5,27 +5,33 @@ const ProductSection = () => {
   const navigate = useNavigate();
   const [qr, setQr] = useState("");
 
-  const upiId = "keyurdivan-1@okaxis"; // 👈 tamaru UPI ID
+  const handlePayment = (price: number) => {
+  const upiId = "keyurdivan-1@okaxis";
   const name = "NR FOODS";
 
-  const handlePayment = (price: number) => {
-    const url = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
+  const upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
 
-    // 📱 Mobile check
-    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+  const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
-    if (isMobile) {
-      // 👉 direct open GPay
-      window.location.href = url;
-    } else {
-      // 👉 Desktop → QR generate
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
-        url
-      )}`;
-      setQr(qrUrl);
+  if (isMobile) {
+    // 🔥 Intent URL (Chrome + Android best)
+    const intentUrl = `intent://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
+
+    try {
+      window.location.href = intentUrl;
+    } catch (err) {
+      // fallback
+      window.location.href = upiUrl;
     }
-  };
 
+  } else {
+    // 💻 Desktop → QR
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(
+      upiUrl
+    )}`;
+    setQr(qrUrl);
+  }
+};
   const products = [
     { id: 1, name: "20L Bottle", price: 50, image: "/images/p1.png", tag: "Best Seller" },
     { id: 2, name: "10L Bottle", price: 30, image: "/images/p2.png", tag: "Popular" },
