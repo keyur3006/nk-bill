@@ -8,19 +8,28 @@ const ProductSection = () => {
   const [qr, setQr] = useState("");
 
   const handlePayment = (price: number) => {
-    const upiId = "keyurdivan-1@okaxis";
+    const upiId = "keyurdivn-1@okaxis";
     const name = "NR FOODS";
     const upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
     const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
 
     if (isMobile) {
-      const intentUrl = `intent://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order#Intent;scheme=upi;package=com.google.android.apps.nbu.paisa.user;end`;
-      window.location.href = intentUrl;
-      setTimeout(() => { window.location.href = upiUrl; }, 1500);
-    } else {
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-      setQr(qrUrl);
-    }
+  // Direct UPI open (works in most apps)
+  window.location.href = upiUrl;
+
+  // Fallback message
+  setTimeout(() => {
+    alert("If UPI app not opened, please scan QR code.");
+    
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+    setQr(qrUrl);
+  }, 2000);
+
+} else {
+  // Desktop → QR show
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
+  setQr(qrUrl);
+}
   };
 
   const products = [
