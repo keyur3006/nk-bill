@@ -4,7 +4,7 @@ import ProductSection from "./landing/ProductSection";
 import Footer from "./landing/Footer";
 import FeaturesSection from "./landing/FeaturesSection";
 import DeliveryInfoSection from "./landing/DeliveryInfoSection";
-
+import MineralSection from "./landing/MineralSection";
 const Home = () => {
   return (
     <div>
@@ -16,7 +16,7 @@ const Home = () => {
 
 <DeliveryInfoSection />
 <ProductSection />
-      
+      <MineralSection/> 
       <Footer />
     </div>
   );

@@ -1,7 +1,7 @@
 const HeroSection = () => {
   return (
     <section
-      className="relative w-full h-[800px] bg-no-repeat bg-cover bg-center flex items-center"
+      className="relative w-full h-200 bg-no-repeat bg-cover bg-center flex items-center"
       style={{
         backgroundImage: "url('/images/slider-1.jpg')", // 👈 tamari image
       }}

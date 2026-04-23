@@ -1,8 +1,8 @@
-import React from "react";
+
 
 const HeroSection = () => {
   return (<section
-  className="w-full h-[500px] bg-no-repeat bg-cover bg-center flex items-center justify-center text-center"
+  className="w-full h-125 bg-no-repeat bg-cover bg-center flex items-center justify-center text-center"
   style={{
     backgroundImage: "url('/images/banner-bg.jpg')",
   }}

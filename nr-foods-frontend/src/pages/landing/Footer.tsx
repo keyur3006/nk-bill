@@ -3,21 +3,27 @@ const Footer = () => {
     <footer className="bg-[#0b2c6a] text-white mt-20 relative">
       
       {/* TOP CTA BOX */}
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-xl px-10 py-10 flex justify-between items-center -mt-16 shadow-lg">
-          <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
-            Ready to get started? <br />
-            Get in touch, or create an account.
-          </h2>
+     <div className="relative">
+  <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-full max-w-6xl px-6">
+    
+    <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-xl px-10 py-10 flex justify-between items-center shadow-xl">
+      
+      <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
+        Ready to get started? <br />
+        Get in touch, or create an account.
+      </h2>
 
-          <button className="bg-blue-900 text-white px-6 py-3 rounded-full">
-            Subscribe Now →
-          </button>
-        </div>
-      </div>
+      <button className="bg-blue-900 text-white px-6 py-3 rounded-full">
+        Subscribe Now →
+      </button>
+
+    </div>
+
+  </div>
+</div>
 
       {/* MAIN FOOTER */}
-      <div className="max-w-7xl mx-auto px-10 py-16 grid md:grid-cols-5 gap-10">
+      <div className="max-w-7xl mx-auto px-10 py-30 -m-9 grid md:grid-cols-5 gap-10 " >
         
         {/* LOGO + DESC */}
         <div>
@@ -41,7 +47,7 @@ const Footer = () => {
 
           <div className="flex gap-3 mb-4">
             <img
-              src="https://via.placeholder.com/50"
+              src="/images/blog-1.jpg"
               className="w-12 h-12 rounded"
             />
             <div>
@@ -52,7 +58,7 @@ const Footer = () => {
 
           <div className="flex gap-3">
             <img
-              src="https://via.placeholder.com/50"
+              src="/images/blog-2.jpg"
               className="w-12 h-12 rounded"
             />
             <div>
