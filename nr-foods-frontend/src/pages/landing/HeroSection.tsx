@@ -8,10 +8,10 @@ const HeroSection = () => {
     >
       {/* CONTENT */}
       <div className="max-w-7xl mx-auto px-10 w-full">
-        
+
         {/* TEXT BOX */}
         <div className="max-w-xl mb-72">
-          
+
           <div className="flex items-center gap-2 mb-4">
             <img
               src="https://cdn-icons-png.flaticon.com/512/3105/3105813.png"
@@ -47,7 +47,7 @@ const HeroSection = () => {
       </div>
 
       {/* OPTIONAL OVERLAY (readability mate) */}
-     
+
     </section>
   );
 };
