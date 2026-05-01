@@ -44,7 +44,7 @@ app.use(
 );
 
 /* ❌ REMOVE THIS (IMPORTANT) */
-// app.options("*", cors());
+app.options("*", cors());
 
 /* ================= MIDDLEWARE ================= */
 
