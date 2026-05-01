@@ -43,14 +43,23 @@ app.use(
   })
 );
 
-/* ❌ REMOVE THIS (IMPORTANT) */
 app.use(
   cors({
-    origin: true, // 🔥 AUTO allow current origin
+    origin: [
+      "http://localhost:5173",
+      "https://nk-bill.vercel.app",
+      "https://keyurbill.online",
+      "https://www.keyurbill.online",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
+
+// ✅ IMPORTANT (preflight fix)
 app.options("*", cors());
+
 
 /* ================= MIDDLEWARE ================= */
 
