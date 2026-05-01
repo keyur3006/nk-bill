@@ -58,7 +58,7 @@ app.use(
 );
 
 // ✅ IMPORTANT (preflight fix)
-app.options("*", cors());
+
 
 
 /* ================= MIDDLEWARE ================= */
