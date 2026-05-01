@@ -17,7 +17,7 @@ const ProductSection = () => {
     });
 
     const options = {
-      key: "rzp_test_xxxxx", // 👈 TEST key
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID, // 👈 TEST key
       amount: data.amount,
       currency: "INR",
       order_id: data.id,
