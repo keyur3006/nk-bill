@@ -2,35 +2,49 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ShoppingCart, CreditCard, X } from "lucide-react";
-
+import api from "../../utils/api";
 const ProductSection = () => {
   const navigate = useNavigate();
   const [qr, setQr] = useState("");
 
-  const handlePayment = (price: number) => {
-    const upiId = "keyurdivn-1@okaxis";
-    const name = "NR FOODS";
-    const upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${price}&cu=INR&tn=Order Payment`;
-    const isMobile = /Android|iPhone|iPad/i.test(navigator.userAgent);
+ const handlePayment = async (price: number, product: string) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user")!);
 
-    if (isMobile) {
-  // Direct UPI open (works in most apps)
-  window.location.href = upiUrl;
+    // 1. Create order
+    const { data } = await api.post("/payment/create-order", {
+      amount: price,
+    });
 
-  // Fallback message
-  setTimeout(() => {
-    alert("If UPI app not opened, please scan QR code.");
-    
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-    setQr(qrUrl);
-  }, 2000);
+    const options = {
+      key: "rzp_test_xxxxx", // 👈 TEST key
+      amount: data.amount,
+      currency: "INR",
+      order_id: data.id,
 
-} else {
-  // Desktop → QR show
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiUrl)}`;
-  setQr(qrUrl);
-}
-  };
+      handler: async function (response: any) {
+        // 2. Verify payment
+        await api.post("/payment/verify", {
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+          userId: user.id,
+          product: product,
+          amount: price,
+        });
+
+        alert("✅ Payment Successful!");
+      },
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+
+  } catch (err) {
+    console.error(err);
+    alert("Payment failed");
+  }
+};
 
   const products = [
     { id: 1, name: "20L Bottle", price: 200, image: "/images/p1.png", tag: "Best Seller" },
@@ -91,7 +105,7 @@ const ProductSection = () => {
               </button>
 
               <button
-                onClick={() => handlePayment(p.price)}
+               onClick={() => handlePayment(p.price, p.name)}
                 className="flex-1 bg-green-500 text-white py-4 rounded-2xl font-bold hover:bg-green-600 transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2"
               >
                 <CreditCard className="w-5 h-5" />
@@ -109,7 +123,7 @@ const ProductSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-blue-900/40 backdrop-blur-md z-[100] flex items-center justify-center p-6"
+            className="fixed inset-0 bg-blue-900/40 backdrop-blur-md z-100 flex items-center justify-center p-6"
           >
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
@@ -127,7 +141,7 @@ const ProductSection = () => {
               <h3 className="text-2xl font-bold text-blue-900 mb-2">Scan to Pay</h3>
               <p className="text-gray-500 mb-8">Pay securely using any UPI app</p>
 
-              <div className="bg-gray-50 p-6 rounded-[2rem] border border-gray-100 mb-8 inline-block">
+              <div className="bg-gray-50 p-6 rounded-4XL border border-gray-100 mb-8 inline-block">
                 <img src={qr} alt="QR" className="mx-auto w-48 h-48" />
               </div>
 
