@@ -7,7 +7,12 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
-  if (token) {
+  // ❌ Payment routes ma token na moklo
+  if (
+    token &&
+    !config.url?.includes("/payment/create-order") &&
+    !config.url?.includes("/payment/verify")
+  ) {
     if (config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }

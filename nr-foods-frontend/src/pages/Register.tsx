@@ -19,10 +19,10 @@ const Register = () => {
     setLoading(true);
 
     try {
-      const res = await api.post("/auth/register", {
-        email,
-        password,
-      });
+await api.post("/auth/register", {
+  email,
+  password,
+});
 
       toast.success("Registered successfully");
 
