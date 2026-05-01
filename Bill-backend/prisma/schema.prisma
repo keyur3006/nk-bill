@@ -21,6 +21,8 @@ model User {
   password String
   bills    Bill[]
   deliveries Delivery[]
+   orders   Order[]
+  payments Payment[]
 }
 
 model Customer {
@@ -74,5 +76,34 @@ model Bottle {
   id        Int      @id @default(autoincrement())
   name      String
    price  Float
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  product   String
+  amount    Int
+    paymentMethod String 
+  status    String   @default("pending") // pending, confirmed
+  createdAt DateTime @default(now())
+
+payments Payment[]
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  orderId   Int
+
+  user      User     @relation(fields: [userId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id])
+
+  amount    Int
+  method    String
+  status    String   @default("pending")
+
   createdAt DateTime @default(now())
 }

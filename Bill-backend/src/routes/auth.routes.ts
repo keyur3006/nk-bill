@@ -10,9 +10,8 @@ const prisma = new PrismaClient();
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
-    // ✅ Validation
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -20,7 +19,6 @@ router.post("/register", async (req: Request, res: Response) => {
       });
     }
 
-    // ✅ Check existing user
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -32,21 +30,24 @@ router.post("/register", async (req: Request, res: Response) => {
       });
     }
 
-    // ✅ Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // ✅ Create user
     const user = await prisma.user.create({
       data: {
         email,
         password: hashedPassword,
+        role: role || "KARIGAR", // 👈 default role
       },
     });
 
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      userId: user.id,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.error("Register Error:", error);

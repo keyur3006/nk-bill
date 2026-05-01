@@ -12,6 +12,8 @@ import categoryRoutes from "./routes/category";
 import bottleRoutes from "./routes/bottle.routes";
 import deliveryRoutes from "./routes/delivery.routes";
 import adminRoutes from "./routes/admin.routes";
+import orderRoutes from "./routes/order.routes";
+import paymentRoutes from "./routes/payment.routes";
 dotenv.config();
 
 const app = express();
@@ -58,7 +60,8 @@ app.use("/api/bottles", bottleRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/delivery", deliveryRoutes);
 app.use("/api/admin", adminRoutes);
-
+app.use("/api/orders", orderRoutes);
+app.use("/api/payments", paymentRoutes);
 /* ================= STATIC ================= */
 
 app.use("/pdfs", express.static("public/pdfs"));
