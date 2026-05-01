@@ -48,7 +48,7 @@ const ProductSection = () => {
 
   const products = [
     { id: 1, name: "20L Bottle", price: 200, image: "/images/p1.png", tag: "Best Seller" },
-    { id: 2, name: "10L Bottle", price: 120, image: "/images/p2.png", tag: "Popular" },
+    { id: 2, name: "10L Bottle", price: 30, image: "/images/p2.png", tag: "Popular" },
     { id: 3, name: "1L Pack (Box of 12)", price: 240, image: "/images/p3.png", tag: "Hot" },
   ];
 
