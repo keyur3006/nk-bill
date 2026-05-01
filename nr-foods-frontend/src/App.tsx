@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 // 🔐 Admin Pages
 import AdminPage from "./pages/AdminPage";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Customers from "./pages/Customers";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* 🔐 ADMIN PANEL */}
         <Route

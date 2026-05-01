@@ -47,11 +47,10 @@ const Login = () => {
       } else {
         navigate("/delivery"); // karigar mate
       }
-
     } catch (error: any) {
       toast.error(
         error.response?.data?.message || error.message || "Login failed",
-        { id: toastId }
+        { id: toastId },
       );
     } finally {
       setLoading(false);
@@ -94,6 +93,15 @@ const Login = () => {
             >
               {loading ? <Loader2 className="animate-spin" /> : "Login"}
             </button>
+            <p className="text-gray-400 text-center mt-4">
+              Don't have an account?{" "}
+              <span
+                onClick={() => navigate("/register")}
+                className="text-blue-400 cursor-pointer"
+              >
+                Register
+              </span>
+            </p>
           </div>
         </div>
       </motion.div>
