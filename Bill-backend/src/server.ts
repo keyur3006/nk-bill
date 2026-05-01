@@ -61,7 +61,7 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/delivery", deliveryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
-app.use("/api/payments", paymentRoutes);
+app.use("/api/payment", paymentRoutes);
 /* ================= STATIC ================= */
 
 app.use("/pdfs", express.static("public/pdfs"));

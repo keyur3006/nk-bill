@@ -10,7 +10,7 @@ const prisma = new PrismaClient();
 
 router.post("/register", async (req: Request, res: Response) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password,  } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
@@ -36,7 +36,7 @@ router.post("/register", async (req: Request, res: Response) => {
       data: {
         email,
         password: hashedPassword,
-        role: role || "KARIGAR", // 👈 default role
+        role:  "KARIGAR", // 👈 default role
       },
     });
 

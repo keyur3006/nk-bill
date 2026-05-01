@@ -1,40 +1,86 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import Razorpay from "razorpay";
+import crypto from "crypto";
 
 const router = express.Router();
 const prisma = new PrismaClient();
 
-// Create Payment
-router.post("/", async (req, res) => {
-  try {
-    const { userId, orderId, amount, method } = req.body;
+/* ================= RAZORPAY INIT ================= */
 
-    if (!userId || !orderId || !amount || !method) {
-      return res.status(400).json({ error: "Missing fields" });
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID!,
+  key_secret: process.env.RAZORPAY_KEY_SECRET!,
+});
+
+/* ================= CREATE ORDER ================= */
+
+router.post("/create-order", async (req, res) => {
+  try {
+    const { amount } = req.body;
+
+    const order = await razorpay.orders.create({
+      amount: amount * 100, // ₹ to paise
+      currency: "INR",
+    });
+
+    res.json(order);
+  } catch (error) {
+    console.error("Razorpay Order Error:", error);
+    res.status(500).json({ message: "Order creation failed" });
+  }
+});
+
+/* ================= VERIFY PAYMENT ================= */
+
+router.post("/verify", async (req, res) => {
+  try {
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      userId,
+      product,
+      amount,
+    } = req.body;
+
+    const secret = process.env.RAZORPAY_KEY_SECRET!;
+
+    const generatedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(razorpay_order_id + "|" + razorpay_payment_id)
+      .digest("hex");
+
+    if (generatedSignature !== razorpay_signature) {
+      return res.status(400).json({ success: false, message: "Invalid payment" });
     }
 
-    const payment = await prisma.payment.create({
+    // ✅ Save Order
+    const order = await prisma.order.create({
       data: {
         userId,
-        orderId,
+        product,
         amount,
-        method,
-        status: method === "ONLINE" ? "paid" : "pending",
+        paymentMethod: "ONLINE",
+        status: "confirmed",
       },
     });
 
-    // 🔥 Auto confirm order
-    if (method === "ONLINE") {
-      await prisma.order.update({
-        where: { id: orderId },
-        data: { status: "confirmed" },
-      });
-    }
+    // ✅ Save Payment
+    await prisma.payment.create({
+      data: {
+        userId,
+        orderId: order.id,
+        amount,
+        method: "ONLINE",
+        status: "paid",
+      },
+    });
 
-    res.json(payment);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    res.json({ success: true, message: "Payment verified & saved" });
+  } catch (error) {
+    console.error("Verify Error:", error);
+    res.status(500).json({ message: "Verification failed" });
   }
 });
 
