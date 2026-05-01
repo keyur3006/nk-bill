@@ -46,17 +46,11 @@ app.use(
 /* ❌ REMOVE THIS (IMPORTANT) */
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",
-      "https://nk-bill.vercel.app",
-      "https://keyurbill.online",
-      "https://www.keyurbill.online",
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: true, // 🔥 AUTO allow current origin
     credentials: true,
   })
 );
+app.options("*", cors());
 
 /* ================= MIDDLEWARE ================= */
 
