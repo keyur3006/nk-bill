@@ -38,7 +38,7 @@ router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0,
         }
         // Check user
         const user = yield prisma.user.findUnique({
-            where: { id: req.user.userId }
+            where: { id: req.user.id }
         });
         if (!user) {
             return res.status(401).json({
@@ -87,7 +87,7 @@ router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0,
         /* ===========================
            SAVE PDF FILE
         =========================== */
-        const pdfDir = path_1.default.join(process.cwd(), "src/public/pdfs");
+        const pdfDir = path_1.default.join(process.cwd(), "public/pdfs");
         if (!fs_1.default.existsSync(pdfDir)) {
             fs_1.default.mkdirSync(pdfDir, { recursive: true });
         }
@@ -112,7 +112,7 @@ router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0,
                     connect: { id: customerId }
                 },
                 user: {
-                    connect: { id: req.user.userId }
+                    connect: { id: req.user.id }
                 }
             }
         });
@@ -191,7 +191,7 @@ router.get("/:id/pdf", (req, res) => __awaiter(void 0, void 0, void 0, function*
         if (!bill.pdfUrl) {
             return res.status(404).json({ message: "PDF not available" });
         }
-        const pdfPath = path_1.default.join(process.cwd(), "src/public", bill.pdfUrl);
+        const pdfPath = path_1.default.join(process.cwd(), "src/public/pdfs", path_1.default.basename(bill.pdfUrl));
         res.sendFile(pdfPath);
     }
     catch (error) {

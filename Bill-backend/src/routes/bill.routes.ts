@@ -8,7 +8,22 @@ import jsPDF from "jspdf";
 
 const router = Router();
 const prisma = new PrismaClient();
+/* ===========================
+   GET GENERATED BILLS
+=========================== */
+router.get("/generated-bills", authenticate, async (req: AuthRequest, res) => {
+  try {
+    const bills = await prisma.bill.findMany({
+      include: { customer: true },
+      orderBy: { id: "desc" }
+    });
 
+    res.json(bills);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching generated bills" });
+  }
+});
 /* ===========================
    CREATE BILL + GENERATE PDF
 =========================== */
@@ -229,5 +244,7 @@ router.get("/:id/pdf", async (req, res) => {
     res.status(500).json({ message: "Error loading PDF" });
   }
 });
+
+
 
 export default router;

@@ -16,16 +16,53 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const client_1 = require("@prisma/client");
+// Routes
 const dashboard_routes_1 = __importDefault(require("./routes/dashboard.routes"));
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const bill_routes_1 = __importDefault(require("./routes/bill.routes"));
 const customer_routes_1 = __importDefault(require("./routes/customer.routes"));
 const category_1 = __importDefault(require("./routes/category"));
 const bottle_routes_1 = __importDefault(require("./routes/bottle.routes"));
+const delivery_routes_1 = __importDefault(require("./routes/delivery.routes"));
+const admin_routes_1 = __importDefault(require("./routes/admin.routes"));
+const order_routes_1 = __importDefault(require("./routes/order.routes"));
+const payment_routes_1 = __importDefault(require("./routes/payment.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const prisma = new client_1.PrismaClient();
-app.use((0, cors_1.default)());
+/* ================= CORS ================= */
+const allowedOrigins = [
+    "http://localhost:5173",
+    "https://nk-bill.vercel.app",
+    "https://keyurbill.online",
+    "https://www.keyurbill.online",
+];
+app.use((0, cors_1.default)({
+    origin: function (origin, callback) {
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        else {
+            return callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
+}));
+app.use((0, cors_1.default)({
+    origin: [
+        "http://localhost:5173",
+        "https://nk-bill.vercel.app",
+        "https://keyurbill.online",
+        "https://www.keyurbill.online",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+}));
+// ✅ IMPORTANT (preflight fix)
+/* ================= MIDDLEWARE ================= */
 app.use(express_1.default.json());
 /* ================= ROUTES ================= */
 app.use("/api/auth", auth_routes_1.default);
@@ -34,23 +71,48 @@ app.use("/api/customers", customer_routes_1.default);
 app.use("/api/categories", category_1.default);
 app.use("/api/bottles", bottle_routes_1.default);
 app.use("/api/dashboard", dashboard_routes_1.default);
-// PDF access
-app.use("/pdfs", express_1.default.static("src/public/pdfs"));
-/* ================= TEST ROUTE ================= */
+app.use("/api/delivery", delivery_routes_1.default);
+app.use("/api/admin", admin_routes_1.default);
+app.use("/api/orders", order_routes_1.default);
+app.use("/api/payment", payment_routes_1.default);
+/* ================= STATIC ================= */
+app.use("/pdfs", express_1.default.static("public/pdfs"));
+/* ================= TEST ROUTES ================= */
 app.get("/", (req, res) => {
-    res.send("NR Server is running 🚀");
+    res.send("🚀 NR Server running with Neon DB");
 });
 app.get("/test-db", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const users = yield prisma.user.findMany();
-        res.json(users);
+        res.json({
+            success: true,
+            data: users,
+        });
     }
     catch (error) {
-        res.status(500).json({ message: "Database connection failed" });
+        console.error("❌ DB Error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Database connection failed",
+        });
     }
 }));
-/* ================= SERVER ================= */
-const PORT = 5000;
-app.listen(PORT, () => {
-    console.log(`Server is started on port ${PORT}`);
+/* ================= ERROR HANDLER ================= */
+app.use((err, req, res, _next) => {
+    console.error("❌ Global Error:", err);
+    res.status(500).json({
+        success: false,
+        message: err.message || "Something went wrong",
+    });
 });
+/* ================= SERVER ================= */
+const PORT = Number(process.env.PORT) || 5000;
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`🚀 Server started on port ${PORT}`);
+});
+/* ================= SHUTDOWN ================= */
+process.on("SIGINT", () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("🛑 Server shutting down...");
+    yield prisma.$disconnect();
+    process.exit(0);
+}));

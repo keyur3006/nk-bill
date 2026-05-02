@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
+const axios_1 = __importDefault(require("axios"));
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
 // GET ALL BOTTLES
@@ -26,13 +27,26 @@ router.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // ADD BOTTLE
 router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, price } = req.body;
-    const bottle = yield prisma.bottle.create({
-        data: {
-            name,
-            price
-        }
-    });
-    res.json(bottle);
+    try {
+        const bottle = yield prisma.bottle.create({
+            data: {
+                name,
+                price
+            }
+        });
+        // 🔥 Google Sheet API call
+        yield axios_1.default.post("https://script.google.com/macros/s/AKfycbw9yH34twM6XZdoS7vlyjN25t8_tJYoFii1DNLJ-hXvPZPT-pqz-wJW142RsktKd3I/exec", {
+            name: bottle.name,
+            price: bottle.price,
+            type: "Bottle",
+            date: new Date()
+        });
+        res.json(bottle);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error saving bottle" });
+    }
 }));
 // UPDATE BOTTLE
 router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
