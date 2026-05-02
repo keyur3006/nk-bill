@@ -46,16 +46,20 @@ router.post("/verify", async (req, res) => {
 
     const secret = process.env.RAZORPAY_KEY_SECRET!;
 
+    // 🔐 Signature verify
     const generatedSignature = crypto
       .createHmac("sha256", secret)
       .update(razorpay_order_id + "|" + razorpay_payment_id)
       .digest("hex");
 
     if (generatedSignature !== razorpay_signature) {
-      return res.status(400).json({ success: false, message: "Invalid payment" });
+      return res.status(400).json({
+        success: false,
+        message: "Invalid payment",
+      });
     }
 
-    // ✅ Save Order
+    // ✅ ORDER SAVE
     const order = await prisma.order.create({
       data: {
         userId,
@@ -66,7 +70,7 @@ router.post("/verify", async (req, res) => {
       },
     });
 
-    // ✅ Save Payment
+    // ✅ PAYMENT SAVE
     await prisma.payment.create({
       data: {
         userId,
@@ -77,10 +81,15 @@ router.post("/verify", async (req, res) => {
       },
     });
 
-    res.json({ success: true, message: "Payment verified & saved" });
+    res.json({
+      success: true,
+      message: "Payment verified & saved",
+    });
   } catch (error) {
     console.error("Verify Error:", error);
-    res.status(500).json({ message: "Verification failed" });
+    res.status(500).json({
+      message: "Verification failed",
+    });
   }
 });
 
