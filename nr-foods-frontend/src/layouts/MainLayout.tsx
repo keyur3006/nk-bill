@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Truck } from "lucide-react"; // 👈 TOP par add kar
-
+import { Outlet } from "react-router-dom";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
@@ -14,15 +14,13 @@ import {
   Tag,
   FileText,
   Bell,
-  Search
+  Search     
 } from "lucide-react";
 import { useState,  } from "react";
+import { ShoppingCart } from "lucide-react";
 
-interface Props {
-  children: ReactNode;
-}
 
-const MainLayout = ({ children }: Props) => {
+const MainLayout = () => {
   
   
   const navigate = useNavigate();
@@ -44,8 +42,9 @@ const navItems =
         { label: "Customers", path: "/customers", icon: Users },
         { label: "Bills", path: "/create-bill", icon: Receipt },
         { label: "Categories", path: "/categories", icon: Tag },
-        { label: "Generated Bills", path: "/bills", icon: FileText },
+{ label: "Generated Bills", path: "/generated", icon: FileText },
         { label: "Delivery", path: "/delivery", icon: Truck },
+        { label: "Orders", path: "/admin-orders", icon: ShoppingCart },
         { label: "Admin Panel", path: "/admin", icon: Users },
       ]
     : [
@@ -213,7 +212,7 @@ const navItems =
                 ease: [0.23, 1, 0.32, 1] 
               }}
             >
-              {children}
+              <Outlet />   
             </motion.div>
           </AnimatePresence>
         </div>

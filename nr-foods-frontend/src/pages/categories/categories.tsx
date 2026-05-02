@@ -69,7 +69,7 @@ const Categories = () => {
   };
 
   return (
-    <MainLayout>
+   
       <div>
         <h1 className="text-2xl font-bold mb-6">Shop Blocks</h1>
 
@@ -142,7 +142,7 @@ const Categories = () => {
           </div>
         )}
       </div>
-    </MainLayout>
+    
   );
 };
 

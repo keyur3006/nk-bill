@@ -74,7 +74,7 @@ const BottleVariety = () => {
   };
 
   return (
-    <MainLayout>
+   
       <div>
         <h1 className="text-2xl font-bold mb-6">Bottle Variety</h1>
 
@@ -140,7 +140,7 @@ const BottleVariety = () => {
           ))}
         </div>
       </div>
-    </MainLayout>
+   
   );
 };
 

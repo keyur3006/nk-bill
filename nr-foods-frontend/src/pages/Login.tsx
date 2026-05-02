@@ -41,6 +41,9 @@ const Login = () => {
       localStorage.setItem("role", user.role.toUpperCase());
       toast.success("Login successful!", { id: toastId });
 
+      // ✅ ADD THIS (VERY IMPORTANT)
+localStorage.setItem("userId", user.id);
+
       // ✅ REDIRECT BASED ON ROLE
       if (user.role === "ADMIN") {
         navigate("/dashboard");

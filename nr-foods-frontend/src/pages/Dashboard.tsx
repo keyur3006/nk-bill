@@ -1,4 +1,4 @@
-import MainLayout from "../layouts/MainLayout";
+
 import { Users, Package, IndianRupee, Clock, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -90,7 +90,7 @@ useEffect(() => {
 }, []);
 
   return (
-    <MainLayout>
+    
       <div className="space-y-12 pb-10">
 
         {/* HEADER */}
@@ -277,7 +277,7 @@ useEffect(() => {
         </div>
 
       </div>
-    </MainLayout>
+    
   );
 };
 

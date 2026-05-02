@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../layouts/MainLayout";
+
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
@@ -53,7 +53,7 @@ const Generated = () => {
 
 
   return (
-    <MainLayout>
+    <div> 
 
       <h1 className="text-2xl font-bold mb-6">
         Billing History
@@ -105,7 +105,7 @@ const Generated = () => {
                 >
 
                   <span className="font-medium">
-                    {bill.customer.name}
+                    {bill.customer.name || "Unknown"}
                   </span>
 
                   <span className="text-blue-600 font-bold">
@@ -123,7 +123,7 @@ const Generated = () => {
         );
       })}
 
-    </MainLayout>
+     </div>
   );
 };
 

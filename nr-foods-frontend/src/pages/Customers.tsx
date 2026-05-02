@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../layouts/MainLayout";
+
 import toast from "react-hot-toast";
 import api from "../utils/api";
 
@@ -102,7 +102,7 @@ const Customers = () => {
   });
 
   return (
-    <MainLayout>
+   
       <div className="space-y-8">
         {/* Header */}
         <div className="flex justify-between items-center">
@@ -232,7 +232,7 @@ const Customers = () => {
           </table>
         </div>
       </div>
-    </MainLayout>
+   
   );
 };
 

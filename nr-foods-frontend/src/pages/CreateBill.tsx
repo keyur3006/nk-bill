@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../layouts/MainLayout";
+
 import api from "../utils/api";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -165,7 +165,7 @@ useEffect(() => {
 };
 
   return (
-    <MainLayout>
+   
       <div className="space-y-12 pb-10">
         <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
           <motion.div
@@ -380,7 +380,7 @@ useEffect(() => {
           </motion.div>
         </div>
       </div>
-    </MainLayout>
+    
   );
 };
 
