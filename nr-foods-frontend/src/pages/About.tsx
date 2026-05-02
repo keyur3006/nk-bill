@@ -100,7 +100,7 @@ const About = () => {
               <span className="text-gradient">Quality & Purity</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
-              At NR FOODS, we believe that access to clean, safe drinking water is a fundamental right. Our journey started with a simple goal: to provide residents with bottled water that doesn't just meet standards, but exceeds them.
+              At KD Water Delivery, we believe that access to clean, safe drinking water is a fundamental right. Our journey started with a simple goal: to provide residents with bottled water that doesn't just meet standards, but exceeds them.
             </p>
             <div className="space-y-4">
               {["Advanced UV Purification", "Eco-friendly Packaging", "Doorstep Delivery Excellence"].map((item, i) => (
@@ -173,7 +173,7 @@ const About = () => {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 relative z-10">Experience the Purity Today</h2>
           <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto relative z-10">
-            Join thousands of happy families and businesses who trust NR FOODS for their daily hydration needs.
+            Join thousands of happy families and businesses who trust KD Water Delivery for their daily hydration needs.
           </p>
           <button className="bg-white text-blue-600 px-10 py-4 rounded-full font-bold text-lg hover:bg-blue-50 transition-colors shadow-xl relative z-10">
             Check Our Products
@@ -186,4 +186,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default About;

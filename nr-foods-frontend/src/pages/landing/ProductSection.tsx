@@ -47,10 +47,11 @@ const ProductSection = () => {
 };
 
   const products = [
-    { id: 1, name: "20L Bottle", price: 200, image: "/images/p1.png", tag: "Best Seller" },
-    { id: 2, name: "10L Bottle", price: 30, image: "/images/p2.png", tag: "Popular" },
-    { id: 3, name: "1L Pack (Box of 12)", price: 240, image: "/images/p3.png", tag: "Hot" },
-  ];
+  { id: 1, name: "20L Bottle Cold", price: 30, image: "/shell/cold.png", tag: "Best Seller", size: "w-full h-[240px]" },
+  { id: 2, name: "20L Bottle Hot", price: 25, image: "/shell/hot.png", tag: "Popular", size: "w-full h-[280px]" },
+  { id: 3, name: "Bisleri 200ml (Box of 48)", price: 220, image: "/shell/bisleri.png", tag: "Hot", size: "w-full h-[285px] object-cover" },
+  { id: 4, name: "Yes 200ml (Box of 48)", price: 170, image: "/shell/yes.png", tag: "Hot", size: "w-full h-[300px] object-cover" },
+];
 
   return (
     <div className="py-24 px-6 md:px-10 bg-surface-50 relative overflow-hidden">
@@ -77,13 +78,17 @@ const ProductSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className="group bg-white rounded-[3rem] shadow-xl shadow-blue-900/5 p-8 text-center border border-white hover:border-blue-100 transition-all duration-500 hover:shadow-2xl"
+   className="group bg-white rounded-[3rem] shadow-xl p-12  text-center flex flex-col justify-between mt-5"
           >
-            <div className="relative mb-8 pt-8 px-4 h-64 flex items-center justify-center bg-blue-50/50 rounded-[2.5rem] group-hover:bg-blue-100/50 transition-colors">
+            <div className="relative mb-8 pt- px-4 h-64 flex items-center justify-center bg-blue-50/50 rounded-[2.5rem] group-hover:bg-blue-100/50 transition-colors">
               <span className="absolute top-6 right-6 bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-lg shadow-blue-500/20 uppercase">
                 {p.tag}
               </span>
-              <img src={p.image} className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" alt={p.name} />
+     <img
+  src={p.image}
+  className={`${p.size} mx-auto rounded-4xl`}
+  alt={p.name}
+/>
             </div>
 
             <h3 className="text-2xl font-bold text-blue-950 mb-3">{p.name}</h3>

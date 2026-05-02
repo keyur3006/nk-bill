@@ -17,7 +17,7 @@ const HeroSection = () => {
               src="https://cdn-icons-png.flaticon.com/512/3105/3105813.png"
               className="w-8"
             />
-            <span className="text-blue-500 font-semibold">NR FOODS</span>
+            <span className="text-blue-500 font-semibold">KD Water Delivery</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-extrabold text-blue-900 leading-tight">

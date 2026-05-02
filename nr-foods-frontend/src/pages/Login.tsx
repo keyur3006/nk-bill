@@ -69,7 +69,7 @@ localStorage.setItem("userId", user.id);
       >
         <div className="bg-white/5 backdrop-blur-xl rounded-3xl p-10 border border-white/10">
           <h1 className="text-3xl font-black text-white text-center mb-6">
-            NR FOODS
+            KD Water Delivery
           </h1>
 
           <div className="space-y-4">

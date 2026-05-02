@@ -186,7 +186,7 @@ const Contact = () => {
           <div className="absolute inset-0 flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000')] bg-cover opacity-60">
             <div className="glass-card p-6 rounded-3xl text-center">
               <MapPin className="w-10 h-10 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-blue-900">NR FOODS Headquarters</h3>
+              <h3 className="text-xl font-bold text-blue-900">KD Water Delivery Headquarters</h3>
               <p className="text-gray-600">Click to open directions</p>
             </div>
           </div>
@@ -198,4 +198,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Contact;

@@ -97,7 +97,7 @@ useEffect(() => {
 
     doc.setFontSize(22);
     doc.setTextColor(37, 99, 235); // Blue-600
-    doc.text("NR FOODS", 105, 20, { align: "center" });
+    doc.text("KD Water Delivery", 105, 20, { align: "center" });
     
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139); // Slate-500
