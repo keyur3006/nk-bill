@@ -20,5 +20,24 @@ router.post("/", async (req, res) => {
 
   res.json(order);
 });
+router.get("/my-orders/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
 
+    const orders = await prisma.order.findMany({
+      where: { userId: Number(userId) },
+      include: {
+        payments: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    res.json(orders);
+  } catch (error) {
+    console.error("Fetch Orders Error:", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+});
 export default router;
