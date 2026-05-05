@@ -67,7 +67,7 @@ router.post("/", authenticate, async (req: AuthRequest, res) => {
 
     doc.setFontSize(22);
     doc.setFont("helvetica", "bold");
-    doc.text("NR FOODS", 90, 20);
+    doc.text("KD Water Delivery", 90, 20);
 
     doc.setFontSize(14);
     doc.text("BILL INVOICE", 85, 30);
