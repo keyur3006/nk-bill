@@ -17,7 +17,7 @@ import Generated from "./pages/Generated";
 import DeliveryPage from "./pages/DeliveryPage";
 import MyOrders from "../src/pages/landing/MyOrders";
 import AdminOrders from "./pages/AdminOrders";
-
+import OrderPage from "./pages/OrderPage";
 // 🌐 PUBLIC PAGES
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -36,6 +36,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/my-orders" element={<MyOrders />} />
+        <Route path="/order/:id" element={<OrderPage />} />
 
         {/* 🔐 ADMIN WITH SIDEBAR */}
         <Route
