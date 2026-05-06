@@ -11,51 +11,85 @@ const ProductSection = () => {
   const [quantity, setQuantity] = useState(1);
 
   // 🔥 PAYMENT FUNCTION (UPDATED)
-  const handlePayment = async (
-    price: number,
-    product: string,
-    qty: number
-  ) => {
-    try {
-      const user = JSON.parse(localStorage.getItem("user")!);
+ const handlePayment = async (
+  price: number,
+  product: string,
+  qty: number
+) => {
+  try {
+    const total = price * qty;
 
-      const total = price * qty;
+    // ✅ Token
+    const token = localStorage.getItem("token");
 
-      // 1. Create Razorpay order
-      const { data } = await api.post("/payment/create-order", {
+    // ✅ User login check
+    if (!token) {
+      alert("Please login first");
+      navigate("/login");
+      return;
+    }
+
+    // 1️⃣ Create Razorpay order
+    const { data } = await api.post(
+      "/payment/create-order",
+      {
         amount: total,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-        amount: data.amount,
-        currency: "INR",
-        order_id: data.id,
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: data.amount,
+      currency: "INR",
+      order_id: data.id,
 
-        handler: async function (response: any) {
-          // 2. Verify + Save order
-          await api.post("/payment/verify", {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-            userId: user.id,
+      handler: async function (response: any) {
+        // 2️⃣ Verify payment + Save order
+        await api.post(
+          "/payment/verify",
+          {
+            razorpay_order_id:
+              response.razorpay_order_id,
+
+            razorpay_payment_id:
+              response.razorpay_payment_id,
+
+            razorpay_signature:
+              response.razorpay_signature,
+
             product,
             amount: total,
-            quantity: qty, // ✅ IMPORTANT
-          });
+            quantity: qty,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-          alert("✅ Payment Successful!");
-          navigate("/my-orders"); // redirect after payment
-        },
-      };
+        alert("✅ Payment Successful!");
 
-      const rzp = new (window as any).Razorpay(options);
-      rzp.open();
-    } catch (err) {
-      console.error(err);
-      alert("Payment failed");
-    }
-  };
+        navigate("/my-orders");
+      },
+    };
+
+    const rzp = new (window as any).Razorpay(
+      options
+    );
+
+    rzp.open();
+  } catch (err) {
+    console.error(err);
+
+    alert("Payment failed");
+  }
+};
 
   const products = [
     { id: 1, name: "20L Bottle Cold", price: 30, image: "/shell/cold.png", tag: "Best Seller" },
