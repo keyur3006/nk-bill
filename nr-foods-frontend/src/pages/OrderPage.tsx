@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const products = [
   { id: 1, name: "20L Bottle Cold", price: 30 },
@@ -14,7 +15,9 @@ const OrderPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const product = products.find((p) => p.id === Number(id));
+  const product = products.find(
+    (p) => p.id === Number(id)
+  );
 
   const [qty, setQty] = useState(1);
 
@@ -29,40 +32,113 @@ const OrderPage = () => {
   const total = product.price * qty;
 
   const handlePayment = async () => {
+
     try {
 
-      const user = JSON.parse(localStorage.getItem("user")!);
+      // ✅ Token
+      const token =
+        localStorage.getItem("token");
 
-      const { data } = await api.post("/payment/create-order", {
-        amount: total,
-      });
+      // ✅ Login check
+      if (!token) {
+
+        toast.error(
+          "Please login first"
+        );
+
+        navigate("/login");
+
+        return;
+      }
+
+      // ✅ Address check
+      const profileCompleted =
+        localStorage.getItem(
+          "profileCompleted"
+        );
+
+      if (!profileCompleted) {
+
+        toast.error(
+          "Please complete address first"
+        );
+
+        navigate("/profile");
+
+        return;
+      }
+
+      // ✅ Create Razorpay Order
+      const { data } = await api.post(
+        "/payment/create-order",
+        {
+          amount: total,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       const options = {
-        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+
+        key:
+          import.meta.env
+            .VITE_RAZORPAY_KEY_ID,
+
         amount: data.amount,
+
         currency: "INR",
+
         order_id: data.id,
 
-        handler: async function (response: any) {
+        name: "Keyurbill",
 
-          await api.post("/payment/verify", {
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
+        description: product.name,
 
-            userId: user.id,
-            product: product.name,
-            amount: total,
-            quantity: qty,
-          });
+        handler: async function (
+          response: any
+        ) {
 
-          alert("✅ Order placed successfully!");
+          // ✅ Verify Payment
+          await api.post(
+            "/payment/verify",
+            {
+
+              razorpay_order_id:
+                response.razorpay_order_id,
+
+              razorpay_payment_id:
+                response.razorpay_payment_id,
+
+              razorpay_signature:
+                response.razorpay_signature,
+
+              product: product.name,
+
+              amount: total,
+
+              quantity: qty,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          toast.success(
+            "Payment Successful"
+          );
 
           navigate("/my-orders");
         },
       };
 
-      const rzp = new (window as any).Razorpay(options);
+      const rzp = new (
+        window as any
+      ).Razorpay(options);
 
       rzp.open();
 
@@ -70,7 +146,7 @@ const OrderPage = () => {
 
       console.error(error);
 
-      alert("❌ Payment failed");
+      toast.error("Payment failed");
     }
   };
 
@@ -108,7 +184,9 @@ const OrderPage = () => {
             type="number"
             value={qty}
             min={1}
-            onChange={(e) => setQty(Number(e.target.value))}
+            onChange={(e) =>
+              setQty(Number(e.target.value))
+            }
             className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
