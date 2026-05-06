@@ -17,7 +17,16 @@ model User {
   id       Int    @id @default(autoincrement())
   role     String @default("KARIGAR")
   
+
   email    String @unique
+  
+   // ✅ Address Fields
+  name     String?
+  mobile   String?
+  address  String?
+  city     String?
+  pincode  String?
+  
   password String
   bills    Bill[]
   deliveries Delivery[]

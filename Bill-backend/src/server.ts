@@ -13,6 +13,7 @@ import bottleRoutes from "./routes/bottle.routes";
 import deliveryRoutes from "./routes/delivery.routes";
 import adminRoutes from "./routes/admin.routes";
 import orderRoutes from "./routes/order.routes";
+import profileRoutes from "./routes/profile.routes";
 import paymentRoutes from "./routes/payment.routes";
 dotenv.config();
 
@@ -77,6 +78,7 @@ app.use("/api/delivery", deliveryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payment", paymentRoutes);
+app.use("/api/profile", profileRoutes);
 /* ================= STATIC ================= */
 
 app.use("/pdfs", express.static("public/pdfs"));
