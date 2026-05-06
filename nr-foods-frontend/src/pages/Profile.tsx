@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const [form, setForm] = useState({
@@ -10,12 +11,18 @@ const Profile = () => {
     pincode: "",
   });
 
-  // ✅ Fetch profile
+  /* ================= FETCH PROFILE ================= */
+
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const token =
           localStorage.getItem("token");
+
+        if (!token) {
+          toast.error("Please login first");
+          return;
+        }
 
         const res = await api.get(
           "/profile/me",
@@ -33,6 +40,7 @@ const Profile = () => {
           city: res.data.city || "",
           pincode: res.data.pincode || "",
         });
+
       } catch (error) {
         console.error(error);
       }
@@ -41,7 +49,8 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  // ✅ Input change
+  /* ================= INPUT CHANGE ================= */
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -51,11 +60,52 @@ const Profile = () => {
     });
   };
 
-  // ✅ Save profile
+  /* ================= SAVE PROFILE ================= */
+
   const handleSave = async () => {
+
+    // ✅ Name Validation
+    if (!form.name.trim()) {
+      toast.error("Name is required");
+      return;
+    }
+
+    // ✅ Mobile Validation
+    if (!/^\d{10}$/.test(form.mobile)) {
+      toast.error(
+        "Mobile number must be 10 digits"
+      );
+      return;
+    }
+
+    // ✅ Address Validation
+    if (!form.address.trim()) {
+      toast.error("Address is required");
+      return;
+    }
+
+    // ✅ City Validation
+    if (!form.city.trim()) {
+      toast.error("City is required");
+      return;
+    }
+
+    // ✅ Pincode Validation
+    if (!/^\d{6}$/.test(form.pincode)) {
+      toast.error(
+        "Pincode must be 6 digits"
+      );
+      return;
+    }
+
     try {
       const token =
         localStorage.getItem("token");
+
+      if (!token) {
+        toast.error("Please login first");
+        return;
+      }
 
       await api.put(
         "/profile/update",
@@ -67,21 +117,31 @@ const Profile = () => {
         }
       );
 
-      alert("✅ Address Saved");
+      // ✅ Profile Completed
+      localStorage.setItem(
+        "profileCompleted",
+        "true"
+      );
+
+      toast.success("Address Saved");
+
     } catch (error) {
       console.error(error);
 
-      alert("Failed to save");
+      toast.error("Failed to save");
     }
   };
 
   return (
     <div className="max-w-xl mx-auto p-6">
+
       <h2 className="text-3xl font-bold mb-6">
         My Address
       </h2>
 
       <div className="space-y-4">
+
+        {/* Name */}
         <input
           type="text"
           name="name"
@@ -91,6 +151,7 @@ const Profile = () => {
           className="w-full border p-3 rounded"
         />
 
+        {/* Mobile */}
         <input
           type="text"
           name="mobile"
@@ -100,6 +161,7 @@ const Profile = () => {
           className="w-full border p-3 rounded"
         />
 
+        {/* Address */}
         <input
           type="text"
           name="address"
@@ -109,6 +171,7 @@ const Profile = () => {
           className="w-full border p-3 rounded"
         />
 
+        {/* City */}
         <input
           type="text"
           name="city"
@@ -118,6 +181,7 @@ const Profile = () => {
           className="w-full border p-3 rounded"
         />
 
+        {/* Pincode */}
         <input
           type="text"
           name="pincode"
@@ -127,12 +191,14 @@ const Profile = () => {
           className="w-full border p-3 rounded"
         />
 
+        {/* Save Button */}
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-6 py-3 rounded"
+          className="bg-blue-600 text-white px-6 py-3 rounded w-full"
         >
           Save Address
         </button>
+
       </div>
     </div>
   );
