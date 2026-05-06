@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
 const Profile = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     mobile: "",
@@ -21,6 +24,7 @@ const Profile = () => {
 
         if (!token) {
           toast.error("Please login first");
+          navigate("/login");
           return;
         }
 
@@ -47,7 +51,7 @@ const Profile = () => {
     };
 
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   /* ================= INPUT CHANGE ================= */
 
@@ -104,6 +108,7 @@ const Profile = () => {
 
       if (!token) {
         toast.error("Please login first");
+        navigate("/login");
         return;
       }
 
@@ -125,6 +130,11 @@ const Profile = () => {
 
       toast.success("Address Saved");
 
+      // ✅ Redirect Home
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+
     } catch (error) {
       console.error(error);
 
@@ -135,7 +145,7 @@ const Profile = () => {
   return (
     <div className="max-w-xl mx-auto p-6">
 
-      <h2 className="text-3xl font-bold mb-6">
+      <h2 className="text-3xl font-bold mb-6 text-center">
         My Address
       </h2>
 
@@ -194,7 +204,7 @@ const Profile = () => {
         {/* Save Button */}
         <button
           onClick={handleSave}
-          className="bg-blue-600 text-white px-6 py-3 rounded w-full"
+          className="bg-blue-600 hover:bg-blue-700 transition text-white px-6 py-3 rounded w-full"
         >
           Save Address
         </button>
