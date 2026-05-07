@@ -11,40 +11,29 @@ const products = [
 ];
 
 const OrderPage = () => {
-
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const product = products.find(
-    (p) => p.id === Number(id)
-  );
+  const product = products.find((p) => p.id === Number(id));
 
   const [qty, setQty] = useState(1);
 
   if (!product) {
     return (
-      <div className="p-10 text-center text-red-500">
-        Product not found
-      </div>
+      <div className="p-10 text-center text-red-500">Product not found</div>
     );
   }
 
   const total = product.price * qty;
 
   const handlePayment = async () => {
-
     try {
-
       // ✅ Token
-      const token =
-        localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       // ✅ Login check
       if (!token) {
-
-        toast.error(
-          "Please login first"
-        );
+        toast.error("Please login first");
 
         navigate("/login");
 
@@ -52,16 +41,11 @@ const OrderPage = () => {
       }
 
       // ✅ Address check
-      const profileCompleted =
-        localStorage.getItem(
-          "profileCompleted"
-        );
+      const profileCompleted = localStorage.getItem("profileCompleted");
 
       if (!profileCompleted) {
-
-        toast.error(
-          "Please complete address first"
-        );
+        localStorage.setItem("redirectAfterProfile", window.location.pathname);
+        toast.error("Please complete address first");
 
         navigate("/profile");
 
@@ -78,14 +62,11 @@ const OrderPage = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       const options = {
-
-        key:
-          import.meta.env
-            .VITE_RAZORPAY_KEY_ID,
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
 
         amount: data.amount,
 
@@ -97,23 +78,16 @@ const OrderPage = () => {
 
         description: product.name,
 
-        handler: async function (
-          response: any
-        ) {
-
+        handler: async function (response: any) {
           // ✅ Verify Payment
           await api.post(
             "/payment/verify",
             {
+              razorpay_order_id: response.razorpay_order_id,
 
-              razorpay_order_id:
-                response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
 
-              razorpay_payment_id:
-                response.razorpay_payment_id,
-
-              razorpay_signature:
-                response.razorpay_signature,
+              razorpay_signature: response.razorpay_signature,
 
               product: product.name,
 
@@ -125,25 +99,19 @@ const OrderPage = () => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
-            }
+            },
           );
 
-          toast.success(
-            "Payment Successful"
-          );
+          toast.success("Payment Successful");
 
           navigate("/my-orders");
         },
       };
 
-      const rzp = new (
-        window as any
-      ).Razorpay(options);
+      const rzp = new (window as any).Razorpay(options);
 
       rzp.open();
-
     } catch (error) {
-
       console.error(error);
 
       toast.error("Payment failed");
@@ -152,9 +120,7 @@ const OrderPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
-
       <div className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-lg">
-
         {/* HOME BUTTON */}
         <button
           onClick={() => navigate("/")}
@@ -169,24 +135,17 @@ const OrderPage = () => {
         </h1>
 
         {/* PRICE */}
-        <p className="text-xl text-gray-700 mb-4">
-          Price: ₹{product.price}
-        </p>
+        <p className="text-xl text-gray-700 mb-4">Price: ₹{product.price}</p>
 
         {/* QUANTITY */}
         <div className="mb-6">
-
-          <label className="block mb-2 font-semibold">
-            Quantity
-          </label>
+          <label className="block mb-2 font-semibold">Quantity</label>
 
           <input
             type="number"
             value={qty}
             min={1}
-            onChange={(e) =>
-              setQty(Number(e.target.value))
-            }
+            onChange={(e) => setQty(Number(e.target.value))}
             className="w-full border border-gray-300 rounded-xl p-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -203,7 +162,6 @@ const OrderPage = () => {
         >
           Pay Now
         </button>
-
       </div>
     </div>
   );

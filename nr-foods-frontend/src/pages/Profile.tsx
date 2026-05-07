@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
@@ -19,8 +20,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token =
-          localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         if (!token) {
           toast.error("Please login first");
@@ -28,14 +28,11 @@ const Profile = () => {
           return;
         }
 
-        const res = await api.get(
-          "/profile/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await api.get("/profile/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
         setForm({
           name: res.data.name || "",
@@ -44,7 +41,6 @@ const Profile = () => {
           city: res.data.city || "",
           pincode: res.data.pincode || "",
         });
-
       } catch (error) {
         console.error(error);
       }
@@ -55,9 +51,7 @@ const Profile = () => {
 
   /* ================= INPUT CHANGE ================= */
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -67,7 +61,6 @@ const Profile = () => {
   /* ================= SAVE PROFILE ================= */
 
   const handleSave = async () => {
-
     // ✅ Name Validation
     if (!form.name.trim()) {
       toast.error("Name is required");
@@ -76,9 +69,7 @@ const Profile = () => {
 
     // ✅ Mobile Validation
     if (!/^\d{10}$/.test(form.mobile)) {
-      toast.error(
-        "Mobile number must be 10 digits"
-      );
+      toast.error("Mobile number must be 10 digits");
       return;
     }
 
@@ -96,15 +87,12 @@ const Profile = () => {
 
     // ✅ Pincode Validation
     if (!/^\d{6}$/.test(form.pincode)) {
-      toast.error(
-        "Pincode must be 6 digits"
-      );
+      toast.error("Pincode must be 6 digits");
       return;
     }
 
     try {
-      const token =
-        localStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       if (!token) {
         toast.error("Please login first");
@@ -112,29 +100,30 @@ const Profile = () => {
         return;
       }
 
-      await api.put(
-        "/profile/update",
-        form,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await api.put("/profile/update", form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       // ✅ Profile Completed
-      localStorage.setItem(
-        "profileCompleted",
-        "true"
-      );
+      localStorage.setItem("profileCompleted", "true");
 
       toast.success("Address Saved");
+      const redirectPath = localStorage.getItem("redirectAfterProfile");
+
+      if (redirectPath) {
+        localStorage.removeItem("redirectAfterProfile");
+
+        navigate(redirectPath);
+      } else {
+        navigate("/");
+      }
 
       // ✅ Redirect Home
       setTimeout(() => {
         navigate("/");
       }, 1500);
-
     } catch (error) {
       console.error(error);
 
@@ -144,13 +133,9 @@ const Profile = () => {
 
   return (
     <div className="max-w-xl mx-auto p-6">
-
-      <h2 className="text-3xl font-bold mb-6 text-center">
-        My Address
-      </h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">My Address</h2>
 
       <div className="space-y-4">
-
         {/* Name */}
         <input
           type="text"
@@ -208,7 +193,6 @@ const Profile = () => {
         >
           Save Address
         </button>
-
       </div>
     </div>
   );
