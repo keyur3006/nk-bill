@@ -99,12 +99,9 @@ const OrderPage = () => {
 
   const subtotal = product.price * qty;
 
-  const deliveryCharge = 20;
 
-  const gst = subtotal * 0.05;
 
-  const grandTotal =
-    subtotal + deliveryCharge + gst;
+  const grandTotal = subtotal;
 
   /* ================= PAYMENT ================= */
 
@@ -331,21 +328,8 @@ const OrderPage = () => {
               </span>
             </div>
 
-            <div className="flex justify-between">
-              <span>Delivery Charge</span>
 
-              <span>
-                ₹{deliveryCharge}
-              </span>
-            </div>
-
-            <div className="flex justify-between">
-              <span>GST (5%)</span>
-
-              <span>
-                ₹{gst.toFixed(2)}
-              </span>
-            </div>
+            
 
             <hr />
 
