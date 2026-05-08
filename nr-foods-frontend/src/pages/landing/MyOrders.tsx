@@ -29,56 +29,224 @@ const MyOrders = () => {
   const downloadBill = (order: Order) => {
     const doc = new jsPDF();
 
-    doc.setFontSize(22);
+    // HEADER
+    doc.setFillColor(37, 99, 235);
+    doc.rect(0, 0, 210, 30, "F");
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
     doc.text("KD Water Delivery", 20, 20);
 
-    doc.setFontSize(16);
-    doc.text("Order Invoice", 20, 35);
+    // RESET
+    doc.setTextColor(0, 0, 0);
 
-    doc.setFontSize(12);
+    // TITLE
+    doc.setFontSize(18);
+    doc.text("ORDER INVOICE", 20, 45);
 
-    doc.text(`Product: ${order.product}`, 20, 55);
-    doc.text(`Quantity: ${order.quantity}`, 20, 65);
-    doc.text(`Amount: ₹${order.amount}`, 20, 75);
-    doc.text(
-      `Payment: ${order.paymentMethod}`,
-      20,
-      85
+    // LINE
+    doc.setDrawColor(200);
+    doc.line(20, 50, 190, 50);
+
+    let y = 65;
+
+    const addRow = (
+      label: string,
+      value: string
+    ) => {
+      doc.setFont("helvetica", "bold");
+      doc.text(`${label}:`, 20, y);
+
+      doc.setFont("helvetica", "normal");
+      doc.text(value || "-", 80, y);
+
+      y += 12;
+    };
+
+    addRow("Product", order.product);
+
+    addRow(
+      "Quantity",
+      String(order.quantity)
     );
 
-    doc.text(`Status: ${order.status}`, 20, 95);
-
-    doc.text(
-      `Delivery Status: ${order.deliveryStatus}`,
-      20,
-      105
+    addRow(
+      "Amount",
+      `Rs. ${order.amount}`
     );
 
-    doc.text(
-      `Customer: ${order.customerName}`,
-      20,
-      120
+    addRow(
+      "Payment",
+      order.paymentMethod
     );
 
-    doc.text(`Mobile: ${order.mobile}`, 20, 130);
-
-    doc.text(`Address: ${order.address}`, 20, 140);
-
-    doc.text(
-      `${order.city} - ${order.pincode}`,
-      20,
-      150
+    addRow(
+      "Payment Status",
+      order.status
     );
 
-    doc.text(
-      `Date: ${new Date(
+    addRow(
+      "Delivery Status",
+      order.deliveryStatus
+    );
+
+    addRow(
+      "Customer",
+      order.customerName || "-"
+    );
+
+    addRow(
+      "Mobile",
+      order.mobile || "-"
+    );
+
+    addRow(
+      "Address",
+      order.address || "-"
+    );
+
+    addRow(
+      "City / Pincode",
+      `${order.city || "-"} - ${
+        order.pincode || "-"
+      }`
+    );
+
+    addRow(
+      "Order Date",
+      new Date(
         order.createdAt
-      ).toLocaleString()}`,
+      ).toLocaleString()
+    );
+
+    // FOOTER
+    doc.setFontSize(11);
+
+    doc.setTextColor(120);
+
+    doc.text(
+      "Thank you for ordering from KD Water Delivery",
       20,
-      165
+      270
     );
 
     doc.save(`invoice-${order.id}.pdf`);
+  };
+
+  /* ================= PRINT BILL ================= */
+
+  const printBill = (order: Order) => {
+    const printWindow = window.open(
+      "",
+      "_blank"
+    );
+
+    if (!printWindow) return;
+
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Invoice</title>
+
+          <style>
+            body{
+              font-family: Arial;
+              padding:40px;
+            }
+
+            h1{
+              color:#2563eb;
+            }
+
+            .box{
+              border:1px solid #ddd;
+              padding:20px;
+              border-radius:10px;
+            }
+
+            p{
+              margin:10px 0;
+              font-size:16px;
+            }
+          </style>
+        </head>
+
+        <body>
+
+          <div class="box">
+
+            <h1>KD Water Delivery</h1>
+
+            <h2>Order Invoice</h2>
+
+            <p><b>Product:</b> ${
+              order.product
+            }</p>
+
+            <p><b>Quantity:</b> ${
+              order.quantity
+            }</p>
+
+            <p><b>Amount:</b> ₹${
+              order.amount
+            }</p>
+
+            <p><b>Payment:</b> ${
+              order.paymentMethod
+            }</p>
+
+            <p><b>Payment Status:</b> ${
+              order.status
+            }</p>
+
+            <p><b>Delivery Status:</b> ${
+              order.deliveryStatus
+            }</p>
+
+            <hr/>
+
+            <p><b>Customer:</b> ${
+              order.customerName || "-"
+            }</p>
+
+            <p><b>Mobile:</b> ${
+              order.mobile || "-"
+            }</p>
+
+            <p><b>Address:</b> ${
+              order.address || "-"
+            }</p>
+
+            <p><b>City:</b> ${
+              order.city || "-"
+            }</p>
+
+            <p><b>Pincode:</b> ${
+              order.pincode || "-"
+            }</p>
+
+            <hr/>
+
+            <p>
+              <b>Date:</b>
+              ${new Date(
+                order.createdAt
+              ).toLocaleString()}
+            </p>
+
+          </div>
+
+          <script>
+            window.onload = function() {
+              window.print();
+            }
+          </script>
+
+        </body>
+      </html>
+    `);
+
+    printWindow.document.close();
   };
 
   /* ================= FETCH ORDERS ================= */
@@ -114,8 +282,6 @@ const MyOrders = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
 
-      {/* HEADER */}
-
       <div className="flex justify-between items-center mb-6">
 
         <h2 className="text-3xl font-bold">
@@ -128,10 +294,7 @@ const MyOrders = () => {
         >
           ← Back To Home
         </button>
-
       </div>
-
-      {/* EMPTY */}
 
       {orders.length === 0 ? (
 
@@ -150,126 +313,34 @@ const MyOrders = () => {
               className="bg-white p-6 rounded-2xl shadow"
             >
 
-              {/* TOP */}
+              <h3 className="text-3xl font-bold mb-2">
+                {order.product}
+              </h3>
 
-              <div className="flex flex-col lg:flex-row justify-between gap-6">
+              <p className="text-2xl font-bold text-green-600">
+                ₹{order.amount}
+              </p>
 
-                {/* LEFT */}
+              <p className="mt-3">
+                Quantity: {order.quantity}
+              </p>
 
-                <div>
+              <p className="mt-2">
+                Payment Method:{" "}
+                {order.paymentMethod}
+              </p>
 
-                  <h3 className="text-3xl font-bold mb-2">
-                    {order.product}
-                  </h3>
+              <p className="mt-2">
 
-                  <p className="text-2xl font-bold text-green-600">
-                    ₹{order.amount}
-                  </p>
+                Payment Status:
 
-                  <p className="mt-3">
-                    Quantity: {order.quantity}
-                  </p>
+                <span className="ml-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
+                  {order.status}
+                </span>
 
-                  <p className="mt-2">
-                    Payment Method:{" "}
-                    {order.paymentMethod}
-                  </p>
+              </p>
 
-                  {/* PAYMENT STATUS */}
-
-                  <p className="mt-2">
-
-                    Payment Status:
-
-                    <span className="ml-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
-                      {order.status}
-                    </span>
-
-                  </p>
-
-                </div>
-
-                {/* RIGHT */}
-
-                <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-[250px]">
-
-                  <p className="font-bold text-green-700 text-lg">
-                    Estimated Delivery
-                  </p>
-
-                  <p className="text-green-600 mt-2 text-xl font-semibold">
-                    Tomorrow, 5:00 PM
-                  </p>
-
-                  <p className="text-sm text-gray-500 mt-2">
-                    Fast & Safe Delivery
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* DELIVERY STATUS */}
-
-              <div className="mt-8">
-
-                <p className="mb-6 text-lg font-semibold">
-
-                  Delivery Status:
-
-                  <span
-                    className={`ml-3 px-4 py-1 rounded-full text-sm font-bold ${
-                      order.deliveryStatus === "Ordered"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : order.deliveryStatus === "Confirmed"
-                        ? "bg-blue-100 text-blue-700"
-                        : order.deliveryStatus ===
-                          "Out For Delivery"
-                        ? "bg-orange-100 text-orange-700"
-                        : "bg-green-100 text-green-700"
-                    }`}
-                  >
-                    {order.deliveryStatus}
-                  </span>
-
-                </p>
-
-              </div>
-
-              {/* ADDRESS */}
-
-              <div className="mt-8 border-t pt-6">
-
-                <h4 className="font-bold text-xl mb-3">
-                  Delivery Address
-                </h4>
-
-                <div className="space-y-1 text-gray-700">
-
-                  <p>
-                    {order.customerName || "-"}
-                  </p>
-
-                  <p>
-                    {order.mobile || "-"}
-                  </p>
-
-                  <p>
-                    {order.address || "-"}
-                  </p>
-
-                  <p>
-                    {order.city || "-"} -{" "}
-                    {order.pincode || "-"}
-                  </p>
-
-                </div>
-
-              </div>
-
-              {/* BUTTONS */}
-
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="mt-6 flex gap-3 flex-wrap">
 
                 <button
                   onClick={() =>
@@ -281,31 +352,15 @@ const MyOrders = () => {
                 </button>
 
                 <button
-                  onClick={() => window.print()}
+                  onClick={() =>
+                    printBill(order)
+                  }
                   className="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-xl font-semibold"
                 >
                   Print Bill
                 </button>
 
               </div>
-
-              {/* CANCEL */}
-
-              {order.deliveryStatus ===
-                "Ordered" && (
-
-                <div className="mt-6">
-
-                  <button
-                    className="border border-red-500 text-red-500 px-6 py-3 rounded-xl hover:bg-red-500 hover:text-white transition font-semibold"
-                  >
-                    Cancel Order
-                  </button>
-
-                </div>
-              )}
-
-              {/* DATE */}
 
               <p className="text-sm text-gray-500 mt-8">
 
