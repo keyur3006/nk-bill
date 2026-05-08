@@ -17,7 +17,7 @@ const Navbar = () => {
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/my-orders">
-            <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+            <button className="  px-2  rounded-lg">
               My Orders
             </button>
           </Link>

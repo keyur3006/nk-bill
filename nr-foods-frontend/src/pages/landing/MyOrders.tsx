@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/api";
+import { useNavigate } from "react-router-dom";
 
 interface Order {
   id: number;
@@ -28,6 +29,7 @@ interface Order {
 }
 
 const MyOrders = () => {
+  const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
@@ -69,6 +71,12 @@ const MyOrders = () => {
       <h2 className="text-3xl font-bold mb-6">
         My Orders
       </h2>
+      <button
+    onClick={() => navigate("/")}
+    className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
+  >
+    ← Back To Home
+  </button>
 
       {orders.length === 0 ? (
         <div className="bg-white p-6 rounded-2xl shadow">
