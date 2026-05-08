@@ -48,7 +48,7 @@ localStorage.setItem("userId", user.id);
       if (user.role === "ADMIN") {
         navigate("/dashboard");
       } else {
-        navigate("/delivery"); // karigar mate
+        navigate("/"); // karigar mate
       }
     } catch (error: any) {
       toast.error(
