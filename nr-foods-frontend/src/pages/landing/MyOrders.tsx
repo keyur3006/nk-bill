@@ -1,32 +1,21 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import jsPDF from "jspdf";
 
 interface Order {
   id: number;
-
   product: string;
-
   amount: number;
-
   paymentMethod: string;
-
   status: string;
-
   deliveryStatus: string;
-
   createdAt: string;
-
   quantity: number;
-
   customerName: string;
-
   mobile: string;
-
   address: string;
-
   city: string;
-
   pincode: string;
 }
 
@@ -35,10 +24,70 @@ const MyOrders = () => {
 
   const [orders, setOrders] = useState<Order[]>([]);
 
+  /* ================= PDF DOWNLOAD ================= */
+
+  const downloadBill = (order: Order) => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(22);
+    doc.text("KD Water Delivery", 20, 20);
+
+    doc.setFontSize(16);
+    doc.text("Order Invoice", 20, 35);
+
+    doc.setFontSize(12);
+
+    doc.text(`Product: ${order.product}`, 20, 55);
+    doc.text(`Quantity: ${order.quantity}`, 20, 65);
+    doc.text(`Amount: ₹${order.amount}`, 20, 75);
+    doc.text(
+      `Payment: ${order.paymentMethod}`,
+      20,
+      85
+    );
+
+    doc.text(`Status: ${order.status}`, 20, 95);
+
+    doc.text(
+      `Delivery Status: ${order.deliveryStatus}`,
+      20,
+      105
+    );
+
+    doc.text(
+      `Customer: ${order.customerName}`,
+      20,
+      120
+    );
+
+    doc.text(`Mobile: ${order.mobile}`, 20, 130);
+
+    doc.text(`Address: ${order.address}`, 20, 140);
+
+    doc.text(
+      `${order.city} - ${order.pincode}`,
+      20,
+      150
+    );
+
+    doc.text(
+      `Date: ${new Date(
+        order.createdAt
+      ).toLocaleString()}`,
+      20,
+      165
+    );
+
+    doc.save(`invoice-${order.id}.pdf`);
+  };
+
+  /* ================= FETCH ORDERS ================= */
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token =
+          localStorage.getItem("token");
 
         const res = await api.get(
           "/orders/my-orders",
@@ -49,18 +98,13 @@ const MyOrders = () => {
           }
         );
 
-        console.log("Orders API:", res.data);
-
         setOrders(
           Array.isArray(res.data)
             ? res.data
             : []
         );
       } catch (error) {
-        console.error(
-          "Fetch Orders Error:",
-          error
-        );
+        console.error(error);
       }
     };
 
@@ -70,7 +114,7 @@ const MyOrders = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
 
-      {/* ================= HEADER ================= */}
+      {/* HEADER */}
 
       <div className="flex justify-between items-center mb-6">
 
@@ -87,14 +131,12 @@ const MyOrders = () => {
 
       </div>
 
-      {/* ================= EMPTY ================= */}
+      {/* EMPTY */}
 
       {orders.length === 0 ? (
 
         <div className="bg-white p-6 rounded-2xl shadow">
-
           No orders found
-
         </div>
 
       ) : (
@@ -108,62 +150,39 @@ const MyOrders = () => {
               className="bg-white p-6 rounded-2xl shadow"
             >
 
-              {/* ================= TOP SECTION ================= */}
+              {/* TOP */}
 
-              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
+              <div className="flex flex-col lg:flex-row justify-between gap-6">
 
                 {/* LEFT */}
 
                 <div>
 
-                  {/* PRODUCT */}
-
                   <h3 className="text-3xl font-bold mb-2">
-
                     {order.product}
-
                   </h3>
 
-                  {/* PRICE */}
-
                   <p className="text-2xl font-bold text-green-600">
-
                     ₹{order.amount}
-
                   </p>
 
-                  {/* QUANTITY */}
-
-                  <p className="mt-3 text-gray-700">
-
+                  <p className="mt-3">
                     Quantity: {order.quantity}
-
                   </p>
 
-                  {/* PAYMENT */}
-
-                  <p className="mt-2 text-gray-700">
-
+                  <p className="mt-2">
                     Payment Method:{" "}
-
-                    <span className="font-semibold">
-
-                      {order.paymentMethod}
-
-                    </span>
-
+                    {order.paymentMethod}
                   </p>
 
                   {/* PAYMENT STATUS */}
 
-                  <p className="mt-2 text-gray-700">
+                  <p className="mt-2">
 
                     Payment Status:
 
                     <span className="ml-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
-
                       {order.status}
-
                     </span>
 
                   </p>
@@ -175,28 +194,22 @@ const MyOrders = () => {
                 <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-[250px]">
 
                   <p className="font-bold text-green-700 text-lg">
-
                     Estimated Delivery
-
                   </p>
 
                   <p className="text-green-600 mt-2 text-xl font-semibold">
-
                     Tomorrow, 5:00 PM
-
                   </p>
 
                   <p className="text-sm text-gray-500 mt-2">
-
                     Fast & Safe Delivery
-
                   </p>
 
                 </div>
 
               </div>
 
-              {/* ================= DELIVERY STATUS ================= */}
+              {/* DELIVERY STATUS */}
 
               <div className="mt-8">
 
@@ -221,139 +234,20 @@ const MyOrders = () => {
 
                 </p>
 
-                {/* ================= TRACKER ================= */}
-
-                <div className="relative mt-10">
-
-                  {/* LINE */}
-
-                  <div className="absolute top-5 left-0 w-full h-1 bg-gray-200"></div>
-
-                  <div className="relative flex justify-between">
-
-                    {/* ORDERED */}
-
-                    <div className="flex flex-col items-center z-10">
-
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
-                          [
-                            "Ordered",
-                            "Confirmed",
-                            "Out For Delivery",
-                            "Delivered",
-                          ].includes(order.deliveryStatus)
-                            ? "bg-yellow-500"
-                            : "bg-gray-300"
-                        }`}
-                      >
-                        ✓
-                      </div>
-
-                      <p className="mt-3 text-sm font-medium">
-
-                        Ordered
-
-                      </p>
-
-                    </div>
-
-                    {/* CONFIRMED */}
-
-                    <div className="flex flex-col items-center z-10">
-
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
-                          [
-                            "Confirmed",
-                            "Out For Delivery",
-                            "Delivered",
-                          ].includes(order.deliveryStatus)
-                            ? "bg-blue-500"
-                            : "bg-gray-300"
-                        }`}
-                      >
-                        ✓
-                      </div>
-
-                      <p className="mt-3 text-sm font-medium">
-
-                        Confirmed
-
-                      </p>
-
-                    </div>
-
-                    {/* OUT FOR DELIVERY */}
-
-                    <div className="flex flex-col items-center z-10">
-
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
-                          [
-                            "Out For Delivery",
-                            "Delivered",
-                          ].includes(order.deliveryStatus)
-                            ? "bg-orange-500"
-                            : "bg-gray-300"
-                        }`}
-                      >
-                        🚚
-                      </div>
-
-                      <p className="mt-3 text-sm font-medium text-center">
-
-                        Out For Delivery
-
-                      </p>
-
-                    </div>
-
-                    {/* DELIVERED */}
-
-                    <div className="flex flex-col items-center z-10">
-
-                      <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
-                          order.deliveryStatus ===
-                          "Delivered"
-                            ? "bg-green-500"
-                            : "bg-gray-300"
-                        }`}
-                      >
-                        ✓
-                      </div>
-
-                      <p className="mt-3 text-sm font-medium">
-
-                        Delivered
-
-                      </p>
-
-                    </div>
-
-                  </div>
-
-                </div>
-
               </div>
 
-              {/* ================= ADDRESS ================= */}
+              {/* ADDRESS */}
 
-              <div className="mt-10 border-t pt-6">
+              <div className="mt-8 border-t pt-6">
 
                 <h4 className="font-bold text-xl mb-3">
-
                   Delivery Address
-
                 </h4>
 
-                <div className="text-gray-700 space-y-1">
+                <div className="space-y-1 text-gray-700">
 
-                  <p className="font-semibold">
-
+                  <p>
                     {order.customerName || "-"}
-
                   </p>
 
                   <p>
@@ -373,12 +267,34 @@ const MyOrders = () => {
 
               </div>
 
-              {/* ================= CANCEL BUTTON ================= */}
+              {/* BUTTONS */}
+
+              <div className="mt-6 flex flex-wrap gap-3">
+
+                <button
+                  onClick={() =>
+                    downloadBill(order)
+                  }
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold"
+                >
+                  Download PDF
+                </button>
+
+                <button
+                  onClick={() => window.print()}
+                  className="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-xl font-semibold"
+                >
+                  Print Bill
+                </button>
+
+              </div>
+
+              {/* CANCEL */}
 
               {order.deliveryStatus ===
                 "Ordered" && (
 
-                <div className="mt-8">
+                <div className="mt-6">
 
                   <button
                     className="border border-red-500 text-red-500 px-6 py-3 rounded-xl hover:bg-red-500 hover:text-white transition font-semibold"
@@ -386,16 +302,10 @@ const MyOrders = () => {
                     Cancel Order
                   </button>
 
-                  <p className="text-sm text-red-500 mt-2">
-
-                    You can cancel this order
-
-                  </p>
-
                 </div>
               )}
 
-              {/* ================= DATE ================= */}
+              {/* DATE */}
 
               <p className="text-sm text-gray-500 mt-8">
 
@@ -409,24 +319,8 @@ const MyOrders = () => {
 
             </div>
           ))}
-
         </div>
       )}
-
-      {/* ================= FOOTER NOTE ================= */}
-
-      <div className="mt-10 bg-blue-50 border border-blue-200 p-4 rounded-xl">
-
-        <p className="text-blue-700 font-medium">
-
-          ℹ️ Note: You can cancel an
-          order only when the delivery
-          status is "Ordered".
-
-        </p>
-
-      </div>
-
     </div>
   );
 };
