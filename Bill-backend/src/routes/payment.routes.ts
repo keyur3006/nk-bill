@@ -53,14 +53,20 @@ router.post(
   authenticate,
   async (req: AuthRequest, res) => {
     try {
-      const {
-        razorpay_order_id,
-        razorpay_payment_id,
-        razorpay_signature,
-        product,
-        amount,
-        quantity,
-      } = req.body;
+    const {
+  razorpay_order_id,
+  razorpay_payment_id,
+  razorpay_signature,
+  product,
+  amount,
+  quantity,
+
+  customerName,
+  mobile,
+  address,
+  city,
+  pincode,
+} = req.body;
 
       // ✅ User from token
       const userId = req.user?.id;
@@ -89,17 +95,31 @@ router.post(
       }
 
       // ✅ Save order
-      const order = await prisma.order.create({
-        data: {
-          userId: Number(userId),
-          product,
-          amount,
-          quantity,
-          paymentMethod: "ONLINE",
-          status: "confirmed",
-        },
-      });
+   const order = await prisma.order.create({
+  data: {
+    userId: Number(userId),
 
+    product,
+
+    amount,
+
+    quantity,
+
+    customerName,
+
+    mobile,
+
+    address,
+
+    city,
+
+    pincode,
+
+    paymentMethod: "ONLINE",
+
+    status: "confirmed",
+  },
+});
       // ✅ Save payment
       await prisma.payment.create({
         data: {
