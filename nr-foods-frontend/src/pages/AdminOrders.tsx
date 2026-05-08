@@ -8,6 +8,7 @@ const AdminOrders = () => {
     const fetchOrders = async () => {
       try {
         const res = await api.get("/orders/all");
+
         setOrders(res.data);
       } catch (err) {
         console.error(err);
@@ -17,18 +18,26 @@ const AdminOrders = () => {
     fetchOrders();
   }, []);
 
-  const totalRevenue = orders.reduce((sum, o) => sum + o.amount, 0);
+  const totalRevenue = orders.reduce(
+    (sum, o) => sum + o.amount,
+    0
+  );
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
+
         <h1 className="text-3xl font-bold text-gray-800">
           📦 All Orders (Admin)
         </h1>
 
         <div className="bg-white shadow px-4 py-2 rounded-lg">
-          <p className="text-sm text-gray-500">Total Revenue</p>
+          <p className="text-sm text-gray-500">
+            Total Revenue
+          </p>
+
           <p className="text-xl font-bold text-green-600">
             ₹{totalRevenue}
           </p>
@@ -37,14 +46,18 @@ const AdminOrders = () => {
 
       {/* Orders Grid */}
       {orders.length === 0 ? (
-        <p className="text-gray-500">No orders found</p>
+        <p className="text-gray-500">
+          No orders found
+        </p>
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
           {orders.map((order) => (
             <div
               key={order.id}
               className="bg-white rounded-xl shadow-md p-5 border hover:shadow-lg transition"
             >
+
               {/* Product */}
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 {order.product}
@@ -52,8 +65,16 @@ const AdminOrders = () => {
 
               {/* Details */}
               <div className="space-y-1 text-sm text-gray-600">
-                <p>👤 <span className="font-medium">{order.user?.email}</span></p>
+
+                <p>
+                  👤{" "}
+                  <span className="font-medium">
+                    {order.user?.email}
+                  </span>
+                </p>
+
                 <p>💰 ₹{order.amount}</p>
+
                 <p>💳 {order.paymentMethod}</p>
 
                 {/* Status Badge */}
@@ -68,9 +89,36 @@ const AdminOrders = () => {
                 </span>
               </div>
 
+              {/* ✅ Address Section */}
+              <div className="mt-4 border-t pt-3 text-sm text-gray-700">
+
+                <p className="font-semibold mb-1">
+                  📍 Delivery Address
+                </p>
+
+                <p>
+                  {order.customerName}
+                </p>
+
+                <p>
+                  {order.mobile}
+                </p>
+
+                <p>
+                  {order.address}
+                </p>
+
+                <p>
+                  {order.city} - {order.pincode}
+                </p>
+
+              </div>
+
               {/* Date */}
               <p className="text-xs text-gray-400 mt-3">
-                {new Date(order.createdAt).toLocaleString()}
+                {new Date(
+                  order.createdAt
+                ).toLocaleString()}
               </p>
             </div>
           ))}
