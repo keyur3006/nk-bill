@@ -73,10 +73,7 @@ const MyOrders = () => {
     y += 12;
   }
 };
-addRow(
-  "Address",
-  order.address
-);
+
   addRow("Product", order.product);
 
   addRow(
@@ -114,10 +111,13 @@ addRow(
     order.mobile
   );
 
-  addRow(
-    "Address",
-    order.address
-  );
+ addRow(
+  "Address",
+  doc.splitTextToSize(
+    order.address || "-",
+    100
+  )
+);
 
   addRow(
     "City / Pincode",
