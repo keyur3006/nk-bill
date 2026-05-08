@@ -36,7 +36,7 @@ const user = JSON.parse(localStorage.getItem("user") || "{}");
 const role = user?.role || "KARIGAR";
 
 const navItems =
-  role === "ADMIN"
+  role === "ADMIN" || role === "SUPER_ADMIN"
     ? [
         { label: "Dashboard", path: "/dashboard", icon: LayoutDashboard },
         { label: "Customers", path: "/customers", icon: Users },
