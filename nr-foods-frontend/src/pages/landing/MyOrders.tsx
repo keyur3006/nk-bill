@@ -73,7 +73,10 @@ const MyOrders = () => {
     y += 12;
   }
 };
-
+addRow(
+  "Address",
+  order.address
+);
   addRow("Product", order.product);
 
   addRow(
