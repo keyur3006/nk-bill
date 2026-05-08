@@ -132,5 +132,21 @@ router.post("/login", async (req: Request, res: Response) => {
     });
   }
 });
+router.get("/all-users", async (req, res) => {
 
+  try {
+
+    const users = await prisma.user.findMany();
+
+    res.json(users);
+
+  } catch (error) {
+
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed",
+    });
+  }
+});
 export default router;
