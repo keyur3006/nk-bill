@@ -17,9 +17,7 @@ const Navbar = () => {
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/my-orders">
-            <button className="  px-2  rounded-lg">
-              My Orders
-            </button>
+            <button className="  px-2  rounded-lg">My Orders</button>
           </Link>
           <Link
             to="/login"
@@ -79,6 +77,9 @@ const Navbar = () => {
           </Link>
           <Link to="/contact" onClick={() => setMenuOpen(false)}>
             Contact
+          </Link>
+          <Link to="/my-orders" onClick={() => setMenuOpen(false)}>
+            My Orders
           </Link>
           <Link
             to="/login"
