@@ -7,9 +7,12 @@ const AdminOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await api.get("/orders/all");
+        const res = await api.get(
+          "/orders/all"
+        );
 
         setOrders(res.data);
+
       } catch (err) {
         console.error(err);
       }
@@ -26,7 +29,8 @@ const AdminOrders = () => {
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
 
-      {/* Header */}
+      {/* ================= HEADER ================= */}
+
       <div className="flex justify-between items-center mb-6">
 
         <h1 className="text-3xl font-bold text-gray-800">
@@ -34,6 +38,7 @@ const AdminOrders = () => {
         </h1>
 
         <div className="bg-white shadow px-4 py-2 rounded-lg">
+
           <p className="text-sm text-gray-500">
             Total Revenue
           </p>
@@ -41,10 +46,13 @@ const AdminOrders = () => {
           <p className="text-xl font-bold text-green-600">
             ₹{totalRevenue}
           </p>
+
         </div>
+
       </div>
 
-      {/* Orders Grid */}
+      {/* ================= ORDERS ================= */}
+
       {orders.length === 0 ? (
         <p className="text-gray-500">
           No orders found
@@ -58,12 +66,12 @@ const AdminOrders = () => {
               className="bg-white rounded-xl shadow-md p-5 border hover:shadow-lg transition"
             >
 
-              {/* Product */}
+              {/* PRODUCT */}
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
                 {order.product}
               </h3>
 
-              {/* Details */}
+              {/* DETAILS */}
               <div className="space-y-1 text-sm text-gray-600">
 
                 <p>
@@ -73,23 +81,30 @@ const AdminOrders = () => {
                   </span>
                 </p>
 
-                <p>💰 ₹{order.amount}</p>
+                <p>
+                  💰 ₹{order.amount}
+                </p>
 
-                <p>💳 {order.paymentMethod}</p>
+                <p>
+                  💳 {order.paymentMethod}
+                </p>
 
-                {/* Status Badge */}
+                {/* PAYMENT STATUS */}
                 <span
                   className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
-                    order.status === "confirmed"
+                    order.status ===
+                    "confirmed"
                       ? "bg-green-100 text-green-600"
                       : "bg-yellow-100 text-yellow-600"
                   }`}
                 >
                   {order.status}
                 </span>
+
               </div>
 
-              {/* ✅ Address Section */}
+              {/* ================= ADDRESS ================= */}
+
               <div className="mt-4 border-t pt-3 text-sm text-gray-700">
 
                 <p className="font-semibold mb-1">
@@ -109,17 +124,92 @@ const AdminOrders = () => {
                 </p>
 
                 <p>
-                  {order.city} - {order.pincode}
+                  {order.city} -{" "}
+                  {order.pincode}
                 </p>
 
               </div>
 
-              {/* Date */}
-              <p className="text-xs text-gray-400 mt-3">
+              {/* ================= DELIVERY TRACKING ================= */}
+
+              <div className="mt-4">
+
+                <p className="font-semibold mb-2">
+                  Delivery Status
+                </p>
+
+                <select
+                  value={
+                    order.deliveryStatus
+                  }
+                  onChange={async (
+                    e
+                  ) => {
+                    try {
+
+                      await api.put(
+                        `/orders/update-status/${order.id}`,
+                        {
+                          deliveryStatus:
+                            e.target.value,
+                        }
+                      );
+
+                      setOrders(
+                        (prev) =>
+                          prev.map((o) =>
+                            o.id ===
+                            order.id
+                              ? {
+                                  ...o,
+                                  deliveryStatus:
+                                    e.target
+                                      .value,
+                                }
+                              : o
+                          )
+                      );
+
+                    } catch (error) {
+
+                      console.error(
+                        error
+                      );
+                    }
+                  }}
+                  className="w-full border rounded-lg px-3 py-2"
+                >
+
+                  <option>
+                    Ordered
+                  </option>
+
+                  <option>
+                    Confirmed
+                  </option>
+
+                  <option>
+                    Out For Delivery
+                  </option>
+
+                  <option>
+                    Delivered
+                  </option>
+
+                </select>
+
+              </div>
+
+              {/* DATE */}
+
+              <p className="text-xs text-gray-400 mt-4">
+
                 {new Date(
                   order.createdAt
                 ).toLocaleString()}
+
               </p>
+
             </div>
           ))}
         </div>
