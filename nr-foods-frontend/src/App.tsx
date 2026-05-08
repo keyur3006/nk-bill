@@ -19,6 +19,7 @@ import MyOrders from "../src/pages/landing/MyOrders";
 import AdminOrders from "./pages/AdminOrders";
 import OrderPage from "./pages/OrderPage";
 import Profile from "./pages/Profile";
+import Users from "./pages/Users";
 // 🌐 PUBLIC PAGES
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -58,6 +59,7 @@ function App() {
           <Route path="/delivery" element={<DeliveryPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin-orders" element={<AdminOrders />} />
+          <Route path="/users" element={<Users />} />
         </Route>
       </Routes>
     </>

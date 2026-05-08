@@ -46,6 +46,7 @@ const navItems =
         { label: "Delivery", path: "/delivery", icon: Truck },
         { label: "Orders", path: "/admin-orders", icon: ShoppingCart },
         { label: "Admin Panel", path: "/admin", icon: Users },
+        { label: "All Users", path: "/users", icon: Users },
       ]
     : [
         { label: "Delivery", path: "/delivery", icon: Truck },
