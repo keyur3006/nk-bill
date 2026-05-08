@@ -6,18 +6,21 @@ const Navbar = () => {
 
   return (
     <div className="w-full shadow-sm">
-
       {/* TOP BAR */}
       <div className="bg-blue-900 h-2 w-full"></div>
 
       {/* MAIN NAVBAR */}
       <div className="flex items-center justify-between px-4 md:px-10 py-4 md:py-6 bg-white relative">
-
         {/* LEFT MENU (Desktop) */}
         <div className="hidden md:flex gap-6 text-blue-900 font-medium">
           <Link to="/">Home</Link>
           <Link to="/about">About</Link>
           <Link to="/contact">Contact</Link>
+          <Link to="/my-orders">
+            <button className="bg-green-500 text-white px-4 py-2 rounded-lg">
+              My Orders
+            </button>
+          </Link>
           <Link
             to="/login"
             className="bg-blue-600 text-white px-4 py-1 rounded"
@@ -43,7 +46,6 @@ const Navbar = () => {
 
         {/* RIGHT SIDE (Desktop only) */}
         <div className="hidden md:flex items-center gap-6">
-
           {/* PHONE */}
           <div className="flex items-center gap-2 text-blue-900">
             <span className="text-xl">📞</span>
@@ -63,16 +65,21 @@ const Navbar = () => {
               <p className="text-blue-400">(Item: 02)</p>
             </div>
           </div>
-
         </div>
       </div>
 
       {/* MOBILE MENU DROPDOWN */}
       {menuOpen && (
         <div className="md:hidden bg-white shadow px-6 py-4 space-y-4 text-blue-900 font-medium">
-          <Link to="/" onClick={() => setMenuOpen(false)}>Home</Link>
-          <Link to="/about" onClick={() => setMenuOpen(false)}>About</Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>Contact</Link>
+          <Link to="/" onClick={() => setMenuOpen(false)}>
+            Home
+          </Link>
+          <Link to="/about" onClick={() => setMenuOpen(false)}>
+            About
+          </Link>
+          <Link to="/contact" onClick={() => setMenuOpen(false)}>
+            Contact
+          </Link>
           <Link
             to="/login"
             onClick={() => setMenuOpen(false)}
