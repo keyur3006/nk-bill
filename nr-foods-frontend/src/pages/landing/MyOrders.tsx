@@ -3,11 +3,28 @@ import api from "../../utils/api";
 
 interface Order {
   id: number;
+
   product: string;
+
   amount: number;
+
   paymentMethod: string;
+
   status: string;
+
   createdAt: string;
+
+  quantity: number;
+
+  customerName: string;
+
+  mobile: string;
+
+  address: string;
+
+  city: string;
+
+  pincode: string;
 }
 
 const MyOrders = () => {
@@ -16,20 +33,30 @@ const MyOrders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // ✅ token localStorage mathi
-        const token = localStorage.getItem("token");
+        const token =
+          localStorage.getItem("token");
 
-        const res = await api.get("/orders/my-orders", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await api.get(
+          "/orders/my-orders",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         console.log("Orders API:", res.data);
 
-        setOrders(Array.isArray(res.data) ? res.data : []);
+        setOrders(
+          Array.isArray(res.data)
+            ? res.data
+            : []
+        );
       } catch (error) {
-        console.error("Fetch Orders Error:", error);
+        console.error(
+          "Fetch Orders Error:",
+          error
+        );
       }
     };
 
@@ -37,33 +64,76 @@ const MyOrders = () => {
   }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">
+    <div className="min-h-screen bg-gray-100 p-6">
+
+      <h2 className="text-3xl font-bold mb-6">
         My Orders
       </h2>
 
       {orders.length === 0 ? (
-        <p>No orders found</p>
+        <div className="bg-white p-6 rounded-2xl shadow">
+          No orders found
+        </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-6">
           {orders.map((order) => (
             <div
               key={order.id}
-              className="border p-4 rounded shadow"
+              className="bg-white p-6 rounded-2xl shadow"
             >
-              <h3 className="font-semibold">
+              {/* PRODUCT */}
+              <h3 className="text-2xl font-bold mb-2">
                 {order.product}
               </h3>
 
-              <p>₹{order.amount}</p>
-
-              <p>
-                Method: {order.paymentMethod}
+              {/* PRICE */}
+              <p className="text-lg font-semibold text-green-600">
+                ₹{order.amount}
               </p>
 
-              <p>Status: {order.status}</p>
+              {/* QUANTITY */}
+              <p className="mt-2">
+                Quantity: {order.quantity}
+              </p>
 
-              <p className="text-sm text-gray-500">
+              {/* PAYMENT */}
+              <p>
+                Payment:{" "}
+                {order.paymentMethod}
+              </p>
+
+              {/* STATUS */}
+              <p>
+                Status:
+                <span className="ml-2 bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                  {order.status}
+                </span>
+              </p>
+
+              {/* ADDRESS */}
+              <div className="mt-4 border-t pt-4">
+
+                <h4 className="font-bold mb-2">
+                  Delivery Address
+                </h4>
+
+                <p>
+                  {order.customerName}
+                </p>
+
+                <p>{order.mobile}</p>
+
+                <p>{order.address}</p>
+
+                <p>
+                  {order.city} -{" "}
+                  {order.pincode}
+                </p>
+              </div>
+
+              {/* DATE */}
+              <p className="text-sm text-gray-500 mt-4">
+                Ordered on:{" "}
                 {new Date(
                   order.createdAt
                 ).toLocaleString()}

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
@@ -108,6 +107,8 @@ const Profile = () => {
 
       // ✅ Profile Completed
       localStorage.setItem("profileCompleted", "true");
+
+      localStorage.setItem("profile", JSON.stringify(form));
 
       toast.success("Address Saved");
       const redirectPath = localStorage.getItem("redirectAfterProfile");
