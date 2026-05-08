@@ -33,15 +33,12 @@ interface Order {
 const MyOrders = () => {
   const navigate = useNavigate();
 
-  const [orders, setOrders] = useState<
-    Order[]
-  >([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token =
-          localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         const res = await api.get(
           "/orders/my-orders",
@@ -52,19 +49,14 @@ const MyOrders = () => {
           }
         );
 
-        console.log(
-          "Orders API:",
-          res.data
-        );
+        console.log("Orders API:", res.data);
 
         setOrders(
           Array.isArray(res.data)
             ? res.data
             : []
         );
-
       } catch (error) {
-
         console.error(
           "Fetch Orders Error:",
           error
@@ -87,9 +79,7 @@ const MyOrders = () => {
         </h2>
 
         <button
-          onClick={() =>
-            navigate("/")
-          }
+          onClick={() => navigate("/")}
           className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
         >
           ← Back To Home
@@ -100,11 +90,13 @@ const MyOrders = () => {
       {/* ================= EMPTY ================= */}
 
       {orders.length === 0 ? (
+
         <div className="bg-white p-6 rounded-2xl shadow">
 
           No orders found
 
         </div>
+
       ) : (
 
         <div className="grid gap-6">
@@ -116,100 +108,296 @@ const MyOrders = () => {
               className="bg-white p-6 rounded-2xl shadow"
             >
 
-              {/* PRODUCT */}
+              {/* ================= TOP SECTION ================= */}
 
-              <h3 className="text-2xl font-bold mb-2">
+              <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
 
-                {order.product}
+                {/* LEFT */}
 
-              </h3>
+                <div>
 
-              {/* PRICE */}
+                  {/* PRODUCT */}
 
-              <p className="text-lg font-semibold text-green-600">
+                  <h3 className="text-3xl font-bold mb-2">
 
-                ₹{order.amount}
+                    {order.product}
 
-              </p>
+                  </h3>
 
-              {/* QUANTITY */}
+                  {/* PRICE */}
 
-              <p className="mt-2">
+                  <p className="text-2xl font-bold text-green-600">
 
-                Quantity: {order.quantity}
+                    ₹{order.amount}
 
-              </p>
+                  </p>
 
-              {/* PAYMENT */}
+                  {/* QUANTITY */}
 
-              <p className="mt-2">
+                  <p className="mt-3 text-gray-700">
 
-                Payment Method:{" "}
+                    Quantity: {order.quantity}
 
-                {order.paymentMethod}
+                  </p>
 
-              </p>
+                  {/* PAYMENT */}
 
-              {/* PAYMENT STATUS */}
+                  <p className="mt-2 text-gray-700">
 
-              <p className="mt-2">
+                    Payment Method:{" "}
 
-                Payment Status:
+                    <span className="font-semibold">
 
-                <span className="ml-2 bg-green-100 text-green-700 px-2 py-1 rounded text-sm">
+                      {order.paymentMethod}
 
-                  {order.status}
+                    </span>
 
-                </span>
+                  </p>
 
-              </p>
+                  {/* PAYMENT STATUS */}
 
-              {/* DELIVERY STATUS */}
+                  <p className="mt-2 text-gray-700">
 
-              <p className="mt-3">
+                    Payment Status:
 
-                Delivery Status:
+                    <span className="ml-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
 
-                <span className="ml-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                      {order.status}
 
-                  {order.deliveryStatus}
+                    </span>
 
-                </span>
+                  </p>
 
-              </p>
+                </div>
 
-              {/* ADDRESS */}
+                {/* RIGHT */}
 
-              <div className="mt-4 border-t pt-4">
+                <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-[250px]">
 
-                <h4 className="font-bold mb-2">
+                  <p className="font-bold text-green-700 text-lg">
+
+                    Estimated Delivery
+
+                  </p>
+
+                  <p className="text-green-600 mt-2 text-xl font-semibold">
+
+                    Tomorrow, 5:00 PM
+
+                  </p>
+
+                  <p className="text-sm text-gray-500 mt-2">
+
+                    Fast & Safe Delivery
+
+                  </p>
+
+                </div>
+
+              </div>
+
+              {/* ================= DELIVERY STATUS ================= */}
+
+              <div className="mt-8">
+
+                <p className="mb-6 text-lg font-semibold">
+
+                  Delivery Status:
+
+                  <span
+                    className={`ml-3 px-4 py-1 rounded-full text-sm font-bold ${
+                      order.deliveryStatus === "Ordered"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : order.deliveryStatus === "Confirmed"
+                        ? "bg-blue-100 text-blue-700"
+                        : order.deliveryStatus ===
+                          "Out For Delivery"
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-green-100 text-green-700"
+                    }`}
+                  >
+                    {order.deliveryStatus}
+                  </span>
+
+                </p>
+
+                {/* ================= TRACKER ================= */}
+
+                <div className="relative mt-10">
+
+                  {/* LINE */}
+
+                  <div className="absolute top-5 left-0 w-full h-1 bg-gray-200"></div>
+
+                  <div className="relative flex justify-between">
+
+                    {/* ORDERED */}
+
+                    <div className="flex flex-col items-center z-10">
+
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
+                          [
+                            "Ordered",
+                            "Confirmed",
+                            "Out For Delivery",
+                            "Delivered",
+                          ].includes(order.deliveryStatus)
+                            ? "bg-yellow-500"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        ✓
+                      </div>
+
+                      <p className="mt-3 text-sm font-medium">
+
+                        Ordered
+
+                      </p>
+
+                    </div>
+
+                    {/* CONFIRMED */}
+
+                    <div className="flex flex-col items-center z-10">
+
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
+                          [
+                            "Confirmed",
+                            "Out For Delivery",
+                            "Delivered",
+                          ].includes(order.deliveryStatus)
+                            ? "bg-blue-500"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        ✓
+                      </div>
+
+                      <p className="mt-3 text-sm font-medium">
+
+                        Confirmed
+
+                      </p>
+
+                    </div>
+
+                    {/* OUT FOR DELIVERY */}
+
+                    <div className="flex flex-col items-center z-10">
+
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
+                          [
+                            "Out For Delivery",
+                            "Delivered",
+                          ].includes(order.deliveryStatus)
+                            ? "bg-orange-500"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        🚚
+                      </div>
+
+                      <p className="mt-3 text-sm font-medium text-center">
+
+                        Out For Delivery
+
+                      </p>
+
+                    </div>
+
+                    {/* DELIVERED */}
+
+                    <div className="flex flex-col items-center z-10">
+
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center text-white text-lg font-bold ${
+                          order.deliveryStatus ===
+                          "Delivered"
+                            ? "bg-green-500"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        ✓
+                      </div>
+
+                      <p className="mt-3 text-sm font-medium">
+
+                        Delivered
+
+                      </p>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* ================= ADDRESS ================= */}
+
+              <div className="mt-10 border-t pt-6">
+
+                <h4 className="font-bold text-xl mb-3">
 
                   Delivery Address
 
                 </h4>
 
-                <p>
-                  {order.customerName}
-                </p>
+                <div className="text-gray-700 space-y-1">
 
-                <p>
-                  {order.mobile}
-                </p>
+                  <p className="font-semibold">
 
-                <p>
-                  {order.address}
-                </p>
+                    {order.customerName || "-"}
 
-                <p>
-                  {order.city} -{" "}
-                  {order.pincode}
-                </p>
+                  </p>
+
+                  <p>
+                    {order.mobile || "-"}
+                  </p>
+
+                  <p>
+                    {order.address || "-"}
+                  </p>
+
+                  <p>
+                    {order.city || "-"} -{" "}
+                    {order.pincode || "-"}
+                  </p>
+
+                </div>
 
               </div>
 
-              {/* DATE */}
+              {/* ================= CANCEL BUTTON ================= */}
 
-              <p className="text-sm text-gray-500 mt-4">
+              {order.deliveryStatus ===
+                "Ordered" && (
+
+                <div className="mt-8">
+
+                  <button
+                    className="border border-red-500 text-red-500 px-6 py-3 rounded-xl hover:bg-red-500 hover:text-white transition font-semibold"
+                  >
+                    Cancel Order
+                  </button>
+
+                  <p className="text-sm text-red-500 mt-2">
+
+                    You can cancel this order
+
+                  </p>
+
+                </div>
+              )}
+
+              {/* ================= DATE ================= */}
+
+              <p className="text-sm text-gray-500 mt-8">
 
                 Ordered on:{" "}
 
@@ -221,8 +409,24 @@ const MyOrders = () => {
 
             </div>
           ))}
+
         </div>
       )}
+
+      {/* ================= FOOTER NOTE ================= */}
+
+      <div className="mt-10 bg-blue-50 border border-blue-200 p-4 rounded-xl">
+
+        <p className="text-blue-700 font-medium">
+
+          ℹ️ Note: You can cancel an
+          order only when the delivery
+          status is "Ordered".
+
+        </p>
+
+      </div>
+
     </div>
   );
 };
