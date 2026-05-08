@@ -69,6 +69,41 @@ router.get(
   }
 );
 
+/* ================= UPDATE DELIVERY STATUS ================= */
+
+router.put(
+  "/update-status/:id",
+  async (req, res) => {
+    try {
+
+      const { deliveryStatus } =
+        req.body;
+
+      const order =
+        await prisma.order.update({
+          where: {
+            id: Number(req.params.id),
+          },
+
+          data: {
+            deliveryStatus,
+          },
+        });
+
+      res.json(order);
+
+    } catch (error) {
+
+      console.error(error);
+
+      res.status(500).json({
+        message:
+          "Failed to update status",
+      });
+    }
+  }
+);
+
 /* ================= ALL ORDERS ================= */
 
 router.get("/all", async (req, res) => {

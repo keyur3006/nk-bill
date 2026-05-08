@@ -88,24 +88,32 @@ model Bottle {
 }
 
 model Order {
-  id            Int      @id @default(autoincrement())
-  userId        Int
-  user          User     @relation(fields: [userId], references: [id])
-  quantity      Int      @default(1)
-  customerName  String?
-  mobile        String?
-  address       String?
-  city          String?
-  pincode       String?
-  product       String
-  amount        Int
-  paymentMethod String
-  status        String   @default("pending") // pending, confirmed
-  createdAt     DateTime @default(now())
+  id              Int      @id @default(autoincrement())
 
-  payments Payment[]
+  userId          Int
+  user             User     @relation(fields: [userId], references: [id])
+
+  quantity         Int      @default(1)
+
+  customerName     String?
+  mobile           String?
+  address          String?
+  city             String?
+  pincode          String?
+
+  product          String
+  amount           Int
+
+  paymentMethod    String
+
+  status           String   @default("pending")
+
+  deliveryStatus   String   @default("Ordered")
+
+  createdAt        DateTime @default(now())
+
+  payments         Payment[]
 }
-
 model Payment {
   id      Int @id @default(autoincrement())
   userId  Int
