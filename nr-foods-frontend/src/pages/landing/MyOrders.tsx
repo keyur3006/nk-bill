@@ -54,17 +54,25 @@ const MyOrders = () => {
   let y = 65;
 
   const addRow = (
-    label: string,
-    value: string
-  ) => {
+  label: string,
+  value: any
+) => {
+
   doc.setFont("helvetica", "bold");
-    doc.text(label, 20, y);
 
-    doc.setFont("helvetica", "normal");
-    doc.text(value, 80, y);
+  doc.text(`${label}:`, 20, y);
 
+  doc.setFont("helvetica", "normal");
+
+  doc.text(value, 80, y);
+
+  // ✅ Auto line height
+  if (Array.isArray(value)) {
+    y += value.length * 10;
+  } else {
     y += 12;
-  };
+  }
+};
 
   addRow("Product", order.product);
 
