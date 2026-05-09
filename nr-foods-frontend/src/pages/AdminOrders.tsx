@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
+const audio = new Audio(
+  "/notification.mp3"
+);
 const AdminOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [lastCount, setLastCount] =
@@ -25,7 +28,7 @@ useEffect(() => {
         toast.success(
           "🛒 New Order Received"
         );
-
+          audio.play();
       }
 
       setLastCount(res.data.length);
