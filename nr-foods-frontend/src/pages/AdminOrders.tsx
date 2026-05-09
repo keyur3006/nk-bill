@@ -5,6 +5,9 @@ import toast from "react-hot-toast";
 const audio = new Audio("/notification.mp3");
 
 const AdminOrders = () => {
+  useEffect(() => {
+  Notification.requestPermission();
+}, []);
   const [orders, setOrders] = useState<any[]>([]);
   const [lastCount, setLastCount] =
     useState(0);
@@ -23,8 +26,15 @@ const AdminOrders = () => {
         ) {
           toast.success(
             "🛒 New Order Received"
+            
           );
-
+new Notification(
+  "🛒 New Order Received",
+  {
+    body: "A customer placed a new order",
+    icon: "/vite.svg",
+  }
+);
           audio.currentTime = 0;
 
           audio
