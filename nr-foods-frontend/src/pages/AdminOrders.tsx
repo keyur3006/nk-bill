@@ -1,70 +1,78 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
-const audio = new Audio(
-  "/notification.mp3"
-);
+
+const audio = new Audio("/notification.mp3");
+
 const AdminOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
   const [lastCount, setLastCount] =
-  useState(0);
+    useState(0);
 
-useEffect(() => {
-
-  const fetchOrders = async () => {
-
-    try {
-
-      const res = await api.get(
-        "/orders/all"
-      );
-
-      // ✅ New Order Notification
-      if (
-        lastCount !== 0 &&
-        res.data.length > lastCount
-      ) {
-
-        toast.success(
-          "🛒 New Order Received"
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await api.get(
+          "/orders/all"
         );
-          audio.play();
+
+        // ✅ NEW ORDER NOTIFICATION
+        if (
+          lastCount !== 0 &&
+          res.data.length > lastCount
+        ) {
+          toast.success(
+            "🛒 New Order Received"
+          );
+
+          audio.currentTime = 0;
+
+          audio
+            .play()
+            .catch((err) => {
+              console.log(
+                "Audio blocked:",
+                err
+              );
+            });
+        }
+
+        setLastCount(
+          res.data.length
+        );
+
+        setOrders(res.data);
+
+      } catch (err) {
+        console.error(err);
       }
+    };
 
-      setLastCount(res.data.length);
-
-      setOrders(res.data);
-
-    } catch (err) {
-
-      console.error(err);
-
-    }
-  };
-
-  // First Fetch
-  fetchOrders();
-
-  // Auto Refresh every 5 sec
-  const interval = setInterval(() => {
-
+    // FIRST FETCH
     fetchOrders();
 
-  }, 5000);
+    // AUTO REFRESH EVERY 5 SEC
+    const interval =
+      setInterval(() => {
+        fetchOrders();
+      }, 5000);
 
-  return () => clearInterval(interval);
+    return () =>
+      clearInterval(interval);
 
-}, [lastCount]);
+  }, []);
 
-  const totalRevenue = orders.reduce(
-    (sum, o) => sum + o.amount,
-    0
-  );
+  const totalRevenue =
+    orders.reduce(
+      (sum, o) =>
+        sum + o.amount,
+      0
+    );
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
 
-      {/* ================= HEADER ================= */}
+      {/* HEADER */}
 
       <div className="flex justify-between items-center mb-6">
 
@@ -86,27 +94,35 @@ useEffect(() => {
 
       </div>
 
-      {/* ================= ORDERS ================= */}
+      {/* ORDERS */}
 
       {orders.length === 0 ? (
+
         <p className="text-gray-500">
           No orders found
         </p>
+
       ) : (
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 
           {orders.map((order) => (
+
             <div
               key={order.id}
               className="bg-white rounded-xl shadow-md p-5 border hover:shadow-lg transition"
             >
 
               {/* PRODUCT */}
+
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
+
                 {order.product}
+
               </h3>
 
               {/* DETAILS */}
+
               <div className="space-y-1 text-sm text-gray-600">
 
                 <p>
@@ -121,10 +137,14 @@ useEffect(() => {
                 </p>
 
                 <p>
-                  💳 {order.paymentMethod}
+                  💳{" "}
+                  {
+                    order.paymentMethod
+                  }
                 </p>
 
                 {/* PAYMENT STATUS */}
+
                 <span
                   className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
                     order.status ===
@@ -138,7 +158,7 @@ useEffect(() => {
 
               </div>
 
-              {/* ================= ADDRESS ================= */}
+              {/* ADDRESS */}
 
               <div className="mt-4 border-t pt-3 text-sm text-gray-700">
 
@@ -147,7 +167,9 @@ useEffect(() => {
                 </p>
 
                 <p>
-                  {order.customerName}
+                  {
+                    order.customerName
+                  }
                 </p>
 
                 <p>
@@ -160,12 +182,14 @@ useEffect(() => {
 
                 <p>
                   {order.city} -{" "}
-                  {order.pincode}
+                  {
+                    order.pincode
+                  }
                 </p>
 
               </div>
 
-              {/* ================= DELIVERY TRACKING ================= */}
+              {/* DELIVERY STATUS */}
 
               <div className="mt-4">
 
@@ -186,26 +210,35 @@ useEffect(() => {
                         `/orders/update-status/${order.id}`,
                         {
                           deliveryStatus:
-                            e.target.value,
+                            e.target
+                              .value,
                         }
                       );
 
                       setOrders(
-                        (prev) =>
-                          prev.map((o) =>
-                            o.id ===
-                            order.id
-                              ? {
-                                  ...o,
-                                  deliveryStatus:
-                                    e.target
-                                      .value,
-                                }
-                              : o
+                        (
+                          prev
+                        ) =>
+                          prev.map(
+                            (
+                              o
+                            ) =>
+                              o.id ===
+                              order.id
+                                ? {
+                                    ...o,
+                                    deliveryStatus:
+                                      e
+                                        .target
+                                        .value,
+                                  }
+                                : o
                           )
                       );
 
-                    } catch (error) {
+                    } catch (
+                      error
+                    ) {
 
                       console.error(
                         error
