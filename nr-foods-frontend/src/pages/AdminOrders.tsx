@@ -1,25 +1,57 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
-
+import toast from "react-hot-toast";
 const AdminOrders = () => {
   const [orders, setOrders] = useState<any[]>([]);
+  const [lastCount, setLastCount] =
+  useState(0);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await api.get(
-          "/orders/all"
+useEffect(() => {
+
+  const fetchOrders = async () => {
+
+    try {
+
+      const res = await api.get(
+        "/orders/all"
+      );
+
+      // ✅ New Order Notification
+      if (
+        lastCount !== 0 &&
+        res.data.length > lastCount
+      ) {
+
+        toast.success(
+          "🛒 New Order Received"
         );
 
-        setOrders(res.data);
-
-      } catch (err) {
-        console.error(err);
       }
-    };
+
+      setLastCount(res.data.length);
+
+      setOrders(res.data);
+
+    } catch (err) {
+
+      console.error(err);
+
+    }
+  };
+
+  // First Fetch
+  fetchOrders();
+
+  // Auto Refresh every 5 sec
+  const interval = setInterval(() => {
 
     fetchOrders();
-  }, []);
+
+  }, 5000);
+
+  return () => clearInterval(interval);
+
+}, [lastCount]);
 
   const totalRevenue = orders.reduce(
     (sum, o) => sum + o.amount,
