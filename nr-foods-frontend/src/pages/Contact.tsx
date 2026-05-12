@@ -182,7 +182,7 @@ const Contact = () => {
 
       {/* MAP SECTION (Placeholder) */}
       <section className="px-6 pb-24">
-        <div className="max-w-7xl mx-auto h-[450px] rounded-5xl bg-gray-200 overflow-hidden relative shadow-inner">
+        <div className="max-w-7xl mx-auto h-112 rounded-5xl bg-gray-200 overflow-hidden relative shadow-inner">
           <div className="absolute inset-0 flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=2000')] bg-cover opacity-60">
             <div className="glass-card p-6 rounded-3xl text-center">
               <MapPin className="w-10 h-10 text-blue-600 mx-auto mb-4" />
