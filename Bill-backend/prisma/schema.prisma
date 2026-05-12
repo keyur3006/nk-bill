@@ -27,6 +27,9 @@ model User {
   pincode String?
 
   password   String
+  otp        String?
+  otpExpiry  DateTime?
+  isVerified Boolean    @default(false)
   bills      Bill[]
   deliveries Delivery[]
   orders     Order[]
@@ -88,32 +91,33 @@ model Bottle {
 }
 
 model Order {
-  id              Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  userId          Int
-  user             User     @relation(fields: [userId], references: [id])
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 
-  quantity         Int      @default(1)
+  quantity Int @default(1)
 
-  customerName     String?
-  mobile           String?
-  address          String?
-  city             String?
-  pincode          String?
+  customerName String?
+  mobile       String?
+  address      String?
+  city         String?
+  pincode      String?
 
-  product          String
-  amount           Int
+  product String
+  amount  Int
 
-  paymentMethod    String
+  paymentMethod String
 
-  status           String   @default("pending")
+  status String @default("pending")
 
-  deliveryStatus   String   @default("Ordered")
+  deliveryStatus String @default("Ordered")
 
-  createdAt        DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  payments         Payment[]
+  payments Payment[]
 }
+
 model Payment {
   id      Int @id @default(autoincrement())
   userId  Int

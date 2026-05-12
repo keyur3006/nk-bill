@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import { sendTelegramMessage } from "../utils/sendTelegram";
+import { sendOrderMail } from "../utils/sendMail";
 
 import { authenticate, AuthRequest } from "../middleware/auth.middleware";
 
@@ -131,6 +132,14 @@ ${city} - ${pincode}
 
 ✅ Status: Payment Successful
 `);
+
+await sendOrderMail(
+  req.user?.email || "",
+  customerName,
+  product,
+  amount
+);
+
     res.json({
       success: true,
       message: "Payment verified & saved",
