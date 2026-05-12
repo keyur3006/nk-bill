@@ -21,6 +21,22 @@ const jspdf_1 = __importDefault(require("jspdf"));
 const router = (0, express_1.Router)();
 const prisma = new client_1.PrismaClient();
 /* ===========================
+   GET GENERATED BILLS
+=========================== */
+router.get("/generated-bills", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const bills = yield prisma.bill.findMany({
+            include: { customer: true },
+            orderBy: { id: "desc" }
+        });
+        res.json(bills);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching generated bills" });
+    }
+}));
+/* ===========================
    CREATE BILL + GENERATE PDF
 =========================== */
 router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -54,7 +70,7 @@ router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0,
         const doc = new jspdf_1.default();
         doc.setFontSize(22);
         doc.setFont("helvetica", "bold");
-        doc.text("NR FOODS", 90, 20);
+        doc.text("KD Water Delivery", 90, 20);
         doc.setFontSize(14);
         doc.text("BILL INVOICE", 85, 30);
         doc.setFontSize(12);

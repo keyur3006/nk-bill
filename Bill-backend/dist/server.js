@@ -26,6 +26,7 @@ const bottle_routes_1 = __importDefault(require("./routes/bottle.routes"));
 const delivery_routes_1 = __importDefault(require("./routes/delivery.routes"));
 const admin_routes_1 = __importDefault(require("./routes/admin.routes"));
 const order_routes_1 = __importDefault(require("./routes/order.routes"));
+const profile_routes_1 = __importDefault(require("./routes/profile.routes"));
 const payment_routes_1 = __importDefault(require("./routes/payment.routes"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -75,6 +76,7 @@ app.use("/api/delivery", delivery_routes_1.default);
 app.use("/api/admin", admin_routes_1.default);
 app.use("/api/orders", order_routes_1.default);
 app.use("/api/payment", payment_routes_1.default);
+app.use("/api/profile", profile_routes_1.default);
 /* ================= STATIC ================= */
 app.use("/pdfs", express_1.default.static("public/pdfs"));
 /* ================= TEST ROUTES ================= */

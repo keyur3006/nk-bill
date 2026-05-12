@@ -12,29 +12,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const auth_middleware_1 = require("../middleware/auth.middleware");
 const express_1 = __importDefault(require("express"));
 const client_1 = require("@prisma/client");
 const router = express_1.default.Router();
 const prisma = new client_1.PrismaClient();
-// Create Order
-router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { userId, product, amount, paymentMethod } = req.body;
-    const order = yield prisma.order.create({
-        data: {
-            userId,
-            product,
-            amount,
-            paymentMethod,
-            status: paymentMethod === "COD" ? "pending" : "pending",
-        },
-    });
-    res.json(order);
-}));
-router.get("/my-orders/:userId", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+/* ================= CREATE ORDER ================= */
+router.post("/", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
-        const { userId } = req.params;
+        const { product, amount, paymentMethod } = req.body;
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
+        const order = yield prisma.order.create({
+            data: {
+                userId: Number(userId),
+                product,
+                amount,
+                paymentMethod,
+                status: "pending",
+            },
+        });
+        res.json(order);
+    }
+    catch (error) {
+        console.error("Create Order Error:", error);
+        res.status(500).json({
+            message: "Failed to create order",
+        });
+    }
+}));
+/* ================= MY ORDERS ================= */
+router.get("/my-orders", auth_middleware_1.authenticate, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    try {
+        const userId = (_a = req.user) === null || _a === void 0 ? void 0 : _a.id;
         const orders = yield prisma.order.findMany({
-            where: { userId: Number(userId) },
+            where: {
+                userId: Number(userId),
+            },
             include: {
                 payments: true,
             },
@@ -46,9 +61,33 @@ router.get("/my-orders/:userId", (req, res) => __awaiter(void 0, void 0, void 0,
     }
     catch (error) {
         console.error("Fetch Orders Error:", error);
-        res.status(500).json({ message: "Failed to fetch orders" });
+        res.status(500).json({
+            message: "Failed to fetch orders",
+        });
     }
 }));
+/* ================= UPDATE DELIVERY STATUS ================= */
+router.put("/update-status/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { deliveryStatus } = req.body;
+        const order = yield prisma.order.update({
+            where: {
+                id: Number(req.params.id),
+            },
+            data: {
+                deliveryStatus,
+            },
+        });
+        res.json(order);
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: "Failed to update status",
+        });
+    }
+}));
+/* ================= ALL ORDERS ================= */
 router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const orders = yield prisma.order.findMany({
@@ -64,7 +103,9 @@ router.get("/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Failed to fetch orders" });
+        res.status(500).json({
+            message: "Failed to fetch orders",
+        });
     }
 }));
 exports.default = router;
