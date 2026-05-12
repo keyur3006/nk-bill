@@ -24,11 +24,12 @@ await api.post("/auth/register", {
   password,
 });
 
-      toast.success("Registered successfully");
+   toast.success(
+  "OTP sent to your email"
+);
 
-      // 👉 direct login page par mokli do
-      navigate("/login");
-
+// ✅ OTP page par moklo
+navigate("/verify-otp");
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Register failed");
     } finally {
