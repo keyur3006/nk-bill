@@ -332,4 +332,37 @@ router.get(
   }
 );
 
+router.delete(
+  "/delete-user/:id",
+
+  async (req, res) => {
+
+    try {
+
+      const { id } = req.params;
+
+      await prisma.user.delete({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      res.json({
+        success: true,
+        message:
+          "User deleted successfully",
+      });
+
+    } catch (error) {
+
+      console.error(error);
+
+      res.status(500).json({
+        message:
+          "Delete failed",
+      });
+    }
+  }
+);
+
 export default router;
