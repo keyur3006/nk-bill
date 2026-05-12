@@ -5,8 +5,16 @@ import { Toaster } from "react-hot-toast";
 
 import App from "./App";
 
+// FIREBASE IMPORT
+import {
+  requestForToken
+} from "./firebase";
+
 import "./index.css";
 import "./global.css";
+
+// REQUEST NOTIFICATION
+requestForToken();
 
 ReactDOM.createRoot(
   document.getElementById("root")!
