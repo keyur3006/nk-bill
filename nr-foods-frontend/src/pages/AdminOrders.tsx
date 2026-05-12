@@ -2,59 +2,76 @@ import { useEffect, useState } from "react";
 import api from "../utils/api";
 import toast from "react-hot-toast";
 
+// SOUND FILE
 const audio = new Audio("/notification.mp3");
 
 const AdminOrders = () => {
-  useEffect(() => {
-  Notification.requestPermission();
-}, []);
+
   const [orders, setOrders] = useState<any[]>([]);
-  const [lastCount, setLastCount] =
-    useState(0);
+  const [lastCount, setLastCount] = useState(0);
+
+  // ASK NOTIFICATION PERMISSION
+  useEffect(() => {
+
+    if ("Notification" in window) {
+      Notification.requestPermission();
+    }
+
+  }, []);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await api.get(
-          "/orders/all"
-        );
 
-        // ✅ NEW ORDER NOTIFICATION
+    const fetchOrders = async () => {
+
+      try {
+
+        const res = await api.get("/orders/all");
+
+        // NEW ORDER DETECT
         if (
           lastCount !== 0 &&
           res.data.length > lastCount
         ) {
-          toast.success(
-            "🛒 New Order Received"
-            
-          );
-new Notification(
-  "🛒 New Order Received",
-  {
-    body: "A customer placed a new order",
-    icon: "/vite.svg",
-  }
-);
+
+          // TOAST
+          toast.success("🛒 New Order Received");
+
+          // BROWSER NOTIFICATION
+          if (
+            "Notification" in window &&
+            Notification.permission === "granted"
+          ) {
+
+            new Notification(
+              "🛒 New Order Received",
+              {
+                body: "A customer placed a new order",
+                icon: "/vite.svg",
+              }
+            );
+          }
+
+          // SOUND
           audio.currentTime = 0;
 
-          audio
-            .play()
-            .catch((err) => {
-              console.log(
-                "Audio blocked:",
-                err
-              );
-            });
+          audio.play().catch((err) => {
+            console.log(
+              "Audio blocked:",
+              err
+            );
+          });
         }
 
-        setLastCount(
-          res.data.length
-        );
+        // UPDATE ORDER COUNT
+        setLastCount(res.data.length);
 
+        // SAVE ORDERS
         setOrders(res.data);
 
       } catch (err) {
+
         console.error(err);
+
       }
     };
 
@@ -62,24 +79,24 @@ new Notification(
     fetchOrders();
 
     // AUTO REFRESH EVERY 5 SEC
-    const interval =
-      setInterval(() => {
-        fetchOrders();
-      }, 5000);
+    const interval = setInterval(() => {
 
-    return () =>
-      clearInterval(interval);
+      fetchOrders();
 
-  }, []);
+    }, 5000);
 
-  const totalRevenue =
-    orders.reduce(
-      (sum, o) =>
-        sum + o.amount,
-      0
-    );
+    return () => clearInterval(interval);
+
+  }, [lastCount]);
+
+  // TOTAL REVENUE
+  const totalRevenue = orders.reduce(
+    (sum, o) => sum + o.amount,
+    0
+  );
 
   return (
+
     <div className="p-6 bg-gray-50 min-h-screen">
 
       {/* HEADER */}
@@ -147,18 +164,14 @@ new Notification(
                 </p>
 
                 <p>
-                  💳{" "}
-                  {
-                    order.paymentMethod
-                  }
+                  💳 {order.paymentMethod}
                 </p>
 
                 {/* PAYMENT STATUS */}
 
                 <span
                   className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
-                    order.status ===
-                    "confirmed"
+                    order.status === "confirmed"
                       ? "bg-green-100 text-green-600"
                       : "bg-yellow-100 text-yellow-600"
                   }`}
@@ -176,25 +189,14 @@ new Notification(
                   📍 Delivery Address
                 </p>
 
-                <p>
-                  {
-                    order.customerName
-                  }
-                </p>
+                <p>{order.customerName}</p>
+
+                <p>{order.mobile}</p>
+
+                <p>{order.address}</p>
 
                 <p>
-                  {order.mobile}
-                </p>
-
-                <p>
-                  {order.address}
-                </p>
-
-                <p>
-                  {order.city} -{" "}
-                  {
-                    order.pincode
-                  }
+                  {order.city} - {order.pincode}
                 </p>
 
               </div>
@@ -208,50 +210,41 @@ new Notification(
                 </p>
 
                 <select
-                  value={
-                    order.deliveryStatus
-                  }
-                  onChange={async (
-                    e
-                  ) => {
+                  value={order.deliveryStatus}
+                  onChange={async (e) => {
+
                     try {
 
                       await api.put(
                         `/orders/update-status/${order.id}`,
                         {
                           deliveryStatus:
-                            e.target
-                              .value,
+                            e.target.value,
                         }
                       );
 
-                      setOrders(
-                        (
-                          prev
-                        ) =>
-                          prev.map(
-                            (
-                              o
-                            ) =>
-                              o.id ===
-                              order.id
-                                ? {
-                                    ...o,
-                                    deliveryStatus:
-                                      e
-                                        .target
-                                        .value,
-                                  }
-                                : o
-                          )
+                      setOrders((prev) =>
+                        prev.map((o) =>
+                          o.id === order.id
+                            ? {
+                                ...o,
+                                deliveryStatus:
+                                  e.target.value,
+                              }
+                            : o
+                        )
                       );
 
-                    } catch (
-                      error
-                    ) {
+                      toast.success(
+                        "Status Updated"
+                      );
 
-                      console.error(
-                        error
+                    } catch (error) {
+
+                      console.error(error);
+
+                      toast.error(
+                        "Update Failed"
                       );
                     }
                   }}
@@ -290,8 +283,11 @@ new Notification(
 
             </div>
           ))}
+
         </div>
+
       )}
+
     </div>
   );
 };
