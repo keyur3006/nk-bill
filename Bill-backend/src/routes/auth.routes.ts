@@ -341,9 +341,39 @@ router.delete(
 
       const { id } = req.params;
 
+      const userId = Number(id);
+
+      // DELETE RELATED DATA
+
+      await prisma.delivery.deleteMany({
+        where: {
+          userId,
+        },
+      });
+
+      await prisma.order.deleteMany({
+        where: {
+          userId,
+        },
+      });
+
+      await prisma.payment.deleteMany({
+        where: {
+          userId,
+        },
+      });
+
+      await prisma.bill.deleteMany({
+        where: {
+          userId,
+        },
+      });
+
+      // DELETE USER
+
       await prisma.user.delete({
         where: {
-          id: Number(id),
+          id: userId,
         },
       });
 
