@@ -3,15 +3,12 @@ import { useState } from "react";
 
 import { ShoppingCart, CreditCard } from "lucide-react";
 
-
 const ProductSection = () => {
   const navigate = useNavigate();
 
   // 🔥 Quantity state (default 1)
   const [quantity, setQuantity] = useState(1);
 
-  
-  
   const products = [
     {
       id: 1,
@@ -81,25 +78,18 @@ const ProductSection = () => {
             </div>
 
             <div className="flex gap-3">
-              {/* Order Page */}
+              {/* Order Button */}
               <button
                 onClick={() => {
                   const token = localStorage.getItem("token");
 
                   if (!token) {
                     navigate("/login");
+
                     return;
                   }
 
-                  const profileCompleted =
-                    localStorage.getItem("profileCompleted");
-
-                  if (!profileCompleted) {
-                    navigate("/profile");
-                    return;
-                  }
-
-                  navigate(`/order/${p.id}`);
+                  navigate("/profile");
                 }}
                 className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
               >
@@ -107,25 +97,18 @@ const ProductSection = () => {
                 Order
               </button>
 
-              {/* 🔥 Direct Payment */}
+              {/* Pay Button */}
               <button
                 onClick={() => {
                   const token = localStorage.getItem("token");
 
                   if (!token) {
                     navigate("/login");
+
                     return;
                   }
 
-                  const profileCompleted =
-                    localStorage.getItem("profileCompleted");
-
-                  if (!profileCompleted) {
-                    navigate("/profile");
-                    return;
-                  }
-
-                    navigate(`/order/${p.id}`);
+                  navigate("/profile");
                 }}
                 className="flex-1 bg-green-500 text-white py-3 rounded-xl"
               >
