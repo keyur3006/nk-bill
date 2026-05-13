@@ -6,7 +6,7 @@ const Footer = () => {
      <div className="relative">
   <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-full max-w-6xl px-6">
     
-    <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-xl px-10 py-10 flex justify-between items-center shadow-xl">
+    <div className="bg-linear-to-r from-blue-400 to-blue-500 rounded-xl px-10 py-10 flex justify-between items-center shadow-xl">
       
       <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
         Ready to get started? <br />
