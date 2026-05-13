@@ -314,25 +314,51 @@ const MyOrders = () => {
   };
   /* ================= FETCH ORDERS ================= */
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const token = localStorage.getItem("token");
+useEffect(() => {
 
-        const res = await api.get("/orders/my-orders", {
+  const fetchOrders = async () => {
+
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+      const res = await api.get(
+        "/orders/my-orders",
+        {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });
+        }
+      );
 
-        setOrders(Array.isArray(res.data) ? res.data : []);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      setOrders(
+        Array.isArray(res.data)
+          ? res.data
+          : []
+      );
+
+    } catch (error) {
+
+      console.error(error);
+
+    }
+  };
+
+  // First Load
+  fetchOrders();
+
+  // Auto Refresh Every 5 Seconds
+  const interval = setInterval(() => {
 
     fetchOrders();
-  }, []);
+
+  }, 5000);
+
+  // Cleanup
+  return () => clearInterval(interval);
+
+}, []);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
