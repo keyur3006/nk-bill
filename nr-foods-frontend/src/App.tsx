@@ -20,7 +20,7 @@ import AdminOrders from "./pages/AdminOrders";
 import OrderPage from "./pages/OrderPage";
 import Profile from "./pages/Profile";
 import Users from "./pages/Users";
-import VerifyOtp from "./pages/VerifyOtp";
+// import VerifyOtp from "./pages/VerifyOtp";
 // 🌐 PUBLIC PAGES
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -61,10 +61,10 @@ function App() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/admin-orders" element={<AdminOrders />} />
           <Route path="/users" element={<Users />} />
-          <Route
+          {/* <Route
   path="/verify-otp"
   element={<VerifyOtp />}
-/>
+/> */}
         </Route>
       </Routes>
     </>
