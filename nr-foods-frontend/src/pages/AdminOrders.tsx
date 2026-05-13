@@ -203,73 +203,161 @@ const AdminOrders = () => {
 
               {/* DELIVERY STATUS */}
 
-              <div className="mt-4">
+              {/* DELIVERY STATUS */}
 
-                <p className="font-semibold mb-2">
-                  Delivery Status
-                </p>
+<div className="mt-6">
 
-                <select
-                  value={order.deliveryStatus}
-                  onChange={async (e) => {
+  <p className="font-bold text-lg mb-5">
+    Delivery Tracking
+  </p>
 
-                    try {
+  {/* TRACKER */}
 
-                      await api.put(
-                        `/orders/update-status/${order.id}`,
-                        {
-                          deliveryStatus:
-                            e.target.value,
-                        }
-                      );
+  <div className="relative flex items-center justify-between mb-8">
 
-                      setOrders((prev) =>
-                        prev.map((o) =>
-                          o.id === order.id
-                            ? {
-                                ...o,
-                                deliveryStatus:
-                                  e.target.value,
-                              }
-                            : o
-                        )
-                      );
+    {/* Background Line */}
+    <div className="absolute top-4 left-0 w-full h-1 bg-gray-300 rounded-full"></div>
 
-                      toast.success(
-                        "Status Updated"
-                      );
+    {/* Active Line */}
+    <div
+      className={`absolute top-4 left-0 h-1 bg-green-500 rounded-full
+      ${
+        order.deliveryStatus === "Ordered"
+          ? "w-[10%]"
+          : order.deliveryStatus === "Confirmed"
+          ? "w-[38%]"
+          : order.deliveryStatus === "Out For Delivery"
+          ? "w-[70%]"
+          : "w-full"
+      }`}
+    ></div>
 
-                    } catch (error) {
+    {/* Ordered */}
+    <div className="relative z-10 flex flex-col items-center">
+      <div className="w-8 h-8 rounded-full bg-green-500 text-white flex items-center justify-center text-sm">
+        ✓
+      </div>
 
-                      console.error(error);
+      <p className="text-xs mt-2 font-medium">
+        Ordered
+      </p>
+    </div>
 
-                      toast.error(
-                        "Update Failed"
-                      );
-                    }
-                  }}
-                  className="w-full border rounded-lg px-3 py-2"
-                >
+    {/* Confirmed */}
+    <div className="relative z-10 flex flex-col items-center">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm
+        ${
+          order.deliveryStatus === "Confirmed" ||
+          order.deliveryStatus === "Out For Delivery" ||
+          order.deliveryStatus === "Delivered"
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+      >
+        ✓
+      </div>
 
-                  <option>
-                    Ordered
-                  </option>
+      <p className="text-xs mt-2 font-medium">
+        Confirmed
+      </p>
+    </div>
 
-                  <option>
-                    Confirmed
-                  </option>
+    {/* Out For Delivery */}
+    <div className="relative z-10 flex flex-col items-center">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm
+        ${
+          order.deliveryStatus ===
+            "Out For Delivery" ||
+          order.deliveryStatus === "Delivered"
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+      >
+        🚚
+      </div>
 
-                  <option>
-                    Out For Delivery
-                  </option>
+      <p className="text-xs mt-2 font-medium text-center">
+        Out For Delivery
+      </p>
+    </div>
 
-                  <option>
-                    Delivered
-                  </option>
+    {/* Delivered */}
+    <div className="relative z-10 flex flex-col items-center">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm
+        ${
+          order.deliveryStatus === "Delivered"
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+      >
+        📦
+      </div>
 
-                </select>
+      <p className="text-xs mt-2 font-medium">
+        Delivered
+      </p>
+    </div>
 
-              </div>
+  </div>
+
+  {/* SELECT BOX */}
+
+  <select
+    value={order.deliveryStatus}
+    onChange={async (e) => {
+
+      try {
+
+        await api.put(
+          `/orders/update-status/${order.id}`,
+          {
+            deliveryStatus:
+              e.target.value,
+          }
+        );
+
+        setOrders((prev) =>
+          prev.map((o) =>
+            o.id === order.id
+              ? {
+                  ...o,
+                  deliveryStatus:
+                    e.target.value,
+                }
+              : o
+          )
+        );
+
+        toast.success(
+          "Status Updated"
+        );
+
+      } catch (error) {
+
+        console.error(error);
+
+        toast.error(
+          "Update Failed"
+        );
+      }
+    }}
+    className="w-full border rounded-xl px-4 py-3 font-medium"
+  >
+
+    <option>Ordered</option>
+
+    <option>Confirmed</option>
+
+    <option>Out For Delivery</option>
+
+    <option>Delivered</option>
+
+  </select>
+
+</div>
 
               {/* DATE */}
 

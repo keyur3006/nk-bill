@@ -411,7 +411,7 @@ useEffect(() => {
 
                 {/* RIGHT */}
 
-                <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-[250px]">
+                <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-62">
                   <p className="font-bold text-green-700 text-lg">
                     Estimated Delivery
                   </p>
