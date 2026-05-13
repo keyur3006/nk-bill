@@ -332,67 +332,58 @@ router.get(
   }
 );
 
-router.delete(
-  "/delete-user/:id",
+router.delete("/delete-user/:id", async (req, res) => {
+  try {
 
-  async (req, res) => {
+    const userId = Number(req.params.id);
 
-    try {
+    // DELETE RELATED TABLE DATA
 
-      const { id } = req.params;
+    await prisma.payment.deleteMany({
+      where: {
+        userId,
+      },
+    });
 
-      const userId = Number(id);
+    await prisma.order.deleteMany({
+      where: {
+        userId,
+      },
+    });
 
-      // DELETE RELATED DATA
+    await prisma.bill.deleteMany({
+      where: {
+        userId,
+      },
+    });
 
-      await prisma.delivery.deleteMany({
-        where: {
-          userId,
-        },
-      });
+    await prisma.delivery.deleteMany({
+      where: {
+        userId,
+      },
+    });
 
-      await prisma.order.deleteMany({
-        where: {
-          userId,
-        },
-      });
+    // NOW DELETE USER
 
-      await prisma.payment.deleteMany({
-        where: {
-          userId,
-        },
-      });
+    await prisma.user.delete({
+      where: {
+        id: userId,
+      },
+    });
 
-      await prisma.bill.deleteMany({
-        where: {
-          userId,
-        },
-      });
+    res.json({
+      success: true,
+      message: "User deleted successfully",
+    });
 
-      // DELETE USER
+  } catch (error) {
 
-      await prisma.user.delete({
-        where: {
-          id: userId,
-        },
-      });
+    console.log(error);
 
-      res.json({
-        success: true,
-        message:
-          "User deleted successfully",
-      });
-
-    } catch (error) {
-
-      console.error(error);
-
-      res.status(500).json({
-        message:
-          "Delete failed",
-      });
-    }
+    res.status(500).json({
+      message: "Delete failed",
+    });
   }
-);
+});
 
 export default router;
