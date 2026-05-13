@@ -3,12 +3,15 @@ import { useState } from "react";
 
 import { ShoppingCart, CreditCard } from "lucide-react";
 
+
 const ProductSection = () => {
   const navigate = useNavigate();
 
   // 🔥 Quantity state (default 1)
   const [quantity, setQuantity] = useState(1);
 
+  
+  
   const products = [
     {
       id: 1,
@@ -78,44 +81,52 @@ const ProductSection = () => {
             </div>
 
             <div className="flex gap-3">
-              {/* Order Button */}
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("token");
 
-                  if (!token) {
-                    navigate("/login");
+  {/* Order Button */}
+  <button
+    onClick={() => {
 
-                    return;
-                  }
+      const token =
+        localStorage.getItem("token");
 
-                  navigate("/profile");
-                }}
-                className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
-              >
-                <ShoppingCart className="inline mr-2" />
-                Order
-              </button>
+      if (!token) {
 
-              {/* Pay Button */}
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("token");
+        navigate("/login");
 
-                  if (!token) {
-                    navigate("/login");
+        return;
+      }
 
-                    return;
-                  }
+      navigate("/profile");
+    }}
+    className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
+  >
+    <ShoppingCart className="inline mr-2" />
+    Order
+  </button>
 
-                  navigate("/profile");
-                }}
-                className="flex-1 bg-green-500 text-white py-3 rounded-xl"
-              >
-                <CreditCard className="inline mr-2" />
-                Pay
-              </button>
-            </div>
+  {/* Pay Button */}
+  <button
+    onClick={() => {
+
+      const token =
+        localStorage.getItem("token");
+
+      if (!token) {
+
+        navigate("/login");
+
+        return;
+      }
+
+      navigate("/profile");
+    }}
+    className="flex-1 bg-green-500 text-white py-3 rounded-xl"
+  >
+    <CreditCard className="inline mr-2" />
+    Pay
+  </button>
+
+</div>
           </div>
         ))}
       </div>
