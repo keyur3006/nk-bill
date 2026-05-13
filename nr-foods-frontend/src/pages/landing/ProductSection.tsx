@@ -1,17 +1,25 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { ShoppingCart, CreditCard } from "lucide-react";
-
+import {
+  ShoppingCart,
+  CreditCard,
+  Star,
+  Truck,
+  ShieldCheck,
+} from "lucide-react";
 
 const ProductSection = () => {
   const navigate = useNavigate();
 
-  // 🔥 Quantity state (default 1)
-  const [quantity, setQuantity] = useState(1);
+  // 🔥 Quantity state
+  const [quantities, setQuantities] = useState<Record<number, number>>({
+    1: 1,
+    2: 1,
+    3: 1,
+    4: 1,
+  });
 
-  
-  
   const products = [
     {
       id: 1,
@@ -19,124 +27,247 @@ const ProductSection = () => {
       price: 30,
       image: "/shell/cold.png",
       tag: "Best Seller",
+      description:
+        "Fresh and purified cold mineral water bottle delivery in Ahmedabad.",
     },
+
     {
       id: 2,
       name: "20L Bottle Hot",
       price: 25,
       image: "/shell/hot.png",
       tag: "Popular",
+      description:
+        "Healthy hot drinking water bottle with fast home delivery service.",
     },
+
     {
       id: 3,
       name: "Bisleri 200ml (Box of 48)",
       price: 220,
       image: "/shell/bisleri.png",
       tag: "Hot",
+      description:
+        "Bisleri 200ml mineral water bottle box for office and event use.",
     },
+
     {
       id: 4,
       name: "Yes 200ml (Box of 48)",
       price: 170,
       image: "/shell/yes.png",
-      tag: "Hot",
+      tag: "Affordable",
+      description:
+        "Affordable pure drinking water bottle box with healthy minerals.",
     },
   ];
 
   return (
-    <div className="py-20 px-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
+    <section className="relative overflow-hidden bg-linear-to-b from-blue-50 to-white py-24 px-6">
+
+      {/* TOP HEADING */}
+      <div className="text-center max-w-4xl mx-auto mb-20">
+
+        <p className="text-sm tracking-[0.3em] uppercase font-bold text-blue-500 mb-4">
+          OUR PRODUCTS
+        </p>
+
+        <h2 className="text-4xl md:text-6xl font-extrabold text-blue-950 leading-tight">
+
+          Premium Mineral Water <br />
+
+          <span className="text-blue-600 italic">
+            Delivery Services
+          </span>
+
+        </h2>
+
+        <p className="mt-8 text-lg text-gray-600 leading-8">
+
+          Order pure and healthy mineral water bottles online with
+          fast delivery across Ahmedabad for homes, offices and businesses.
+
+        </p>
+
+      </div>
+
+      {/* PRODUCTS GRID */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto">
+
         {products.map((p) => (
-          <div
+          <article
             key={p.id}
-            className="bg-white p-8 rounded-3xl shadow-xl text-center"
+            className="group relative bg-white/90 backdrop-blur-xl border border-blue-100 rounded-3xl shadow-lg hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 overflow-hidden"
           >
-            <img src={p.image} className="h-48 mx-auto mb-4" />
 
-            <h3 className="text-xl font-bold">{p.name}</h3>
+            {/* TAG */}
+            <div className="absolute top-5 left-5 z-20 bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg">
 
-            <p className="text-gray-500 mb-4">Premium mineral water</p>
+              {p.tag}
 
-            <div className="text-2xl font-bold text-blue-600 mb-4">
-              ₹{p.price}
             </div>
 
-            {/* 🔥 Quantity Selector */}
-            <div className="flex items-center justify-center gap-4 mb-4">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="bg-gray-200 px-3 py-1 rounded"
-              >
-                -
-              </button>
+            {/* IMAGE */}
+            <div className="relative p-8 overflow-hidden">
 
-              <span className="font-bold">{quantity}</span>
+              <img
+                src={p.image}
+                alt={p.name}
+                className="h-56 mx-auto object-contain transition-transform duration-500 group-hover:scale-110"
+              />
 
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="bg-gray-200 px-3 py-1 rounded"
-              >
-                +
-              </button>
             </div>
 
-            <div className="flex gap-3">
-              {/* Order Page */}
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("token");
+            {/* CONTENT */}
+            <div className="px-8 pb-8 text-center">
 
-                  if (!token) {
-                    navigate("/login");
-                    return;
+              {/* PRODUCT NAME */}
+              <h3 className="text-2xl font-bold text-blue-950 mb-3">
+
+                {p.name}
+
+              </h3>
+
+              {/* DESCRIPTION */}
+              <p className="text-gray-500 leading-7 text-sm mb-6">
+
+                {p.description}
+
+              </p>
+
+              {/* FEATURES */}
+              <div className="flex justify-center gap-4 mb-6 text-sm text-gray-600 flex-wrap">
+
+                <div className="flex items-center gap-1">
+                  <ShieldCheck size={16} className="text-green-500" />
+                  Pure
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Truck size={16} className="text-blue-500" />
+                  Fast Delivery
+                </div>
+
+                <div className="flex items-center gap-1">
+                  <Star size={16} className="text-yellow-500" />
+                  Premium
+                </div>
+
+              </div>
+
+              {/* PRICE */}
+              <div className="mb-6">
+
+                <span className="text-4xl font-extrabold text-blue-600">
+                  ₹{p.price}
+                </span>
+
+              </div>
+
+              {/* QUANTITY */}
+              <div className="flex items-center justify-center gap-4 mb-8">
+
+                <button
+                  onClick={() =>
+                    setQuantities((prev) => ({
+                      ...prev,
+                      [p.id]: Math.max(1, prev[p.id] - 1),
+                    }))
                   }
+                  className="w-10 h-10 rounded-xl bg-gray-100 hover:bg-blue-100 transition text-lg font-bold"
+                >
+                  -
+                </button>
 
-                  const profileCompleted =
-                    localStorage.getItem("profileCompleted");
+                <span className="text-lg font-bold w-8 text-center">
+                  {quantities[p.id]}
+                </span>
 
-                  if (!profileCompleted) {
-                    navigate("/profile");
-                    return;
+                <button
+                  onClick={() =>
+                    setQuantities((prev) => ({
+                      ...prev,
+                      [p.id]: prev[p.id] + 1,
+                    }))
                   }
+                  className="w-10 h-10 rounded-xl bg-gray-100 hover:bg-blue-100 transition text-lg font-bold"
+                >
+                  +
+                </button>
 
-                  navigate(`/order/${p.id}`);
-                }}
-                className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
-              >
-                <ShoppingCart className="inline mr-2" />
-                Order
-              </button>
+              </div>
 
-              {/* 🔥 Direct Payment */}
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("token");
+              {/* BUTTONS */}
+              <div className="flex gap-3">
 
-                  if (!token) {
-                    navigate("/login");
-                    return;
-                  }
+                {/* ORDER BUTTON */}
+                <button
+                  onClick={() => {
+                    const token = localStorage.getItem("token");
 
-                  const profileCompleted =
-                    localStorage.getItem("profileCompleted");
+                    if (!token) {
+                      navigate("/login");
+                      return;
+                    }
 
-                  if (!profileCompleted) {
-                    navigate("/profile");
-                    return;
-                  }
+                    const profileCompleted =
+                      localStorage.getItem("profileCompleted");
+
+                    if (!profileCompleted) {
+                      navigate("/profile");
+                      return;
+                    }
 
                     navigate(`/order/${p.id}`);
-                }}
-                className="flex-1 bg-green-500 text-white py-3 rounded-xl"
-              >
-                <CreditCard className="inline mr-2" />
-                Pay
-              </button>
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300"
+                >
+
+                  <ShoppingCart size={20} />
+
+                  Order
+
+                </button>
+
+                {/* PAY BUTTON */}
+                <button
+                  onClick={() => {
+                    const token = localStorage.getItem("token");
+
+                    if (!token) {
+                      navigate("/login");
+                      return;
+                    }
+
+                    const profileCompleted =
+                      localStorage.getItem("profileCompleted");
+
+                    if (!profileCompleted) {
+                      navigate("/profile");
+                      return;
+                    }
+
+                    navigate(`/order/${p.id}`);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-semibold shadow-lg transition-all duration-300"
+                >
+
+                  <CreditCard size={20} />
+
+                  Pay
+
+                </button>
+
+              </div>
+
             </div>
-          </div>
+
+          </article>
         ))}
+
       </div>
-    </div>
+
+    </section>
   );
 };
 
