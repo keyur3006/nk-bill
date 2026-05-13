@@ -81,52 +81,58 @@ const ProductSection = () => {
             </div>
 
             <div className="flex gap-3">
+              {/* Order Page */}
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("token");
 
-  {/* Order Button */}
-  <button
-    onClick={() => {
+                  if (!token) {
+                    navigate("/login");
+                    return;
+                  }
 
-      const token =
-        localStorage.getItem("token");
+                  const profileCompleted =
+                    localStorage.getItem("profileCompleted");
 
-      if (!token) {
+                  if (!profileCompleted) {
+                    navigate("/profile");
+                    return;
+                  }
 
-        navigate("/login");
+                  navigate(`/order/${p.id}`);
+                }}
+                className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
+              >
+                <ShoppingCart className="inline mr-2" />
+                Order
+              </button>
 
-        return;
-      }
+              {/* 🔥 Direct Payment */}
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("token");
 
-      navigate("/profile");
-    }}
-    className="flex-1 bg-blue-500 text-white py-3 rounded-xl"
-  >
-    <ShoppingCart className="inline mr-2" />
-    Order
-  </button>
+                  if (!token) {
+                    navigate("/login");
+                    return;
+                  }
 
-  {/* Pay Button */}
-  <button
-    onClick={() => {
+                  const profileCompleted =
+                    localStorage.getItem("profileCompleted");
 
-      const token =
-        localStorage.getItem("token");
+                  if (!profileCompleted) {
+                    navigate("/profile");
+                    return;
+                  }
 
-      if (!token) {
-
-        navigate("/login");
-
-        return;
-      }
-
-      navigate("/profile");
-    }}
-    className="flex-1 bg-green-500 text-white py-3 rounded-xl"
-  >
-    <CreditCard className="inline mr-2" />
-    Pay
-  </button>
-
-</div>
+                    navigate(`/order/${p.id}`);
+                }}
+                className="flex-1 bg-green-500 text-white py-3 rounded-xl"
+              >
+                <CreditCard className="inline mr-2" />
+                Pay
+              </button>
+            </div>
           </div>
         ))}
       </div>
