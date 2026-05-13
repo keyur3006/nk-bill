@@ -149,12 +149,12 @@ const HeroSection = () => {
             <img
               src="/images/water-bottle.png"
               alt="20L Mineral Water Bottle Delivery"
-              className="w-105 md:w-137 object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.25)] animate-float"
+              className="w-105 md:w-137 object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.25)] animate-float -ml-60 -mt-60"
             />
             
 
             {/* FLOATING CARD 1 */}
-            <div className="hidden md:flex absolute -top-45 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute -top-75 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-blue-100 p-3 rounded-full">
                 <Truck className="text-blue-600" size={22} />
@@ -173,7 +173,7 @@ const HeroSection = () => {
             </div>
 
             {/* FLOATING CARD 2 */}
-            <div className="hidden md:flex absolute bottom-10 right-0 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute bottom-10 -right-30  z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-cyan-100 p-3 rounded-full">
                 <Droplets className="text-cyan-600" size={22} />
@@ -192,7 +192,7 @@ const HeroSection = () => {
             </div>
 
             {/* FLOATING CARD 3 */}
-            <div className="hidden md:flex absolute top-72 left-0 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute top-30 left-0 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-yellow-100 p-3 rounded-full">
                 <Star className="text-yellow-500" size={22} />
