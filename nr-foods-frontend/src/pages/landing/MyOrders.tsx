@@ -27,136 +27,89 @@ const MyOrders = () => {
   /* ================= PDF DOWNLOAD ================= */
 
   const downloadBill = (order: Order) => {
-  const doc = new jsPDF();
+    const doc = new jsPDF();
 
-  // HEADER
-  doc.setFillColor(37, 99, 235);
-  doc.rect(0, 0, 210, 30, "F");
+    // HEADER
+    doc.setFillColor(37, 99, 235);
+    doc.rect(0, 0, 210, 30, "F");
 
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(24);
-  doc.text("KD Water Delivery", 20, 20);
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
+    doc.text("KD Water Delivery", 20, 20);
 
-  // RESET COLOR
-  doc.setTextColor(0, 0, 0);
+    // RESET COLOR
+    doc.setTextColor(0, 0, 0);
 
-  // TITLE
-  doc.setFontSize(18);
-  doc.text("ORDER INVOICE", 20, 45);
+    // TITLE
+    doc.setFontSize(18);
+    doc.text("ORDER INVOICE", 20, 45);
 
-  // LINE
-  doc.setDrawColor(200);
-  doc.line(20, 50, 190, 50);
+    // LINE
+    doc.setDrawColor(200);
+    doc.line(20, 50, 190, 50);
 
-  // ORDER DETAILS
-  doc.setFontSize(13);
+    // ORDER DETAILS
+    doc.setFontSize(13);
 
-  let y = 65;
+    let y = 65;
 
-  const addRow = (
-  label: string,
-  value: any
-) => {
+    const addRow = (label: string, value: any) => {
+      doc.setFont("helvetica", "bold");
 
-  doc.setFont("helvetica", "bold");
+      doc.text(`${label}:`, 20, y);
 
-  doc.text(`${label}:`, 20, y);
+      doc.setFont("helvetica", "normal");
 
-  doc.setFont("helvetica", "normal");
+      doc.text(value, 80, y);
 
-  doc.text(value, 80, y);
+      // ✅ Auto line height
+      if (Array.isArray(value)) {
+        y += value.length * 10;
+      } else {
+        y += 12;
+      }
+    };
 
-  // ✅ Auto line height
-  if (Array.isArray(value)) {
-    y += value.length * 10;
-  } else {
-    y += 12;
-  }
-};
+    addRow("Product", order.product);
 
-  addRow("Product", order.product);
+    addRow("Quantity", String(order.quantity));
 
-  addRow(
-    "Quantity",
-    String(order.quantity)
-  );
+    addRow("Amount", `Rs. ${order.amount}`);
 
-  addRow(
-    "Amount",
-    `Rs. ${order.amount}`
-  );
+    addRow("Payment", order.paymentMethod);
 
-  addRow(
-    "Payment",
-    order.paymentMethod
-  );
+    addRow("Payment Status", order.status);
 
-  addRow(
-    "Payment Status",
-    order.status
-  );
+    addRow("Delivery Status", order.deliveryStatus);
 
-  addRow(
-    "Delivery Status",
-    order.deliveryStatus
-  );
+    addRow("Customer", order.customerName);
 
-  addRow(
-    "Customer",
-    order.customerName
-  );
+    addRow("Mobile", order.mobile);
 
-  addRow(
-    "Mobile",
-    order.mobile
-  );
+    addRow("Address", doc.splitTextToSize(order.address || "-", 100));
 
- addRow(
-  "Address",
-  doc.splitTextToSize(
-    order.address || "-",
-    100
-  )
-);
+    addRow("City / Pincode", `${order.city} - ${order.pincode}`);
 
-  addRow(
-    "City / Pincode",
-    `${order.city} - ${order.pincode}`
-  );
+    addRow("Order Date", new Date(order.createdAt).toLocaleString());
 
-  addRow(
-    "Order Date",
-    new Date(
-      order.createdAt
-    ).toLocaleString()
-  );
+    // FOOTER
+    doc.setFontSize(11);
 
-  // FOOTER
-  doc.setFontSize(11);
+    doc.setTextColor(120);
 
-  doc.setTextColor(120);
+    doc.text("Thank you for ordering from KD Water Delivery", 20, 270);
 
-  doc.text(
-    "Thank you for ordering from KD Water Delivery",
-    20,
-    270
-  );
+    doc.save(`invoice-${order.id}.pdf`);
+  };
 
-  doc.save(`invoice-${order.id}.pdf`);
-};
+  /* ================= PRINT BILL ================= */
 
-/* ================= PRINT BILL ================= */
+  const printBill = (order: Order) => {
+    const printWindow = window.open("", "_blank", "width=900,height=900");
 
-const printBill = (order: Order) => {
-  const printWindow = window.open(
-    "",
-    "_blank",
-    "width=900,height=900"
-  );
+    if (!printWindow) return;
 
-  if (!printWindow) return;
-
-  printWindow.document.write(`
+    printWindow.document.write(`
     <html>
       <head>
         <title>Invoice-${order.id}</title>
@@ -357,30 +310,22 @@ const printBill = (order: Order) => {
     </html>
   `);
 
-  printWindow.document.close();
-};
+    printWindow.document.close();
+  };
   /* ================= FETCH ORDERS ================= */
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const token =
-          localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
-        const res = await api.get(
-          "/orders/my-orders",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await api.get("/orders/my-orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-        setOrders(
-          Array.isArray(res.data)
-            ? res.data
-            : []
-        );
+        setOrders(Array.isArray(res.data) ? res.data : []);
       } catch (error) {
         console.error(error);
       }
@@ -391,14 +336,10 @@ const printBill = (order: Order) => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-
       {/* HEADER */}
 
       <div className="flex justify-between items-center mb-6">
-
-        <h2 className="text-3xl font-bold">
-          My Orders
-        </h2>
+        <h2 className="text-3xl font-bold">My Orders</h2>
 
         <button
           onClick={() => navigate("/")}
@@ -406,71 +347,45 @@ const printBill = (order: Order) => {
         >
           ← Back To Home
         </button>
-
       </div>
 
       {/* EMPTY */}
 
       {orders.length === 0 ? (
-
-        <div className="bg-white p-6 rounded-2xl shadow">
-          No orders found
-        </div>
-
+        <div className="bg-white p-6 rounded-2xl shadow">No orders found</div>
       ) : (
-
         <div className="grid gap-6">
-
           {orders.map((order) => (
-
-            <div
-              key={order.id}
-              className="bg-white p-6 rounded-2xl shadow"
-            >
-
+            <div key={order.id} className="bg-white p-6 rounded-2xl shadow">
               {/* TOP */}
 
               <div className="flex flex-col lg:flex-row justify-between gap-6">
-
                 {/* LEFT */}
 
                 <div>
-
-                  <h3 className="text-3xl font-bold mb-2">
-                    {order.product}
-                  </h3>
+                  <h3 className="text-3xl font-bold mb-2">{order.product}</h3>
 
                   <p className="text-2xl font-bold text-green-600">
                     ₹{order.amount}
                   </p>
 
-                  <p className="mt-3">
-                    Quantity: {order.quantity}
-                  </p>
+                  <p className="mt-3">Quantity: {order.quantity}</p>
 
-                  <p className="mt-2">
-                    Payment Method:{" "}
-                    {order.paymentMethod}
-                  </p>
+                  <p className="mt-2">Payment Method: {order.paymentMethod}</p>
 
                   {/* PAYMENT STATUS */}
 
                   <p className="mt-2">
-
                     Payment Status:
-
                     <span className="ml-2 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold">
                       {order.status}
                     </span>
-
                   </p>
-
                 </div>
 
                 {/* RIGHT */}
 
                 <div className="bg-green-50 border border-green-200 rounded-2xl p-5 min-w-[250px]">
-
                   <p className="font-bold text-green-700 text-lg">
                     Estimated Delivery
                   </p>
@@ -482,77 +397,118 @@ const printBill = (order: Order) => {
                   <p className="text-sm text-gray-500 mt-2">
                     Fast & Safe Delivery
                   </p>
-
                 </div>
-
               </div>
 
               {/* DELIVERY STATUS */}
 
-              <div className="mt-8">
+              {/* DELIVERY TRACKER */}
 
-                <p className="mb-6 text-lg font-semibold">
+              <div className="mt-10">
+                <h3 className="text-xl font-bold mb-8">Delivery Tracking</h3>
 
-                  Delivery Status:
+                <div className="relative flex items-center justify-between">
+                  {/* Background Line */}
+                  <div className="absolute top-4 left-0 w-full h-1 bg-gray-300 rounded-full"></div>
 
-                  <span
-                    className={`ml-3 px-4 py-1 rounded-full text-sm font-bold ${
-                      order.deliveryStatus === "Ordered"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : order.deliveryStatus === "Confirmed"
-                        ? "bg-blue-100 text-blue-700"
-                        : order.deliveryStatus ===
-                          "Out For Delivery"
-                        ? "bg-orange-100 text-orange-700"
-                        : "bg-green-100 text-green-700"
-                    }`}
-                  >
-                    {order.deliveryStatus}
-                  </span>
+                  {/* Active Line */}
+                  <div
+                    className={`absolute top-4 left-0 h-1 bg-green-500 rounded-full
+      ${
+        order.deliveryStatus === "Ordered"
+          ? "w-[10%]"
+          : order.deliveryStatus === "Confirmed"
+            ? "w-[38%]"
+            : order.deliveryStatus === "Out For Delivery"
+              ? "w-[70%]"
+              : "w-full"
+      }`}
+                  ></div>
 
-                </p>
+                  {/* Ordered */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center text-lg shadow-lg">
+                      ✓
+                    </div>
+                    <p className="mt-2 text-sm font-semibold">Ordered</p>
+                  </div>
 
+                  {/* Confirmed */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg shadow-lg
+        ${
+          order.deliveryStatus === "Confirmed" ||
+          order.deliveryStatus === "Out For Delivery" ||
+          order.deliveryStatus === "Delivered"
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+                    >
+                      ✓
+                    </div>
+
+                    <p className="mt-2 text-sm font-semibold">Confirmed</p>
+                  </div>
+
+                  {/* Out For Delivery */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg shadow-lg
+        ${
+          order.deliveryStatus === "Out For Delivery" ||
+          order.deliveryStatus === "Delivered"
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+                    >
+                      🚚
+                    </div>
+
+                    <p className="mt-2 text-sm font-semibold text-center">
+                      Out For Delivery
+                    </p>
+                  </div>
+
+                  {/* Delivered */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-white text-lg shadow-lg
+        ${
+          order.deliveryStatus === "Delivered" ? "bg-green-500" : "bg-gray-300"
+        }`}
+                    >
+                      📦
+                    </div>
+
+                    <p className="mt-2 text-sm font-semibold">Delivered</p>
+                  </div>
+                </div>
               </div>
 
               {/* ADDRESS */}
 
               <div className="mt-8 border-t pt-6">
-
-                <h4 className="font-bold text-xl mb-3">
-                  Delivery Address
-                </h4>
+                <h4 className="font-bold text-xl mb-3">Delivery Address</h4>
 
                 <div className="space-y-1 text-gray-700">
+                  <p>{order.customerName || "-"}</p>
+
+                  <p>{order.mobile || "-"}</p>
+
+                  <p>{order.address || "-"}</p>
 
                   <p>
-                    {order.customerName || "-"}
+                    {order.city || "-"} - {order.pincode || "-"}
                   </p>
-
-                  <p>
-                    {order.mobile || "-"}
-                  </p>
-
-                  <p>
-                    {order.address || "-"}
-                  </p>
-
-                  <p>
-                    {order.city || "-"} -{" "}
-                    {order.pincode || "-"}
-                  </p>
-
                 </div>
-
               </div>
 
               {/* BUTTONS */}
 
               <div className="mt-6 flex flex-wrap gap-3">
-
                 <button
-                  onClick={() =>
-                    downloadBill(order)
-                  }
+                  onClick={() => downloadBill(order)}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl font-semibold"
                 >
                   Download PDF
@@ -564,37 +520,23 @@ const printBill = (order: Order) => {
                 >
                   Print Bill
                 </button>
-
               </div>
 
               {/* CANCEL */}
 
-              {order.deliveryStatus ===
-                "Ordered" && (
-
+              {order.deliveryStatus === "Ordered" && (
                 <div className="mt-6">
-
-                  <button
-                    className="border border-red-500 text-red-500 px-6 py-3 rounded-xl hover:bg-red-500 hover:text-white transition font-semibold"
-                  >
+                  <button className="border border-red-500 text-red-500 px-6 py-3 rounded-xl hover:bg-red-500 hover:text-white transition font-semibold">
                     Cancel Order
                   </button>
-
                 </div>
               )}
 
               {/* DATE */}
 
               <p className="text-sm text-gray-500 mt-8">
-
-                Ordered on:{" "}
-
-                {new Date(
-                  order.createdAt
-                ).toLocaleString()}
-
+                Ordered on: {new Date(order.createdAt).toLocaleString()}
               </p>
-
             </div>
           ))}
         </div>
