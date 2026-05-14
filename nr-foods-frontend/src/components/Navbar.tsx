@@ -92,7 +92,7 @@ const Navbar = () => {
           {/* Mobile extra */}
           <div className="pt-4 border-t">
             <p className="text-sm text-blue-400">📞 24/7 Phone Services</p>
-            <p className="font-bold">555 666 999 00</p>
+            <p className="font-bold">+91 9316163469</p>
           </div>
         </div>
       )}
