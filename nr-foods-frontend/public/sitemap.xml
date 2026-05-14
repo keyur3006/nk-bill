@@ -20,4 +20,28 @@
     <changefreq>monthly</changefreq>
   </url>
 
+  <url>
+    <loc>https://www.keyurbill.online/my-orders</loc>
+    <priority>0.5</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.keyurbill.online/ProductSection</loc>
+    <priority>0.1</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.keyurbill.online/area</loc>
+    <priority>0.1</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
+  <url>
+    <loc>https://www.keyurbill.online/services</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+
 </urlset>
