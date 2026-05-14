@@ -36,6 +36,21 @@ const products = [
   },
 ];
 
+const areas = [
+  "Kankaria",
+  "Maninagar",
+  "Isanpur",
+  "Raipur",
+  "Paldi",
+  "CTM",
+  "Nikol",
+  "Vastral",
+  "Bhulabhai park",
+  "Ellisbridge",
+  "Shah Alam",
+  "Khokhra",
+];
+
 const OrderPage = () => {
   const { id } = useParams();
 
@@ -46,6 +61,7 @@ const OrderPage = () => {
   const [qty, setQty] = useState(1);
 
   const [profile, setProfile] = useState<any>(null);
+  const [selectedArea, setSelectedArea] = useState("");
 
   /* ================= PROFILE FETCH ================= */
 
@@ -98,6 +114,11 @@ const OrderPage = () => {
 
         navigate("/login");
 
+        return;
+      }
+
+      if (!selectedArea) {
+        toast.error("Please select delivery area");
         return;
       }
 
@@ -165,6 +186,8 @@ const OrderPage = () => {
               mobile: profile.mobile,
 
               customerName: profile.name,
+              
+              selectedArea,
             },
             {
               headers: {
@@ -244,6 +267,26 @@ const OrderPage = () => {
               >
                 Edit
               </button>
+            </div>
+
+            {/* AREA DROPDOWN */}
+
+            <div className="mb-4">
+              <label className="block mb-2 font-semibold">Select Area</label>
+
+              <select
+                value={selectedArea}
+                onChange={(e) => setSelectedArea(e.target.value)}
+                className="w-full border border-gray-300 rounded-xl p-3"
+              >
+                <option value="">Select Your Area</option>
+
+                {areas.map((area) => (
+                  <option key={area} value={area}>
+                    {area}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <p className="font-semibold">{profile?.name}</p>

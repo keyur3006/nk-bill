@@ -19,6 +19,11 @@ const Navbar = () => {
           <Link to="/my-orders">
             <button className="  px-2  rounded-lg">My Orders</button>
           </Link>
+           <Link to="/services" >
+            Services
+          </Link>
+          <Link to="/area">Location</Link>
+          <Link to="/ProductSection">product</Link>
           <Link
             to="/login"
             className="bg-blue-600 text-white px-4 py-1 rounded"
@@ -49,7 +54,7 @@ const Navbar = () => {
             <span className="text-xl">📞</span>
             <div className="text-sm">
               <p className="text-blue-400">24/7 Phone Services</p>
-              <p className="font-bold">555 666 999 00</p>
+              <p className="font-bold">+91 9316163469</p>
             </div>
           </div>
 
@@ -80,6 +85,12 @@ const Navbar = () => {
           </Link>
           <Link to="/my-orders" onClick={() => setMenuOpen(false)}>
             My Orders
+          </Link>
+          <Link to="/services" onClick={() => setMenuOpen(false)}>
+            Services
+          </Link>
+           <Link to="/area" onClick={() => setMenuOpen(false)}>
+            Location
           </Link>
           <Link
             to="/login"

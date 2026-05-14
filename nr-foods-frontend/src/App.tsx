@@ -25,6 +25,10 @@ import Users from "./pages/Users";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import Services from "./pages/Services";
+import DeliveryAreas from "./pages/areas";
+import ProductSection from "./pages/product";
+
 
 function App() {
   return (
@@ -36,11 +40,15 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/area" element={<DeliveryAreas/>} /> 
+        <Route path="/ProductSection" element={<ProductSection/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/my-orders" element={<MyOrders />} />
         <Route path="/order/:id" element={<OrderPage />} />
         <Route path="/profile" element={<Profile />} />
+        
 
         {/* 🔐 ADMIN WITH SIDEBAR */}
         <Route
