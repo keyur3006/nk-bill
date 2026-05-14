@@ -8,22 +8,22 @@ const Contact = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: "Call Us",
-      details: "+88 012 345 678 90",
+      details: "+91 9316163469",
       subDetails: "Mon-Sat: 10am - 7pm",
       color: "bg-blue-500"
     },
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email Us",
-      details: "support@nrfoods.com",
+      details: "keyurdivan@gmail.com",
       subDetails: "24/7 Online Support",
       color: "bg-indigo-500"
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Visit Us",
-      details: "123 Water Street",
-      subDetails: "New York, NY 10001",
+      details: "Kankaria",
+      subDetails: "Ahmedabad, Gujarat",
       color: "bg-cyan-500"
     }
   ];
