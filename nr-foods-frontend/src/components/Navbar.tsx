@@ -24,12 +24,12 @@ const Navbar = () => {
           </Link>
           <Link to="/area">Location</Link>
           <Link to="/ProductSection">product</Link>
-          <Link
+          {/* <Link
             to="/login"
             className="bg-blue-600 text-white px-4 py-1 rounded"
           >
-            Login
-          </Link>
+            Login 
+          </Link> */}
         </div>
 
         {/* MOBILE MENU BUTTON */}
@@ -51,10 +51,17 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-6">
           {/* PHONE */}
           <div className="flex items-center gap-2 text-blue-900">
+             <Link
+            to="/login"
+            className="bg-blue-600 text-white px-4 py-1 rounded"
+          >
+            Login
+          </Link>
             <span className="text-xl">📞</span>
             <div className="text-sm">
               <p className="text-blue-400">24/7 Phone Services</p>
               <p className="font-bold">+91 9316163469</p>
+              
             </div>
           </div>
 

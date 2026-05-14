@@ -22,6 +22,17 @@ interface Order {
 const MyOrders = () => {
   const navigate = useNavigate();
 
+   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+
+    // ❌ Login nathi to login page par moklo
+    if (!token) {
+      navigate("/login");
+    }
+
+  }, [token, navigate]);
+
   const [orders, setOrders] = useState<Order[]>([]);
 
   /* ================= PDF DOWNLOAD ================= */
