@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, MessageCircle } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "./landing/Footer";
-
+import { Helmet } from "react-helmet-async";
 const Contact = () => {
   const contactInfo = [
     {
@@ -35,6 +35,89 @@ const Contact = () => {
   ];
 
   return (
+    <>
+  <Helmet>
+
+    {/* TITLE */}
+    <title>
+      Contact Us | KD Water Delivery Ahmedabad
+    </title>
+
+    {/* DESCRIPTION */}
+    <meta
+      name="description"
+      content="Contact KD Water Delivery Ahmedabad for fast mineral water bottle delivery, customer support, order help, and purified drinking water services."
+    />
+
+    {/* KEYWORDS */}
+    <meta
+      name="keywords"
+      content="contact water delivery Ahmedabad, KD Water Delivery contact, mineral water support, bottled water help, water delivery customer service, purified drinking water Ahmedabad"
+    />
+
+    {/* AUTHOR */}
+    <meta
+      name="author"
+      content="KD Water Delivery"
+    />
+
+    {/* ROBOTS */}
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    {/* OPEN GRAPH */}
+    <meta
+      property="og:title"
+      content="Contact KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      property="og:description"
+      content="Get in touch with KD Water Delivery for fast and reliable mineral water services in Ahmedabad."
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/contact"
+    />
+
+    <meta
+      property="og:image"
+      content="https://www.keyurbill.online/images/contact-hero.png"
+    />
+
+    {/* TWITTER */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="Contact KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Need help with water delivery? Contact our Ahmedabad support team."
+    />
+
+    {/* CANONICAL */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/contact"
+    />
+
+  </Helmet>
+
+  
     <div className="min-h-screen bg-surface-50">
       <Navbar />
 
@@ -195,6 +278,7 @@ const Contact = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

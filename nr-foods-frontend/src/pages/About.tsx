@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Droplet, ShieldCheck, Truck, Recycle, Award, Users } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "./landing/Footer";
-
+import { Helmet } from "react-helmet-async";
 const About = () => {
   const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -41,6 +41,88 @@ const About = () => {
   ];
 
   return (
+    <>
+  <Helmet>
+
+    {/* TITLE */}
+    <title>
+      About Us | KD Water Delivery Ahmedabad
+    </title>
+
+    {/* META DESCRIPTION */}
+    <meta
+      name="description"
+      content="Learn about KD Water Delivery Ahmedabad. We provide pure mineral water bottle delivery services with fast home delivery, premium quality, and trusted hydration solutions."
+    />
+
+    {/* KEYWORDS */}
+    <meta
+      name="keywords"
+      content="about KD Water Delivery, mineral water Ahmedabad, water delivery company, pure drinking water, RO UV water supplier, bottled water delivery Ahmedabad"
+    />
+
+    {/* AUTHOR */}
+    <meta
+      name="author"
+      content="KD Water Delivery"
+    />
+
+    {/* ROBOTS */}
+    <meta
+      name="robots"
+      content="index, follow"
+    />
+
+    {/* OPEN GRAPH */}
+    <meta
+      property="og:title"
+      content="About KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      property="og:description"
+      content="Trusted mineral water delivery service in Ahmedabad with pure drinking water and fast delivery."
+    />
+
+    <meta
+      property="og:type"
+      content="website"
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/about"
+    />
+
+    <meta
+      property="og:image"
+      content="https://www.keyurbill.online/images/about-hero.png"
+    />
+
+    {/* TWITTER */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="About KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Pure mineral water bottle delivery service for homes and offices."
+    />
+
+    {/* CANONICAL */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/about"
+    />
+
+  </Helmet>
+
     <div className="min-h-screen bg-surface-50">
       <Navbar />
 
@@ -183,7 +265,9 @@ const About = () => {
 
       <Footer />
     </div>
+    </>
   );
+  
 };
 
 export default About;

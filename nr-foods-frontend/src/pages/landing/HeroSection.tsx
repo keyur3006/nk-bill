@@ -5,11 +5,85 @@ import {
   Droplets,
   Truck,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
+  
   return (
+    <>
+  <Helmet>
+
+    <title>
+      KD Water Delivery Ahmedabad | 20L Mineral Water Delivery
+    </title>
+
+    <meta
+      name="description"
+      content="Best mineral water delivery service in Ahmedabad. Fast 20L bottle water delivery for homes, offices, and businesses with pure RO + UV purified drinking water."
+    />
+
+    <meta
+      name="keywords"
+      content="water delivery Ahmedabad, mineral water delivery, 20L bottle delivery, RO water Ahmedabad, pure drinking water, fast water delivery, KD Water Delivery"
+    />
+
+    <meta name="robots" content="index, follow" />
+
+    {/* Open Graph */}
+    <meta
+      property="og:title"
+      content="KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      property="og:description"
+      content="Fast and reliable mineral water bottle delivery service in Ahmedabad."
+    />
+
+    <meta
+      property="og:image"
+      content="https://www.keyurbill.online/images/slider-1.jpg"
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/"
+    />
+
+    <meta property="og:type" content="website" />
+
+    {/* Twitter */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Order pure and healthy mineral water online with fast delivery."
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://www.keyurbill.online/images/slider-1.jpg"
+    />
+
+    {/* Canonical */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/"
+    />
+
+  </Helmet>
+
+  
     <section
       className="relative min-h-[85vh] w-full overflow-hidden bg-cover bg-no-repeat flex items-center"
       style={{
@@ -240,6 +314,7 @@ const HeroSection = () => {
       </style>
 
     </section>
+    </>
   );
 };
 

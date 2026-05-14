@@ -1,7 +1,79 @@
 import { motion } from "framer-motion";
-
+import { Helmet } from "react-helmet-async";
 const MineralSection = () => {
   return (
+    <>
+  <Helmet>
+
+    <title>
+      Essential Mineral Balance | Pure Mineral Water Ahmedabad
+    </title>
+
+    <meta
+      name="description"
+      content="Discover the essential mineral balance in our purified drinking water. Rich in calcium, magnesium, sodium, and healthy minerals for better hydration and wellness in Ahmedabad."
+    />
+
+    <meta
+      name="keywords"
+      content="mineral water Ahmedabad, healthy drinking water, calcium water, magnesium water, purified water, RO mineral water, healthy hydration, KD Water Delivery"
+    />
+
+    <meta name="robots" content="index, follow" />
+
+    {/* Open Graph */}
+    <meta
+      property="og:title"
+      content="Essential Mineral Balance | KD Water Delivery"
+    />
+
+    <meta
+      property="og:description"
+      content="Pure mineral water enriched with healthy minerals and balanced hydration."
+    />
+
+    <meta
+      property="og:image"
+      content="https://www.keyurbill.online/images/video.jpg"
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/services"
+    />
+
+    <meta property="og:type" content="website" />
+
+    {/* Twitter */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="Essential Mineral Balance"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Healthy mineral-rich drinking water with balanced hydration."
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://www.keyurbill.online/images/video.jpg"
+    />
+
+    {/* Canonical */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/services"
+    />
+
+  </Helmet>
+
+ 
     <section className="bg-blue-50/30 py-24 px-6 md:px-10">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
         
@@ -95,7 +167,8 @@ const MineralSection = () => {
       </div>
 
     </section>
+    </>
   );
 };
 
-export default MineralSection;
+export default MineralSection;

@@ -4,6 +4,7 @@ import {
   HeartPulse,
   ShieldCheck,
 } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 
 import { motion } from "framer-motion";
 
@@ -71,6 +72,78 @@ const features = [
 
 const FeaturesSection = () => {
   return (
+    <>
+  <Helmet>
+
+    <title>
+      Best Mineral Water Delivery Service in Ahmedabad | KD Water Delivery
+    </title>
+
+    <meta
+      name="description"
+      content="Get pure and healthy mineral water delivery services in Ahmedabad. Fast home delivery, advanced RO + UV purification, healthy minerals, and same-day doorstep delivery."
+    />
+
+    <meta
+      name="keywords"
+      content="mineral water delivery Ahmedabad, pure drinking water, RO water delivery, 20L bottle delivery, healthy mineral water, water supplier Ahmedabad, KD Water Delivery"
+    />
+
+    <meta name="robots" content="index, follow" />
+
+    {/* Open Graph */}
+    <meta
+      property="og:title"
+      content="Best Mineral Water Delivery Service in Ahmedabad"
+    />
+
+    <meta
+      property="og:description"
+      content="Fast and affordable mineral water bottle delivery service for homes and offices in Ahmedabad."
+    />
+
+    <meta
+      property="og:image"
+      content="https://www.keyurbill.online/images/slider-1.jpg"
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/services"
+    />
+
+    <meta property="og:type" content="website" />
+
+    {/* Twitter */}
+    <meta
+      name="twitter:card"
+      content="summary_large_image"
+    />
+
+    <meta
+      name="twitter:title"
+      content="KD Water Delivery Ahmedabad"
+    />
+
+    <meta
+      name="twitter:description"
+      content="Order pure mineral water online with fast delivery in Ahmedabad."
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://www.keyurbill.online/images/slider-1.jpg"
+    />
+
+    {/* Canonical */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/services"
+    />
+
+  </Helmet>
+
+
     <section className="relative overflow-hidden bg-linear-to-b from-blue-50 to-white py-24">
 
       {/* BACKGROUND BLUR */}
@@ -185,6 +258,7 @@ const FeaturesSection = () => {
       </div>
 
     </section>
+    </>
   );
 };
 

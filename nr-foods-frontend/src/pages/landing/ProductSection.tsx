@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import { Helmet } from "react-helmet-async";
 import {
   ShoppingCart,
   CreditCard,
@@ -63,6 +63,32 @@ const ProductSection = () => {
   ];
 
   return (
+    <>
+     <Helmet>
+
+  <title>
+    Premium Mineral Water Delivery Ahmedabad | KD Water Delivery
+  </title>
+
+  <meta
+    name="description"
+    content="Order premium mineral water bottles online in Ahmedabad. Fast delivery for homes, offices, Bisleri, 20L bottle, cold water and hot water delivery."
+  />
+
+  <meta
+    name="keywords"
+    content="water delivery Ahmedabad, mineral water delivery, Bisleri delivery, 20L water bottle, hot water bottle, cold water delivery"
+  />
+
+  <meta name="robots" content="index, follow" />
+
+  <link
+    rel="canonical"
+    href="https://www.keyurbill.online/ProductSection"
+  />
+
+</Helmet>
+
     <section className="relative overflow-hidden bg-linear-to-b from-blue-50 to-white py-24 px-6">
 
       {/* TOP HEADING */}
@@ -122,14 +148,14 @@ const ProductSection = () => {
             <div className="px-8 pb-8 text-center">
 
               {/* PRODUCT NAME */}
-              <h3 className="text-2xl font-bold text-blue-950 mb-3">
+              <h3 className="text-xl font-bold text-blue-950 mb-3 min-h-20 flex items-center justify-center whitespace-nowrap">
 
                 {p.name}
 
               </h3>
 
               {/* DESCRIPTION */}
-              <p className="text-gray-500 leading-7 text-sm mb-6">
+              <p className="text-gray-500 leading-7 text-sm mb-6 min-h-22">
 
                 {p.description}
 
@@ -268,7 +294,9 @@ const ProductSection = () => {
       </div>
 
     </section>
+    </>
   );
 };
+
 
 export default ProductSection;

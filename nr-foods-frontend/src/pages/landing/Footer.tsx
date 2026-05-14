@@ -1,114 +1,250 @@
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
-    <footer className="bg-[#0b2c6a] text-white mt-20 relative">
-      
-      {/* TOP CTA BOX */}
-     <div className="relative">
-  <div className="absolute left-1/2 -translate-x-1/2 -top-20 w-full max-w-6xl px-6">
-    
-    <div className="bg-linear-to-r from-blue-400 to-blue-500 rounded-xl px-10 py-10 flex justify-between items-center shadow-xl">
-      
-      <h2 className="text-2xl md:text-3xl font-bold text-blue-900">
+    <>
+      {/* SEO META TAGS */}
+      <Helmet>
+
+        <title>
+          KD Water Delivery Ahmedabad | Pure Mineral Water Service
+        </title>
+
+        <meta
+          name="description"
+          content="KD Water Delivery provides fast and reliable mineral water bottle delivery services in Ahmedabad. Order 20L water bottles, pure RO + UV purified drinking water, and same-day delivery."
+        />
+
+        <meta
+          name="keywords"
+          content="water delivery Ahmedabad, mineral water delivery, 20L water bottle, pure drinking water, RO water delivery, KD Water Delivery, fast water delivery"
+        />
+
+        <meta name="robots" content="index, follow" />
+
+        {/* Open Graph */}
+        <meta
+          property="og:title"
+          content="KD Water Delivery Ahmedabad"
+        />
+
+        <meta
+          property="og:description"
+          content="Best mineral water bottle delivery service in Ahmedabad."
+        />
+
+        <meta
+          property="og:image"
+          content="https://www.keyurbill.online/images/slider-1.jpg"
+        />
+
+        <meta
+          property="og:url"
+          content="https://www.keyurbill.online/"
+        />
+
+        <meta property="og:type" content="website" />
+
+        {/* Canonical */}
+        <link
+          rel="canonical"
+          href="https://www.keyurbill.online/"
+        />
+
+      </Helmet>
+<footer className="bg-[#0b2c6a] text-white mt-40 relative">
+
+  {/* CTA BOX */}
+  <div className="absolute left-1/2 -translate-x-1/2 -top-24 w-full max-w-6xl px-6 z-20">
+
+    <div className="bg-gradient-to-r from-blue-400 to-blue-500 rounded-[30px] px-8 md:px-10 py-10 md:py-4 flex flex-col md:flex-row justify-between items-center gap-8 shadow-2xl">
+
+      {/* TEXT */}
+      <h2 className="text-3xl md:text-5xl font-extrabold text-blue-950 leading-tight max-w-3xl">
+
         Ready to get started? <br />
+
         Get in touch, or create an account.
+
       </h2>
 
-      <button className="bg-blue-900 text-white px-6 py-3 rounded-full">
+      {/* BUTTON */}
+      <button className="bg-[#1d2f8d] hover:bg-[#16246d] transition-all duration-300 text-white px-10 py-5 rounded-full text-lg font-semibold shadow-lg whitespace-nowrap">
+
         Subscribe Now →
+
       </button>
 
     </div>
 
   </div>
-</div>
 
-      {/* MAIN FOOTER */}
-      <div className="max-w-7xl mx-auto px-10 py-30 -m-9 grid md:grid-cols-5 gap-10 " >
-        
-        {/* LOGO + DESC */}
-        <div>
-          <h1 className="text-2xl font-bold text-blue-300 mb-4">
-            Aqualife
-          </h1>
-          <p className="text-gray-300 text-sm">
-            There are many variations of passages of Ipsum available but the majority.
-          </p>
+  {/* MAIN FOOTER */}
+ <div className="max-w-7xl mx-auto px-6 md:px-10 pt-52 pb-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
 
-          <div className="flex gap-4 mt-6 text-sm text-gray-300">
-            <span>Privacy</span>
-            <span>Terms & Conditions</span>
-            <span>Blog</span>
-          </div>
-        </div>
+          {/* LOGO + DESC */}
+          <div>
 
-        {/* RECENT BLOG */}
-        <div>
-          <h3 className="font-semibold mb-4">Recent Blog</h3>
+            <h1 className="text-3xl font-extrabold text-blue-300 mb-4">
+              KD Water Delivery
+            </h1>
 
-          <div className="flex gap-3 mb-4">
-            <img
-              src="/images/blog-1.jpg"
-              className="w-12 h-12 rounded"
-            />
-            <div>
-              <p className="text-sm">Fusce magna</p>
-              <span className="text-xs text-gray-400">June 26, 2020</span>
+            <p className="text-gray-300 text-sm leading-7">
+              Fast and reliable mineral water bottle delivery service in Ahmedabad for homes, offices, and businesses.
+            </p>
+
+            <div className="flex flex-wrap gap-4 mt-6 text-sm text-gray-300">
+
+              <Link to="/about" className="hover:text-white transition">
+                About
+              </Link>
+
+              <Link to="/contact" className="hover:text-white transition">
+                Contact
+              </Link>
+
+              <Link to="/services" className="hover:text-white transition">
+                Services
+              </Link>
+
             </div>
+
           </div>
 
-          <div className="flex gap-3">
-            <img
-              src="/images/blog-2.jpg"
-              className="w-12 h-12 rounded"
-            />
-            <div>
-              <p className="text-sm">Fusce magna</p>
-              <span className="text-xs text-gray-400">June 26, 2020</span>
-            </div>
+          {/* QUICK LINKS */}
+          <div>
+
+            <h3 className="font-bold text-lg mb-5">
+              Quick Links
+            </h3>
+
+            <ul className="space-y-3 text-gray-300 text-sm">
+
+              <li>
+                <Link to="/" className="hover:text-white transition">
+                  Home
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/about" className="hover:text-white transition">
+                  About
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/contact" className="hover:text-white transition">
+                  Contact
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/services" className="hover:text-white transition">
+                  Services
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/area" className="hover:text-white transition">
+                  Delivery Area
+                </Link>
+              </li>
+
+            </ul>
+
           </div>
+
+          {/* PRODUCTS */}
+          <div>
+
+            <h3 className="font-bold text-lg mb-5">
+              Products
+            </h3>
+
+            <ul className="space-y-3 text-gray-300 text-sm">
+
+              <li>20L Cold Bottle</li>
+
+              <li>20L Hot Bottle</li>
+
+              <li>Bisleri 200ml</li>
+
+              <li>Yes 200ml</li>
+
+              <li>Mineral Water Delivery</li>
+
+            </ul>
+
+          </div>
+
+          {/* IMPORTANT PAGES */}
+          <div>
+
+            <h3 className="font-bold text-lg mb-5">
+              Important Pages
+            </h3>
+
+            <ul className="space-y-3 text-gray-300 text-sm">
+
+              <li>
+                <Link to="/login" className="hover:text-white transition">
+                  Login
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/my-orders" className="hover:text-white transition">
+                  My Orders
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/ProductSection" className="hover:text-white transition">
+                  Products
+                </Link>
+              </li>
+
+            </ul>
+
+          </div>
+
+          {/* CONTACT */}
+          <div>
+
+            <h3 className="font-bold text-lg mb-5">
+              Contact Us
+            </h3>
+
+            <p className="text-sm text-gray-300 mb-3 leading-7">
+              📞 +91 9316163469
+            </p>
+
+            <p className="text-sm text-gray-300 leading-7">
+              📍 Ahmedabad, Gujarat, India
+            </p>
+
+            <p className="text-sm text-gray-300 mt-3">
+              ✉ support@keyurbill.online
+            </p>
+
+          </div>
+
         </div>
 
-        {/* PRODUCTS */}
-        <div>
-          <h3 className="font-semibold mb-4">Products</h3>
-          <ul className="space-y-2 text-gray-300 text-sm">
-            <li>Home</li>
-            <li>Testimonials</li>
-            <li>Team</li>
-            <li>Career</li>
-            <li>Contact</li>
-          </ul>
+        {/* COPYRIGHT */}
+        <div className="text-center text-sm text-gray-300 py-5 border-t border-blue-800 px-4">
+
+          © 2026
+          <span className="text-blue-400 font-semibold">
+            {" "}KD Water Delivery
+          </span>
+          . All Rights Reserved.
+
         </div>
 
-        {/* CATEGORIES */}
-        <div>
-          <h3 className="font-semibold mb-4">Categories</h3>
-          <ul className="space-y-2 text-gray-300 text-sm">
-            <li>Home</li>
-            <li>Testimonials</li>
-            <li>Team</li>
-            <li>Career</li>
-            <li>Contact</li>
-          </ul>
-        </div>
-
-        {/* CONTACT */}
-        <div>
-          <h3 className="font-semibold mb-4">Contact Us</h3>
-          <p className="text-sm text-gray-300 mb-2">
-            📞 +88 012 345 678 90
-          </p>
-          <p className="text-sm text-gray-300">
-            📍 123 Street New York City, United States
-          </p>
-        </div>
-      </div>
-
-      {/* COPYRIGHT */}
-      <div className="text-center text-sm text-gray-300 py-4 border-t border-blue-800">
-        Copyright by <span className="text-blue-400">@nrfoods</span>. All Rights Reserved
-      </div>
-    </footer>
+      </footer>
+    </>
   );
 };
 

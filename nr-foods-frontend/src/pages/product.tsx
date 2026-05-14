@@ -189,24 +189,24 @@ const Products = () => {
                 </div>
 
                 {/* CONTENT */}
-                <div className="px-8 pb-8 text-center">
+                <div className="px-8 pb-8 text-center flex flex-col h-full">
 
                   {/* PRODUCT NAME */}
-                  <h2 className="text-2xl font-bold text-blue-950 mb-3">
+                  <h2 className="text-2xl font-bold text-blue-950 mb-3 h-[80px] flex items-center justify-center leading-tight">
 
                     {p.name}
 
                   </h2>
 
                   {/* DESCRIPTION */}
-                  <p className="text-gray-500 leading-7 text-sm mb-6">
+                  <p className="text-gray-500 leading-7 text-sm mb-6 h-[110px]">
 
                     {p.description}
 
                   </p>
 
                   {/* FEATURES */}
-                  <div className="flex justify-center gap-4 mb-6 text-sm text-gray-600 flex-wrap">
+                  <div className="flex justify-center gap-4 mb-6 text-sm text-gray-600 flex-wrap min-h-[60px] items-start">
 
                     <div className="flex items-center gap-1">
                       <ShieldCheck size={16} className="text-green-500" />
@@ -226,7 +226,7 @@ const Products = () => {
                   </div>
 
                   {/* PRICE */}
-                  <div className="mb-6">
+                  <div className="mb-6 min-h-[70px] flex items-center justify-center">
 
                     <span className="text-4xl font-extrabold text-blue-600">
                       ₹{p.price}

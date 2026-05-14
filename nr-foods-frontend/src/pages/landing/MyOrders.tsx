@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../../utils/api";
 import { useNavigate } from "react-router-dom";
 import jsPDF from "jspdf";
-
+import { Helmet } from "react-helmet-async";
 interface Order {
   id: number;
   product: string;
@@ -20,6 +20,7 @@ interface Order {
 }
 
 const MyOrders = () => {
+
   const navigate = useNavigate();
 
    const token = localStorage.getItem("token");
@@ -372,6 +373,52 @@ useEffect(() => {
 }, []);
 
   return (
+    <>
+  <Helmet>
+
+    <title>
+      My Orders | KD Water Delivery Ahmedabad
+    </title>
+
+    <meta
+      name="description"
+      content="Track your mineral water bottle orders, delivery status, invoices, and payment details online with KD Water Delivery Ahmedabad."
+    />
+
+    <meta
+      name="keywords"
+      content="my orders, water delivery orders, order tracking Ahmedabad, mineral water invoice, water bottle delivery status, KD Water Delivery"
+    />
+
+    {/* IMPORTANT */}
+    <meta name="robots" content="noindex, nofollow" />
+
+    {/* Open Graph */}
+    <meta
+      property="og:title"
+      content="My Orders | KD Water Delivery"
+    />
+
+    <meta
+      property="og:description"
+      content="Track your order and download invoices online."
+    />
+
+    <meta
+      property="og:url"
+      content="https://www.keyurbill.online/my-orders"
+    />
+
+    <meta property="og:type" content="website" />
+
+    {/* Canonical */}
+    <link
+      rel="canonical"
+      href="https://www.keyurbill.online/my-orders"
+    />
+
+  </Helmet>
+
     <div className="min-h-screen bg-gray-100 p-6">
       {/* HEADER */}
 
@@ -579,6 +626,7 @@ useEffect(() => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
