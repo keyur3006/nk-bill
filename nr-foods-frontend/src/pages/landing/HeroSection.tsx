@@ -27,9 +27,9 @@ const HeroSection = () => {
      <div className="absolute inset-0 bg-black/5"></div>
 
       {/* BLUR EFFECTS */}
-      <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-2xl"></div>
 
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-2xl"></div>
 
       {/* MAIN CONTENT */}
       <div className="relative z-30 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-10 pb-10">
@@ -40,7 +40,7 @@ const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0, x: -80 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.4 }}
           >
 
             {/* TOP BADGE */}
@@ -152,12 +152,12 @@ const HeroSection = () => {
             <img
               src="/images/water-bottle.png"
               alt="20L mineral water bottle delivery service in Ahmedabad"
-              className="w-105 md:w-137 object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.25)] animate-float -ml-60 -mt-60"
+              className="w-[320px] md:w-[500px] object-contain drop-shadow-xl animate-float -ml-60 -mt-60"
             />
             
 
             {/* FLOATING CARD 1 */}
-            <div className="hidden md:flex absolute -top-75 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute -top-75 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-blue-100 p-3 rounded-full">
                 <Truck className="text-blue-600" size={22} />
@@ -226,7 +226,7 @@ const HeroSection = () => {
       <style>
         {`
           .animate-float {
-            animation: float 4s ease-in-out infinite;
+            animation: float 6s ease-in-out infinite;
           }
 
           @keyframes float {
