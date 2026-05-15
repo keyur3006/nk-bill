@@ -5,7 +5,7 @@ import {
   Droplets,
   Truck,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+
 
 import { motion } from "framer-motion";
 
@@ -13,75 +13,7 @@ const HeroSection = () => {
   
   return (
     <>
-  <Helmet>
-
-    <title>
-      KD Water Delivery Ahmedabad | 20L Mineral Water Delivery
-    </title>
-
-    <meta
-      name="description"
-      content="Best mineral water delivery service in Ahmedabad. Fast 20L bottle water delivery for homes, offices, and businesses with pure RO + UV purified drinking water."
-    />
-
-    <meta
-      name="keywords"
-      content="water delivery Ahmedabad, mineral water delivery, 20L bottle delivery, RO water Ahmedabad, pure drinking water, fast water delivery, KD Water Delivery"
-    />
-
-    <meta name="robots" content="index, follow" />
-
-    {/* Open Graph */}
-    <meta
-      property="og:title"
-      content="KD Water Delivery Ahmedabad"
-    />
-
-    <meta
-      property="og:description"
-      content="Fast and reliable mineral water bottle delivery service in Ahmedabad."
-    />
-
-    <meta
-      property="og:image"
-      content="https://www.keyurbill.online/images/slider-1.jpg"
-    />
-
-    <meta
-      property="og:url"
-      content="https://www.keyurbill.online/"
-    />
-
-    <meta property="og:type" content="website" />
-
-    {/* Twitter */}
-    <meta
-      name="twitter:card"
-      content="summary_large_image"
-    />
-
-    <meta
-      name="twitter:title"
-      content="KD Water Delivery Ahmedabad"
-    />
-
-    <meta
-      name="twitter:description"
-      content="Order pure and healthy mineral water online with fast delivery."
-    />
-
-    <meta
-      name="twitter:image"
-      content="https://www.keyurbill.online/images/slider-1.jpg"
-    />
-
-    {/* Canonical */}
-    <link
-      rel="canonical"
-      href="https://www.keyurbill.online/"
-    />
-
-  </Helmet>
+  
 
   
     <section
@@ -121,7 +53,7 @@ const HeroSection = () => {
               />
 
               <span className="text-blue-700 font-bold text-sm tracking-wide uppercase">
-                Best Mineral Water Supplier In Ahmedabad
+                Fast RO Water Bottle Delivery Across Ahmedabad
               </span>
 
             </div>
@@ -129,25 +61,22 @@ const HeroSection = () => {
             {/* HEADING */}
             <h1 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
 
-              Fresh & Pure <br />
+             20L Mineral Water <br />
 
               <span className="text-blue-600">
-                Mineral Water
+                Bottle Delivery
               </span>
 
               <br />
 
-              Delivery Service
+              in Ahmedabad
 
             </h1>
 
             {/* DESCRIPTION */}
             <p className="mt-8 text-lg text-blue-950 font-medium leading-9 max-w-xl">
 
-              Get fast and reliable 20L mineral water bottle delivery
-              at your home and office in Ahmedabad. We provide safe,
-              healthy and purified drinking water with affordable
-              pricing and same-day delivery service.
+              Get fast and reliable 20L mineral water bottle delivery in Ahmedabad including Nikol, Naroda, Vastral, Bapunagar, Odhav and nearby areas. Pure RO + UV purified drinking water for homes, offices and businesses.
 
             </p>
 
@@ -168,42 +97,42 @@ const HeroSection = () => {
 
                 <Phone size={20} />
 
-                Call For Delivery
+                Call Now
 
               </button>
 
             </div>
 
             {/* TRUST STATS */}
-            <div className="inline-flexflex-wrap gap-10 mt-10 bg-white/70 backdrop-blur-md p-6 rounded-3xl shadow-xl inline-flex">
+            <div className="inline-flex flex-wrap gap-10 mt-10 bg-white/70 backdrop-blur-md p-6 rounded-3xl shadow-xl inline-flex">
 
               <div>
                 <h3 className="text-4xl font-extrabold text-blue-900">
-                  500+
+                  1000+
                 </h3>
 
                 <p className="text-blue-950 font-semibold mt-1">
-                  Happy Customers
+                  Ahmedabad Customers
                 </p>
               </div>
 
               <div>
                 <h3 className="text-4xl font-extrabold text-blue-900">
-                  24/7
+                  Same
                 </h3>
 
                 <p className="text-blue-950 font-semibold mt-1">
-                  Fast Delivery
+                  Day Delivery
                 </p>
               </div>
 
               <div>
                 <h3 className="text-4xl font-extrabold text-blue-900">
-                  100%
+                  RO + UV
                 </h3>
 
                 <p className="text-blue-950 font-semibold mt-1">
-                  Pure Drinking Water
+                  Purified Water
                 </p>
               </div>
 
@@ -222,7 +151,7 @@ const HeroSection = () => {
             {/* MAIN IMAGE */}
             <img
               src="/images/water-bottle.png"
-              alt="20L Mineral Water Bottle Delivery"
+              alt="20L mineral water bottle delivery service in Ahmedabad"
               className="w-105 md:w-137 object-contain drop-shadow-[0_25px_60px_rgba(0,0,0,0.25)] animate-float -ml-60 -mt-60"
             />
             
@@ -236,11 +165,11 @@ const HeroSection = () => {
 
               <div>
                 <h4 className="font-bold text-blue-900">
-                  Fast Delivery
+                  Same Day Delivery
                 </h4>
 
                 <p className="text-sm text-gray-500">
-                  Within 30 Minutes
+                  Across Ahmedabad
                 </p>
               </div>
 
@@ -260,6 +189,9 @@ const HeroSection = () => {
 
                 <p className="text-sm text-gray-500">
                   RO + UV Purified
+                </p>
+                 <p className="text-sm text-gray-500">
+                   Purified
                 </p>
               </div>
 

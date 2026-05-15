@@ -4,7 +4,7 @@ import {
   HeartPulse,
   ShieldCheck,
 } from "lucide-react";
-import { Helmet } from "react-helmet-async";
+
 
 import { motion } from "framer-motion";
 
@@ -18,7 +18,7 @@ const features = [
       />
     ),
 
-    title: "100% Pure Drinking Water",
+    title: "100% Pure RO Drinking Water",
 
     description:
       "Our purified mineral water goes through advanced RO + UV filtration to provide safe and healthy drinking water in Ahmedabad.",
@@ -33,7 +33,7 @@ const features = [
       />
     ),
 
-    title: "Fast Home Delivery",
+    title: "Same Day Water Delivery",
 
     description:
       "Get quick 20L mineral water bottle delivery for homes, offices, and businesses with same-day service across Ahmedabad.",
@@ -63,7 +63,7 @@ const features = [
       />
     ),
 
-    title: "Advanced 5-Step Filtration",
+    title: "Advanced RO + UV Filtration",
 
     description:
       "Our advanced purification process removes harmful impurities while preserving healthy minerals for pure drinking water.",
@@ -73,75 +73,7 @@ const features = [
 const FeaturesSection = () => {
   return (
     <>
-  <Helmet>
-
-    <title>
-      Best Mineral Water Delivery Service in Ahmedabad | KD Water Delivery
-    </title>
-
-    <meta
-      name="description"
-      content="Get pure and healthy mineral water delivery services in Ahmedabad. Fast home delivery, advanced RO + UV purification, healthy minerals, and same-day doorstep delivery."
-    />
-
-    <meta
-      name="keywords"
-      content="mineral water delivery Ahmedabad, pure drinking water, RO water delivery, 20L bottle delivery, healthy mineral water, water supplier Ahmedabad, KD Water Delivery"
-    />
-
-    <meta name="robots" content="index, follow" />
-
-    {/* Open Graph */}
-    <meta
-      property="og:title"
-      content="Best Mineral Water Delivery Service in Ahmedabad"
-    />
-
-    <meta
-      property="og:description"
-      content="Fast and affordable mineral water bottle delivery service for homes and offices in Ahmedabad."
-    />
-
-    <meta
-      property="og:image"
-      content="https://www.keyurbill.online/images/slider-1.jpg"
-    />
-
-    <meta
-      property="og:url"
-      content="https://www.keyurbill.online/services"
-    />
-
-    <meta property="og:type" content="website" />
-
-    {/* Twitter */}
-    <meta
-      name="twitter:card"
-      content="summary_large_image"
-    />
-
-    <meta
-      name="twitter:title"
-      content="KD Water Delivery Ahmedabad"
-    />
-
-    <meta
-      name="twitter:description"
-      content="Order pure mineral water online with fast delivery in Ahmedabad."
-    />
-
-    <meta
-      name="twitter:image"
-      content="https://www.keyurbill.online/images/slider-1.jpg"
-    />
-
-    {/* Canonical */}
-    <link
-      rel="canonical"
-      href="https://www.keyurbill.online/services"
-    />
-
-  </Helmet>
+ 
 
 
     <section className="relative overflow-hidden bg-linear-to-b from-blue-50 to-white py-24">
@@ -161,7 +93,7 @@ const FeaturesSection = () => {
           viewport={{ once: true }}
           className="text-sm tracking-[0.3em] text-blue-500 font-bold uppercase mb-5"
         >
-          OUR SERVICES
+          MINERAL WATER SERVICES
         </motion.p>
 
         {/* HEADING */}
@@ -172,7 +104,7 @@ const FeaturesSection = () => {
           transition={{ delay: 0.1 }}
           className="text-4xl md:text-6xl font-extrabold text-blue-950 leading-tight max-w-5xl mx-auto"
         >
-          Best Mineral Water Delivery Service <br />
+          20L Mineral Water Bottle Delivery Services <br />
 
           <span className="text-blue-600 italic">
             in Ahmedabad
@@ -188,9 +120,7 @@ const FeaturesSection = () => {
           transition={{ delay: 0.2 }}
           className="max-w-3xl mx-auto mt-8 text-lg text-gray-600 leading-8"
         >
-          We provide fast and affordable mineral water bottle delivery
-          services for homes and offices with advanced purification,
-          healthy mineral composition, and reliable doorstep delivery.
+          We provide fast and affordable 20L mineral water bottle delivery services in Ahmedabad including Nikol, Naroda, Vastral, Odhav and nearby areas for homes, offices and businesses.
         </motion.p>
 
       </div>
@@ -244,7 +174,7 @@ const FeaturesSection = () => {
 
                 <button className="px-7 py-3 rounded-full bg-blue-50 text-blue-600 font-semibold border border-blue-100 shadow-sm hover:scale-105 transition-all duration-300 group-hover:bg-white group-hover:text-blue-700">
 
-                  Order Now →
+                 Book Water Delivery →
 
                 </button>
 
