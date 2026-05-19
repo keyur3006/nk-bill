@@ -79,41 +79,85 @@ const Navbar = () => {
       </div>
 
       {/* MOBILE MENU DROPDOWN */}
-      {menuOpen && (
-        <div className="md:hidden bg-white shadow px-6 py-4 space-y-4 text-blue-900 font-medium">
-          <Link to="/" onClick={() => setMenuOpen(false)}>
-            Home
-          </Link>
-          <Link to="/about" onClick={() => setMenuOpen(false)}>
-            About
-          </Link>
-          <Link to="/contact" onClick={() => setMenuOpen(false)}>
-            Contact
-          </Link>
-          <Link to="/my-orders" onClick={() => setMenuOpen(false)}>
-            My Orders
-          </Link>
-          <Link to="/services" onClick={() => setMenuOpen(false)}>
-            Services
-          </Link>
-           <Link to="/area" onClick={() => setMenuOpen(false)}>
-            Location
-          </Link>
-          <Link
-            to="/login"
-            onClick={() => setMenuOpen(false)}
-            className="block bg-blue-600 text-white px-4 py-2 rounded text-center"
-          >
-            Login
-          </Link>
+     {menuOpen && (
+  <div className="md:hidden bg-white shadow-lg px-6 py-6 space-y-4 text-blue-900 font-medium">
 
-          {/* Mobile extra */}
-          <div className="pt-4 border-t">
-            <p className="text-sm text-blue-400">📞 24/7 Phone Services</p>
-            <p className="font-bold">+91 9316163469</p>
-          </div>
-        </div>
-      )}
+    <Link
+      to="/"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      Home
+    </Link>
+
+    <Link
+      to="/about"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      About
+    </Link>
+
+    <Link
+      to="/contact"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      Contact
+    </Link>
+
+    <Link
+      to="/my-orders"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      My Orders
+    </Link>
+
+    <Link
+      to="/services"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      Services
+    </Link>
+
+    <Link
+      to="/area"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      Location
+    </Link>
+
+    <Link
+      to="/ProductSection"
+      onClick={() => setMenuOpen(false)}
+      className="block border-b pb-2"
+    >
+      Products
+    </Link>
+
+    <Link
+      to="/login"
+      onClick={() => setMenuOpen(false)}
+      className="block bg-blue-600 text-white px-4 py-3 rounded-xl text-center font-semibold"
+    >
+      Login
+    </Link>
+
+    {/* Mobile extra */}
+    <div className="pt-4 border-t">
+      <p className="text-sm text-blue-400">
+        📞 24/7 Phone Services
+      </p>
+
+      <p className="font-bold text-lg">
+        +91 9316163469
+      </p>
+    </div>
+  </div>
+)}
     </div>
   );
 };

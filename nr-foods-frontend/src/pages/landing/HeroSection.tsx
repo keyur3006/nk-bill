@@ -6,11 +6,23 @@ import {
   Truck,
 } from "lucide-react";
 
-
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const HeroSection = () => {
-  
+  const [isMobile, setIsMobile] = useState(false);
+
+useEffect(() => {
+  const checkMobile = () => {
+    setIsMobile(window.innerWidth < 768);
+  };
+
+  checkMobile();
+
+  window.addEventListener("resize", checkMobile);
+
+  return () => window.removeEventListener("resize", checkMobile);
+}, []);
   return (
     <>
   
@@ -27,24 +39,24 @@ const HeroSection = () => {
      <div className="absolute inset-0 bg-black/5"></div>
 
       {/* BLUR EFFECTS */}
-      <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200/20 rounded-full blur-2xl"></div>
+      <div className="absolute top-10 left-10 w-72 h-72 bg-blue-200/20 rounded-full md:blur-2xl"></div>
 
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-2xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-200/20 rounded-full md:blur-2xl"></div>
 
       {/* MAIN CONTENT */}
       <div className="relative z-30 max-w-7xl mx-auto px-6 lg:px-12 w-full pt-10 pb-10">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
           {/* LEFT SIDE */}
           <motion.div
-            initial={{ opacity: 0, x: -80 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-          >
+  initial={!isMobile ? { opacity: 0, x: -80 } : false}
+  animate={!isMobile ? { opacity: 1, x: 0 } : false}
+  transition={!isMobile ? { duration: 0.4 } : {}}
+>
 
             {/* TOP BADGE */}
-            <div className="inline-flex items-center gap-3 bg-white/90 backdrop-blur-xl shadow-xl px-6 py-4 rounded-full mb-8 border border-blue-100">
+            <div className="inline-flex items-center gap-3 bg-white/90 md:backdrop-blur-xl shadow-xl px-6 py-4 rounded-full mb-8 border border-blue-100">
 
               <img
                 src="https://cdn-icons-png.flaticon.com/512/3105/3105813.png"
@@ -59,7 +71,7 @@ const HeroSection = () => {
             </div>
 
             {/* HEADING */}
-            <h1 className="text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-blue-950 leading-tight">
 
              20L Mineral Water <br />
 
@@ -74,7 +86,7 @@ const HeroSection = () => {
             </h1>
 
             {/* DESCRIPTION */}
-            <p className="mt-8 text-lg text-blue-950 font-medium leading-9 max-w-xl">
+            <p className="mt-6 text-base md:text-lg text-blue-950 font-medium leading-7 md:leading-9 max-w-xl">
 
               Get fast and reliable 20L mineral water bottle delivery in Ahmedabad including Nikol, Naroda, Vastral, Bapunagar, Odhav and nearby areas. Pure RO + UV purified drinking water for homes, offices and businesses.
 
@@ -84,7 +96,7 @@ const HeroSection = () => {
             <div className="flex flex-wrap items-center gap-5 mt-8">
 
               {/* ORDER BUTTON */}
-              <button className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 transition text-white px-8 py-4 rounded-full shadow-2xl font-semibold">
+              <button className="flex items-center gap-3 bg-blue-600 hover:bg-blue-700 transition text-white px-8 py-4 rounded-full md:shadow-2xl font-semibold">
 
                 <ShoppingCart size={20} />
 
@@ -104,10 +116,10 @@ const HeroSection = () => {
             </div>
 
             {/* TRUST STATS */}
-            <div className="inline-flex flex-wrap gap-10 mt-10 bg-white/70 backdrop-blur-md p-6 rounded-3xl shadow-xl inline-flex">
+            <div className="flex flex-col sm:flex-row gap-6 mt-10 bg-white/70 backdrop-blur-md p-5 md:p-6 rounded-3xl shadow-xl w-full max-w-xl">
 
               <div>
-                <h3 className="text-4xl font-extrabold text-blue-900">
+                <h3 className="text-2xl md:text-4xl font-extrabold text-blue-900">
                   1000+
                 </h3>
 
@@ -117,7 +129,7 @@ const HeroSection = () => {
               </div>
 
               <div>
-                <h3 className="text-4xl font-extrabold text-blue-900">
+                <h3 className="text-2xl md:text-4xl font-extrabold text-blue-900">
                   Same
                 </h3>
 
@@ -127,7 +139,7 @@ const HeroSection = () => {
               </div>
 
               <div>
-                <h3 className="text-4xl font-extrabold text-blue-900">
+                <h3 className="text-2xl md:text-4xl font-extrabold text-blue-900">
                   RO + UV
                 </h3>
 
@@ -141,23 +153,23 @@ const HeroSection = () => {
           </motion.div>
 
           {/* RIGHT SIDE */}
-          <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9 }}
-            className="relative flex justify-center items-center"
-          >
+      <motion.div
+  initial={{ opacity: 0, x: 80 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.9 }}
+  className="relative flex justify-center items-center"
+>
 
             {/* MAIN IMAGE */}
             <img
               src="/images/water-bottle.png"
               alt="20L mineral water bottle delivery service in Ahmedabad"
-              className="w-[320px] md:w-[500px] object-contain drop-shadow-xl animate-float -ml-60 -mt-60"
+              className="w-[320px] md:w-[500px] object-contain drop-shadow-xl animate-float md:-ml-60 md:-mt-60"
             />
             
 
             {/* FLOATING CARD 1 */}
-            <div className="hidden md:flex absolute -top-75 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-sm shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute -top-75 left-1/2 -translate-x-1/2 z-20 bg-white/90 backdrop-blur-sm md:shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-blue-100 p-3 rounded-full">
                 <Truck className="text-blue-600" size={22} />
@@ -176,7 +188,7 @@ const HeroSection = () => {
             </div>
 
             {/* FLOATING CARD 2 */}
-            <div className="hidden md:flex absolute bottom-10 -right-30  z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute bottom-10 -right-30  z-20 bg-white/90 md:backdrop-blur-xl md:shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-cyan-100 p-3 rounded-full">
                 <Droplets className="text-cyan-600" size={22} />
@@ -198,7 +210,7 @@ const HeroSection = () => {
             </div>
 
             {/* FLOATING CARD 3 */}
-            <div className="hidden md:flex absolute top-30 left-0 z-20 bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
+            <div className="hidden md:flex absolute top-30 left-0 z-20 bg-white/90 md:backdrop-blur-xl md:shadow-2xl rounded-2xl px-5 py-4 items-center gap-4 border border-blue-100">
 
               <div className="bg-yellow-100 p-3 rounded-full">
                 <Star className="text-yellow-500" size={22} />
