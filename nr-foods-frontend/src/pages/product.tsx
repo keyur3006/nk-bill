@@ -28,7 +28,7 @@ const Products = () => {
     {
       id: 1,
       name: "20L Bottle Cold",
-      price: 30,
+      price: 35,
       image: "/shell/cold.png",
       tag: "Best Seller",
       description:
@@ -38,15 +38,32 @@ const Products = () => {
     {
       id: 2,
       name: "20L Bottle Hot",
-      price: 25,
+      price: 30,
       image: "/shell/hot.png",
       tag: "Popular",
       description:
         "Healthy hot drinking water bottle with fast home delivery service.",
     },
-
-    {
+     {
       id: 3,
+      name: "20L Alkin Bottle ",
+      price: 70,
+      image: "/shell/alkin.png",
+      tag: "Hot",
+      description:
+        "Affordable pure drinking water bottle box with healthy minerals.",
+    },
+     {
+      id: 4,
+      name: "20L Bailley Bottle ",
+      price: 90,
+      image: "/shell/bailley.png",
+      tag: "Hot",
+      description:
+        "Pure and refreshing drinking water with healthy minerals and fast delivery.",
+    },
+    {
+      id: 5,
       name: "Bisleri 200ml (Box of 48)",
       price: 220,
       image: "/shell/bisleri.png",
@@ -56,7 +73,7 @@ const Products = () => {
     },
 
     {
-      id: 4,
+      id: 6,
       name: "Yes 200ml (Box of 48)",
       price: 170,
       image: "/shell/yes.png",

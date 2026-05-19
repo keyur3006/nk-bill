@@ -20,16 +20,29 @@ const products = [
     price: 25,
     image: "/shell/hot.png",
   },
-
+   {
+      id: 3,
+      name: "20L Alkin Bottle ",
+      price: 70,
+      image: "/shell/alkin.png",
+     
+    },
+     {
+      id: 4,
+      name: "20L Bailley Bottle ",
+      price: 90,
+      image: "/shell/bailley.png",
+     
+    },
   {
-    id: 3,
+    id: 5,
     name: "Bisleri 200ml",
     price: 220,
     image: "/shell/bisleri.png",
   },
 
   {
-    id: 4,
+    id: 6,
     name: "Yes 200ml",
     price: 170,
     image: "/shell/yes.png",
